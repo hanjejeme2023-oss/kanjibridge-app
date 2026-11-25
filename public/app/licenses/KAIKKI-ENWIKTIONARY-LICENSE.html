@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English edition: List of machine-readable dictionaries</title>
+  <link rel="canonical" href="https://kaikki.org/dictionary/index.html"/>
+  <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAAmElEQVQ4y7WSSw4CQQhECxYuZjRcwftfyjO00YUby40khBkcHCOr/tCPohrg16CBNHArp7rTTgEZkAqiXZW7FQCADEgCnkoADVOs6I8T5LoA0HB8L++dFmiYaWBUoJ6YJRdxkwGJgPHFY/jP6J7Zib5oPsz90iBrqjxP18gJ8nRQaw6KamcHtQeJhkPYXipz9YNJj+w4/hEvzrs/aYZwHLoAAAAASUVORK5CYII=">
+  
+  <style>
+body {
+   margin-left: 20px;
+   margin-right: 20px;
+   font-family: "Times New Roman", Times, serif;
+   font-size: 20px;
+   font-weight: 400;
+}
+
+.formsandsounds {
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+li {
+  padding-bottom: 3px;
+}
+
+ol>li {
+  padding-bottom: 10px;
+}
+
+.formsandsounds li {
+  padding: 0;
+}
+
+.gloss {
+  font-weight: 600;
+  font-size: 110%;
+}
+
+.info {
+  display: block;
+  padding-bottom: 5px;
+}
+
+.infolabel {
+}
+
+.infodetail {
+  font-style: italic;
+}
+
+.glossinfo {
+  display: block;
+  padding-left: 10px;
+  font-size: 18px;
+}
+
+.glossinfo li {
+  padding-bottom: 0;
+}
+
+.trlang {
+  font-weight: 600;
+}
+
+.inaccurate {
+  font-size: 75%;
+}
+
+:target .glosses {
+  color: red;
+}
+
+.nondisambiguated {
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+.nondisambiguatedh {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.nondisambiguatedb {
+  padding-left: 20px;
+}
+
+ul.breadcrumb {
+  /* padding: 10px 16px; */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  /* background-color: #eee; */
+}
+
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "\00bb";
+}
+
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+ul.breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+
+.indented {
+  margin-left: 40px;
+  padding-bottom: 10px;
+}
+
+.search {
+    float: right;
+    max-width: 180px;
+}
+
+.search form {
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 3px;
+}
+
+.searchField {
+    width: 100%;
+}
+
+.searchButton {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    min-width: 28px;
+    width: 28px;
+    height: auto;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+    z-index: 1;
+}
+
+.searchResults {
+    display: none;
+    position: relative;
+    top: 0px;
+    padding: 5px;
+    border: 1px solid #888;
+    border-radius: 3px;
+}
+
+.searchResultItem {
+    background-color: white;
+    color: black;
+    text-decoration: initial;
+    width: 100%;
+    display: block;
+}
+
+.searchResultSelected {
+    background-color: black;
+    color: white;
+    text-decoration: initial;
+    width: 100%;
+    display: block;
+}
+
+.stacktrace {
+    font-size: 18px;
+}
+
+.errorpath {
+    display: block;
+    font-size: 18px;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.hideable {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.close-ck, .close-content, .close-hide {
+    display: none;
+}
+
+.close-ck:checked ~ .close-content {
+    display: block;
+}
+
+.close-ck:checked ~ .close-hide {
+    display: inline;
+}
+
+.close-ck:checked ~ .close-show {
+    display: none;
+}
+
+.close-show, .close-hide {
+    background-color: #e0e0e0;
+}
+
+.audio-play {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+th {
+    text-align: left;
+    background: #cccccc;
+}
+
+tr:nth-child(odd) {
+    background: #e8e8e8;
+}
+
+tr:nth-child(even) {
+    background: #ffffff;
+}
+
+.inflections td {
+    padding-right: 10px;
+}
+
+.inflections_lang_list table {
+    border: none;
+}
+
+div.jsonpadding div.jsonpadding {
+    padding-left: 40px;
+}
+
+div.jsonfont {
+   font-family: monospace, sans-serif;
+   font-size: 18px;
+   font-weight: 400;
+}
+
+div.jsonfont a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+div.jsonfont strong.field a{
+    color: light-blue;
+    font-weight: normal;
+    }
+
+div.jsonfont a.tag {
+    color: green;
+    }
+
+div.jsonfont em.lang {
+    }
+
+
+span.overflow {
+    background: #bbbbff;
+}
+
+tr :nth-child(1) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+tr :nth-child(3) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+tr :nth-child(5) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+td.errors {
+    background: #ffaaaa;
+}
+
+.de-edition h1 {
+    background: #aaffaa;
+}
+
+.ru-edition h1 {
+    background: #ffaaff;
+}
+
+.fr-edition h1 {
+    background: #aaaaff;
+}
+
+.es-edition h1 {
+    background: #ffffaa;
+}
+
+.zh-edition h1 {
+    background: #aaffff;
+}
+
+  </style>
+</head>
+<body class="en-edition">
+<div class="search">
+  <form>
+      <input id="searchField" class="searchField" type="search" name="search"
+             placeholder="Search enwiktionary"
+             autocapitalize="none" disabled
+             title="Search the dictionary [Alt+Shift+f]"
+             accesskey="f" autocomplete="off">
+      <input type="submit" name="Go" value="Go"
+             id="searchButton" class="searchButton" disabled
+             title="Go to a page with this exact name">
+  </form>
+  <div id="searchResults" class="searchResults">
+  </div>
+</div>
+
+<h1>English edition: List of kaikki.org machine-readable dictionaries</h1>
+<ul class="breadcrumb"><li><a href="https://kaikki.org/index.html">Home</a></li><li>English edition</li></ul>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+  {
+     "@type": "ListItem",
+     "position": 1,
+     "item": { "@id": "https://kaikki.org/index.html", "name": "Home" }
+  },
+  {
+     "@type": "ListItem",
+     "position": 2,
+     "item": { "@id": "index.html", "name": "English%20edition" }
+  }
+  ]
+}
+</script>
+<h2>Available languages</h2>
+<p><a href="alphabetical.html">Go to alphabetically sorted list</a></p>
+<ul>
+<li><a href="All%20languages%20combined/index.html">All languages combined (13344852 senses)</a></li>
+<li><a href="English/index.html">English (1795048 senses)</a></li>
+<li><a href="Latin/index.html">Latin (1010281 senses)</a></li>
+<li><a href="Spanish/index.html">Spanish (879175 senses)</a></li>
+<li><a href="Italian/index.html">Italian (720157 senses)</a></li>
+<li><a href="German/index.html">German (634188 senses)</a></li>
+<li><a href="Portuguese/index.html">Portuguese (527775 senses)</a></li>
+<li><a href="Russian/index.html">Russian (493243 senses)</a></li>
+<li><a href="French/index.html">French (460826 senses)</a></li>
+<li><a href="Chinese/index.html">Chinese (392965 senses)</a></li>
+<li><a href="Swedish/index.html">Swedish (347823 senses)</a></li>
+<li><a href="Finnish/index.html">Finnish (312312 senses)</a></li>
+<li><a href="Polish/index.html">Polish (267966 senses)</a></li>
+<li><a href="Arabic/index.html">Arabic (256920 senses)</a></li>
+<li><a href="Galician/index.html">Galician (248965 senses)</a></li>
+<li><a href="Japanese/index.html">Japanese (237987 senses)</a></li>
+<li><a href="Catalan/index.html">Catalan (228485 senses)</a></li>
+<li><a href="Dutch/index.html">Dutch (190953 senses)</a></li>
+<li><a href="Latvian/index.html">Latvian (172708 senses)</a></li>
+<li><a href="Romanian/index.html">Romanian (148191 senses)</a></li>
+<li><a href="Esperanto/index.html">Esperanto (137530 senses)</a></li>
+<li><a href="Mandarin/index.html">Mandarin (113730 senses)</a></li>
+<li><a href="Greek/index.html">Greek (112999 senses)</a></li>
+<li><a href="Translingual/index.html">Translingual (107566 senses)</a></li>
+<li><a href="Old%20English/index.html">Old English (94705 senses)</a></li>
+<li><a href="Norwegian%20Bokm%C3%A5l/index.html">Norwegian Bokmål (94218 senses)</a></li>
+<li><a href="Serbo-Croatian/index.html">Serbo-Croatian (92304 senses)</a></li>
+<li><a href="Ancient%20Greek/index.html">Ancient Greek (91594 senses)</a></li>
+<li><a href="Hungarian/index.html">Hungarian (90796 senses)</a></li>
+<li><a href="Czech/index.html">Czech (85607 senses)</a></li>
+<li><a href="Maltese/index.html">Maltese (83994 senses)</a></li>
+<li><a href="Korean/index.html">Korean (82555 senses)</a></li>
+<li><a href="Ukrainian/index.html">Ukrainian (82051 senses)</a></li>
+<li><a href="Macedonian/index.html">Macedonian (76803 senses)</a></li>
+<li><a href="Bulgarian/index.html">Bulgarian (76441 senses)</a></li>
+<li><a href="Norwegian%20Nynorsk/index.html">Norwegian Nynorsk (73434 senses)</a></li>
+<li><a href="Middle%20English/index.html">Middle English (71296 senses)</a></li>
+<li><a href="Danish/index.html">Danish (68361 senses)</a></li>
+<li><a href="Vietnamese/index.html">Vietnamese (62555 senses)</a></li>
+<li><a href="Turkish/index.html">Turkish (60762 senses)</a></li>
+<li><a href="Hindi/index.html">Hindi (58698 senses)</a></li>
+<li><a href="Indonesian/index.html">Indonesian (57372 senses)</a></li>
+<li><a href="Tagalog/index.html">Tagalog (57063 senses)</a></li>
+<li><a href="Irish/index.html">Irish (52091 senses)</a></li>
+<li><a href="Asturian/index.html">Asturian (43520 senses)</a></li>
+<li><a href="Welsh/index.html">Welsh (36255 senses)</a></li>
+<li><a href="Lithuanian/index.html">Lithuanian (35040 senses)</a></li>
+<li><a href="Albanian/index.html">Albanian (33499 senses)</a></li>
+<li><a href="Icelandic/index.html">Icelandic (32882 senses)</a></li>
+<li><a href="Georgian/index.html">Georgian (31647 senses)</a></li>
+<li><a href="Sanskrit/index.html">Sanskrit (31278 senses)</a></li>
+<li><a href="Armenian/index.html">Armenian (29386 senses)</a></li>
+<li><a href="Tamil/index.html">Tamil (28744 senses)</a></li>
+<li><a href="Telugu/index.html">Telugu (28688 senses)</a></li>
+<li><a href="Navajo/index.html">Navajo (28585 senses)</a></li>
+<li><a href="Persian/index.html">Persian (28272 senses)</a></li>
+<li><a href="Thai/index.html">Thai (27854 senses)</a></li>
+<li><a href="Cebuano/index.html">Cebuano (25363 senses)</a></li>
+<li><a href="Gothic/index.html">Gothic (25150 senses)</a></li>
+<li><a href="Scottish%20Gaelic/index.html">Scottish Gaelic (24602 senses)</a></li>
+<li><a href="Swahili/index.html">Swahili (24496 senses)</a></li>
+<li><a href="Hebrew/index.html">Hebrew (23978 senses)</a></li>
+<li><a href="Azerbaijani/index.html">Azerbaijani (23171 senses)</a></li>
+<li><a href="Malay/index.html">Malay (22460 senses)</a></li>
+<li><a href="Ido/index.html">Ido (22287 senses)</a></li>
+<li><a href="Slovak/index.html">Slovak (21613 senses)</a></li>
+<li><a href="Basque/index.html">Basque (20766 senses)</a></li>
+<li><a href="Tarifit/index.html">Tarifit (19615 senses)</a></li>
+<li><a href="Urdu/index.html">Urdu (18106 senses)</a></li>
+<li><a href="Punjabi/index.html">Punjabi (17797 senses)</a></li>
+<li><a href="Malayalam/index.html">Malayalam (17341 senses)</a></li>
+<li><a href="Belarusian/index.html">Belarusian (17112 senses)</a></li>
+<li><a href="Estonian/index.html">Estonian (17082 senses)</a></li>
+<li><a href="Kazakh/index.html">Kazakh (16201 senses)</a></li>
+<li><a href="Bengali/index.html">Bengali (16050 senses)</a></li>
+<li><a href="Yiddish/index.html">Yiddish (15947 senses)</a></li>
+<li><a href="Old%20Norse/index.html">Old Norse (15791 senses)</a></li>
+<li><a href="Khmer/index.html">Khmer (15360 senses)</a></li>
+<li><a href="Ottoman%20Turkish/index.html">Ottoman Turkish (15251 senses)</a></li>
+<li><a href="Cantonese/index.html">Cantonese (15116 senses)</a></li>
+<li><a href="Pannonian%20Rusyn/index.html">Pannonian Rusyn (14837 senses)</a></li>
+<li><a href="Burmese/index.html">Burmese (14777 senses)</a></li>
+<li><a href="Pali/index.html">Pali (13037 senses)</a></li>
+<li><a href="Old%20Armenian/index.html">Old Armenian (12882 senses)</a></li>
+<li><a href="Faroese/index.html">Faroese (12873 senses)</a></li>
+<li><a href="Norman/index.html">Norman (12365 senses)</a></li>
+<li><a href="Luxembourgish/index.html">Luxembourgish (12283 senses)</a></li>
+<li><a href="Assyrian%20Neo-Aramaic/index.html">Assyrian Neo-Aramaic (12102 senses)</a></li>
+<li><a href="Old%20French/index.html">Old French (11052 senses)</a></li>
+<li><a href="Afrikaans/index.html">Afrikaans (10956 senses)</a></li>
+<li><a href="Ingrian/index.html">Ingrian (10843 senses)</a></li>
+<li><a href="Gujarati/index.html">Gujarati (10030 senses)</a></li>
+<li><a href="Cornish/index.html">Cornish (9646 senses)</a></li>
+<li><a href="Makasar/index.html">Makasar (9576 senses)</a></li>
+<li><a href="Slovene/index.html">Slovene (9553 senses)</a></li>
+<li><a href="Central%20Bikol/index.html">Central Bikol (9110 senses)</a></li>
+<li><a href="Old%20Irish/index.html">Old Irish (8864 senses)</a></li>
+<li><a href="Mongolian/index.html">Mongolian (8635 senses)</a></li>
+<li><a href="Egyptian/index.html">Egyptian (8555 senses)</a></li>
+<li><a href="Ladin/index.html">Ladin (8461 senses)</a></li>
+<li><a href="Marathi/index.html">Marathi (8454 senses)</a></li>
+<li><a href="Classical%20Syriac/index.html">Classical Syriac (8412 senses)</a></li>
+<li><a href="Occitan/index.html">Occitan (8181 senses)</a></li>
+<li><a href="Northern%20Kurdish/index.html">Northern Kurdish (8166 senses)</a></li>
+<li><a href="Yoruba/index.html">Yoruba (8106 senses)</a></li>
+<li><a href="West%20Circassian/index.html">West Circassian (7793 senses)</a></li>
+<li><a href="Proto-Germanic/index.html">Proto-Germanic (7791 senses)</a></li>
+<li><a href="Javanese/index.html">Javanese (7791 senses)</a></li>
+<li><a href="Old%20Polish/index.html">Old Polish (7410 senses)</a></li>
+<li><a href="Proto-West%20Germanic/index.html">Proto-West Germanic (7359 senses)</a></li>
+<li><a href="Northern%20Sami/index.html">Northern Sami (7353 senses)</a></li>
+<li><a href="Scots/index.html">Scots (7245 senses)</a></li>
+<li><a href="Proto-Slavic/index.html">Proto-Slavic (7216 senses)</a></li>
+<li><a href="Hawaiian/index.html">Hawaiian (6492 senses)</a></li>
+<li><a href="Livonian/index.html">Livonian (6424 senses)</a></li>
+<li><a href="Ahtna/index.html">Ahtna (6396 senses)</a></li>
+<li><a href="Assamese/index.html">Assamese (6029 senses)</a></li>
+<li><a href="Tajik/index.html">Tajik (5926 senses)</a></li>
+<li><a href="Old%20Church%20Slavonic/index.html">Old Church Slavonic (5906 senses)</a></li>
+<li><a href="Khiamniungan%20Naga/index.html">Khiamniungan Naga (5816 senses)</a></li>
+<li><a href="Aromanian/index.html">Aromanian (5710 senses)</a></li>
+<li><a href="Cimbrian/index.html">Cimbrian (5641 senses)</a></li>
+<li><a href="Venetan/index.html">Venetan (5593 senses)</a></li>
+<li><a href="Crimean%20Tatar/index.html">Crimean Tatar (5590 senses)</a></li>
+<li><a href="Old%20Czech/index.html">Old Czech (5575 senses)</a></li>
+<li><a href="Plautdietsch/index.html">Plautdietsch (5537 senses)</a></li>
+<li><a href="Middle%20French/index.html">Middle French (5441 senses)</a></li>
+<li><a href="Manx/index.html">Manx (5383 senses)</a></li>
+<li><a href="M%C4%81ori/index.html">Māori (5367 senses)</a></li>
+<li><a href="Bashkir/index.html">Bashkir (5309 senses)</a></li>
+<li><a href="Uyghur/index.html">Uyghur (5299 senses)</a></li>
+<li><a href="Uzbek/index.html">Uzbek (5267 senses)</a></li>
+<li><a href="Classical%20Nahuatl/index.html">Classical Nahuatl (5211 senses)</a></li>
+<li><a href="Odia/index.html">Odia (5111 senses)</a></li>
+<li><a href="Yakut/index.html">Yakut (4912 senses)</a></li>
+<li><a href="Zulu/index.html">Zulu (4864 senses)</a></li>
+<li><a href="West%20Frisian/index.html">West Frisian (4833 senses)</a></li>
+<li><a href="Tibetan/index.html">Tibetan (4794 senses)</a></li>
+<li><a href="Votic/index.html">Votic (4743 senses)</a></li>
+<li><a href="Lower%20Sorbian/index.html">Lower Sorbian (4690 senses)</a></li>
+<li><a href="Kyrgyz/index.html">Kyrgyz (4614 senses)</a></li>
+<li><a href="Sicilian/index.html">Sicilian (4600 senses)</a></li>
+<li><a href="Volap%C3%BCk/index.html">Volapük (4479 senses)</a></li>
+<li><a href="South%20Levantine%20Arabic/index.html">South Levantine Arabic (4383 senses)</a></li>
+<li><a href="Interlingua/index.html">Interlingua (4380 senses)</a></li>
+<li><a href="Malagasy/index.html">Malagasy (4328 senses)</a></li>
+<li><a href="Middle%20Dutch/index.html">Middle Dutch (4313 senses)</a></li>
+<li><a href="Old%20High%20German/index.html">Old High German (4286 senses)</a></li>
+<li><a href="Proto-Finnic/index.html">Proto-Finnic (4281 senses)</a></li>
+<li><a href="Sundanese/index.html">Sundanese (4280 senses)</a></li>
+<li><a href="Zhuang/index.html">Zhuang (4216 senses)</a></li>
+<li><a href="Kashubian/index.html">Kashubian (4169 senses)</a></li>
+<li><a href="Lower%20Tanana/index.html">Lower Tanana (4143 senses)</a></li>
+<li><a href="Laz/index.html">Laz (4083 senses)</a></li>
+<li><a href="Coptic/index.html">Coptic (4016 senses)</a></li>
+<li><a href="Kannada/index.html">Kannada (3964 senses)</a></li>
+<li><a href="Quechua/index.html">Quechua (3929 senses)</a></li>
+<li><a href="Emilian/index.html">Emilian (3862 senses)</a></li>
+<li><a href="Old%20Javanese/index.html">Old Javanese (3803 senses)</a></li>
+<li><a href="Ushojo/index.html">Ushojo (3789 senses)</a></li>
+<li><a href="Silesian/index.html">Silesian (3730 senses)</a></li>
+<li><a href="Xhosa/index.html">Xhosa (3700 senses)</a></li>
+<li><a href="Northern%20Yukaghir/index.html">Northern Yukaghir (3598 senses)</a></li>
+<li><a href="Bavarian/index.html">Bavarian (3574 senses)</a></li>
+<li><a href="Amharic/index.html">Amharic (3572 senses)</a></li>
+<li><a href="Palula/index.html">Palula (3390 senses)</a></li>
+<li><a href="Kashmiri/index.html">Kashmiri (3368 senses)</a></li>
+<li><a href="Lao/index.html">Lao (3339 senses)</a></li>
+<li><a href="Yola/index.html">Yola (3330 senses)</a></li>
+<li><a href="Manchu/index.html">Manchu (3301 senses)</a></li>
+<li><a href="Aramaic/index.html">Aramaic (3235 senses)</a></li>
+<li><a href="Veps/index.html">Veps (3224 senses)</a></li>
+<li><a href="Hijazi%20Arabic/index.html">Hijazi Arabic (3222 senses)</a></li>
+<li><a href="Ladino/index.html">Ladino (3190 senses)</a></li>
+<li><a href="Sumerian/index.html">Sumerian (3170 senses)</a></li>
+<li><a href="Shan/index.html">Shan (3156 senses)</a></li>
+<li><a href="Pennsylvania%20German/index.html">Pennsylvania German (3141 senses)</a></li>
+<li><a href="East%20Central%20German/index.html">East Central German (3126 senses)</a></li>
+<li><a href="Nepali/index.html">Nepali (3084 senses)</a></li>
+<li><a href="Chichewa/index.html">Chichewa (3079 senses)</a></li>
+<li><a href="Tashelhit/index.html">Tashelhit (3050 senses)</a></li>
+<li><a href="Greenlandic/index.html">Greenlandic (3034 senses)</a></li>
+<li><a href="Low%20German/index.html">Low German (3022 senses)</a></li>
+<li><a href="Alemannic%20German/index.html">Alemannic German (3017 senses)</a></li>
+<li><a href="Walloon/index.html">Walloon (3010 senses)</a></li>
+<li><a href="Hokkien/index.html">Hokkien (2988 senses)</a></li>
+<li><a href="Prakrit/index.html">Prakrit (2986 senses)</a></li>
+<li><a href="Franco-Proven%C3%A7al/index.html">Franco-Provençal (2877 senses)</a></li>
+<li><a href="Moroccan%20Arabic/index.html">Moroccan Arabic (2874 senses)</a></li>
+<li><a href="Tocharian%20B/index.html">Tocharian B (2856 senses)</a></li>
+<li><a href="Moksha/index.html">Moksha (2831 senses)</a></li>
+<li><a href="Limburgish/index.html">Limburgish (2826 senses)</a></li>
+<li><a href="Old%20Saxon/index.html">Old Saxon (2783 senses)</a></li>
+<li><a href="Hunsrik/index.html">Hunsrik (2749 senses)</a></li>
+<li><a href="Hausa/index.html">Hausa (2717 senses)</a></li>
+<li><a href="Middle%20High%20German/index.html">Middle High German (2650 senses)</a></li>
+<li><a href="Breton/index.html">Breton (2641 senses)</a></li>
+<li><a href="Ligurian/index.html">Ligurian (2612 senses)</a></li>
+<li><a href="Romansh/index.html">Romansh (2607 senses)</a></li>
+<li><a href="Friulian/index.html">Friulian (2591 senses)</a></li>
+<li><a href="Ye%27kwana/index.html">Ye&#x27;kwana (2585 senses)</a></li>
+<li><a href="Hiligaynon/index.html">Hiligaynon (2573 senses)</a></li>
+<li><a href="Proto-Indo-European/index.html">Proto-Indo-European (2552 senses)</a></li>
+<li><a href="Ainu/index.html">Ainu (2550 senses)</a></li>
+<li><a href="Haitian%20Creole/index.html">Haitian Creole (2538 senses)</a></li>
+<li><a href="Saterland%20Frisian/index.html">Saterland Frisian (2524 senses)</a></li>
+<li><a href="Dhivehi/index.html">Dhivehi (2513 senses)</a></li>
+<li><a href="Turkmen/index.html">Turkmen (2484 senses)</a></li>
+<li><a href="Eastern%20Mari/index.html">Eastern Mari (2481 senses)</a></li>
+<li><a href="Unami/index.html">Unami (2480 senses)</a></li>
+<li><a href="Afar/index.html">Afar (2466 senses)</a></li>
+<li><a href="Akan/index.html">Akan (2387 senses)</a></li>
+<li><a href="Old%20Tupi/index.html">Old Tupi (2380 senses)</a></li>
+<li><a href="Sranan%20Tongo/index.html">Sranan Tongo (2360 senses)</a></li>
+<li><a href="Tok%20Pisin/index.html">Tok Pisin (2348 senses)</a></li>
+<li><a href="Old%20Dutch/index.html">Old Dutch (2343 senses)</a></li>
+<li><a href="Mokilese/index.html">Mokilese (2328 senses)</a></li>
+<li><a href="Cherokee/index.html">Cherokee (2324 senses)</a></li>
+<li><a href="Southern%20Altai/index.html">Southern Altai (2310 senses)</a></li>
+<li><a href="Aragonese/index.html">Aragonese (2303 senses)</a></li>
+<li><a href="Fula/index.html">Fula (2302 senses)</a></li>
+<li><a href="Talysh/index.html">Talysh (2257 senses)</a></li>
+<li><a href="Tatar/index.html">Tatar (2247 senses)</a></li>
+<li><a href="Akkadian/index.html">Akkadian (2247 senses)</a></li>
+<li><a href="Kapampangan/index.html">Kapampangan (2240 senses)</a></li>
+<li><a href="Khalaj/index.html">Khalaj (2238 senses)</a></li>
+<li><a href="Sindhi/index.html">Sindhi (2182 senses)</a></li>
+<li><a href="Pashto/index.html">Pashto (2157 senses)</a></li>
+<li><a href="Kumyk/index.html">Kumyk (2117 senses)</a></li>
+<li><a href="Chuvash/index.html">Chuvash (2096 senses)</a></li>
+<li><a href="Sirenik/index.html">Sirenik (2080 senses)</a></li>
+<li><a href="Egyptian%20Arabic/index.html">Egyptian Arabic (2075 senses)</a></li>
+<li><a href="Mauritian%20Creole/index.html">Mauritian Creole (2072 senses)</a></li>
+<li><a href="Ojibwe/index.html">Ojibwe (2071 senses)</a></li>
+<li><a href="Udmurt/index.html">Udmurt (2047 senses)</a></li>
+<li><a href="Marshallese/index.html">Marshallese (2041 senses)</a></li>
+<li><a href="Woiwurrung/index.html">Woiwurrung (2039 senses)</a></li>
+<li><a href="Tangut/index.html">Tangut (2039 senses)</a></li>
+<li><a href="Ilocano/index.html">Ilocano (2029 senses)</a></li>
+<li><a href="Proto-Sami/index.html">Proto-Sami (2022 senses)</a></li>
+<li><a href="Old%20Swedish/index.html">Old Swedish (2017 senses)</a></li>
+<li><a href="Old%20Galician-Portuguese/index.html">Old Galician-Portuguese (2010 senses)</a></li>
+<li><a href="Kildin%20Sami/index.html">Kildin Sami (1998 senses)</a></li>
+<li><a href="Kikuyu/index.html">Kikuyu (1982 senses)</a></li>
+<li><a href="Upper%20Sorbian/index.html">Upper Sorbian (1961 senses)</a></li>
+<li><a href="Proto-Celtic/index.html">Proto-Celtic (1936 senses)</a></li>
+<li><a href="Lingala/index.html">Lingala (1904 senses)</a></li>
+<li><a href="Neapolitan/index.html">Neapolitan (1887 senses)</a></li>
+<li><a href="Balinese/index.html">Balinese (1878 senses)</a></li>
+<li><a href="Swazi/index.html">Swazi (1853 senses)</a></li>
+<li><a href="Central%20Nahuatl/index.html">Central Nahuatl (1853 senses)</a></li>
+<li><a href="Vilamovian/index.html">Vilamovian (1824 senses)</a></li>
+<li><a href="Romagnol/index.html">Romagnol (1818 senses)</a></li>
+<li><a href="T%C3%A0y/index.html">Tày (1793 senses)</a></li>
+<li><a href="Salar/index.html">Salar (1784 senses)</a></li>
+<li><a href="Abkhaz/index.html">Abkhaz (1782 senses)</a></li>
+<li><a href="Senhaja%20de%20Srair/index.html">Senhaja de Srair (1781 senses)</a></li>
+<li><a href="Ternate/index.html">Ternate (1781 senses)</a></li>
+<li><a href="Sardinian/index.html">Sardinian (1731 senses)</a></li>
+<li><a href="East%20Circassian/index.html">East Circassian (1731 senses)</a></li>
+<li><a href="Central%20Kurdish/index.html">Central Kurdish (1730 senses)</a></li>
+<li><a href="Mon/index.html">Mon (1720 senses)</a></li>
+<li><a href="North%20Frisian/index.html">North Frisian (1717 senses)</a></li>
+<li><a href="Gagauz/index.html">Gagauz (1712 senses)</a></li>
+<li><a href="Ghomara/index.html">Ghomara (1699 senses)</a></li>
+<li><a href="Chavacano/index.html">Chavacano (1658 senses)</a></li>
+<li><a href="Old%20Spanish/index.html">Old Spanish (1653 senses)</a></li>
+<li><a href="Komi-Zyrian/index.html">Komi-Zyrian (1647 senses)</a></li>
+<li><a href="Iban/index.html">Iban (1578 senses)</a></li>
+<li><a href="Tausug/index.html">Tausug (1573 senses)</a></li>
+<li><a href="Chickasaw/index.html">Chickasaw (1564 senses)</a></li>
+<li><a href="Norwegian/index.html">Norwegian (1525 senses)</a></li>
+<li><a href="Sinhalese/index.html">Sinhalese (1519 senses)</a></li>
+<li><a href="Jeju/index.html">Jeju (1518 senses)</a></li>
+<li><a href="Northern%20Mansi/index.html">Northern Mansi (1485 senses)</a></li>
+<li><a href="Dena%27ina/index.html">Dena&#x27;ina (1484 senses)</a></li>
+<li><a href="Ubykh/index.html">Ubykh (1480 senses)</a></li>
+<li><a href="Konkani/index.html">Konkani (1475 senses)</a></li>
+<li><a href="Proto-Turkic/index.html">Proto-Turkic (1459 senses)</a></li>
+<li><a href="Kabuverdianu/index.html">Kabuverdianu (1457 senses)</a></li>
+<li><a href="Erzya/index.html">Erzya (1432 senses)</a></li>
+<li><a href="Istriot/index.html">Istriot (1422 senses)</a></li>
+<li><a href="Papiamentu/index.html">Papiamentu (1417 senses)</a></li>
+<li><a href="Karelian/index.html">Karelian (1410 senses)</a></li>
+<li><a href="White%20Hmong/index.html">White Hmong (1399 senses)</a></li>
+<li><a href="Phuthi/index.html">Phuthi (1396 senses)</a></li>
+<li><a href="Okinawan/index.html">Okinawan (1396 senses)</a></li>
+<li><a href="Dalmatian/index.html">Dalmatian (1392 senses)</a></li>
+<li><a href="Oromo/index.html">Oromo (1373 senses)</a></li>
+<li><a href="S%27gaw%20Karen/index.html">S&#x27;gaw Karen (1361 senses)</a></li>
+<li><a href="Choctaw/index.html">Choctaw (1356 senses)</a></li>
+<li><a href="Zazaki/index.html">Zazaki (1351 senses)</a></li>
+<li><a href="Chechen/index.html">Chechen (1343 senses)</a></li>
+<li><a href="Northern%20Altai/index.html">Northern Altai (1332 senses)</a></li>
+<li><a href="Middle%20Welsh/index.html">Middle Welsh (1327 senses)</a></li>
+<li><a href="Slovincian/index.html">Slovincian (1327 senses)</a></li>
+<li><a href="Sikkimese/index.html">Sikkimese (1309 senses)</a></li>
+<li><a href="Central%20Franconian/index.html">Central Franconian (1299 senses)</a></li>
+<li><a href="Mapudungun/index.html">Mapudungun (1293 senses)</a></li>
+<li><a href="Romani/index.html">Romani (1288 senses)</a></li>
+<li><a href="Somali/index.html">Somali (1284 senses)</a></li>
+<li><a href="Sylheti/index.html">Sylheti (1271 senses)</a></li>
+<li><a href="Ugaritic/index.html">Ugaritic (1271 senses)</a></li>
+<li><a href="North%20Levantine%20Arabic/index.html">North Levantine Arabic (1264 senses)</a></li>
+<li><a href="San%20Juan%20Quiahije%20Chatino/index.html">San Juan Quiahije Chatino (1255 senses)</a></li>
+<li><a href="Jamaican%20Creole/index.html">Jamaican Creole (1250 senses)</a></li>
+<li><a href="Fijian/index.html">Fijian (1250 senses)</a></li>
+<li><a href="Tokelauan/index.html">Tokelauan (1235 senses)</a></li>
+<li><a href="Old%20East%20Slavic/index.html">Old East Slavic (1221 senses)</a></li>
+<li><a href="Garo/index.html">Garo (1214 senses)</a></li>
+<li><a href="Maranao/index.html">Maranao (1213 senses)</a></li>
+<li><a href="Middle%20Korean/index.html">Middle Korean (1202 senses)</a></li>
+<li><a href="Lule%20Sami/index.html">Lule Sami (1160 senses)</a></li>
+<li><a href="Tunisian%20Arabic/index.html">Tunisian Arabic (1160 senses)</a></li>
+<li><a href="Corsican/index.html">Corsican (1158 senses)</a></li>
+<li><a href="Magahi/index.html">Magahi (1148 senses)</a></li>
+<li><a href="Paraguayan%20Guarani/index.html">Paraguayan Guarani (1147 senses)</a></li>
+<li><a href="Kankanaey/index.html">Kankanaey (1138 senses)</a></li>
+<li><a href="Manipuri/index.html">Manipuri (1117 senses)</a></li>
+<li><a href="Piedmontese/index.html">Piedmontese (1115 senses)</a></li>
+<li><a href="Tigrinya/index.html">Tigrinya (1111 senses)</a></li>
+<li><a href="Ket/index.html">Ket (1107 senses)</a></li>
+<li><a href="Ossetian/index.html">Ossetian (1106 senses)</a></li>
+<li><a href="Santali/index.html">Santali (1101 senses)</a></li>
+<li><a href="Gawar-Bati/index.html">Gawar-Bati (1083 senses)</a></li>
+<li><a href="Mingrelian/index.html">Mingrelian (1071 senses)</a></li>
+<li><a href="Tumbuka/index.html">Tumbuka (1069 senses)</a></li>
+<li><a href="Tuvan/index.html">Tuvan (1066 senses)</a></li>
+<li><a href="Macanese/index.html">Macanese (1053 senses)</a></li>
+<li><a href="Middle%20Irish/index.html">Middle Irish (1040 senses)</a></li>
+<li><a href="Gulf%20Arabic/index.html">Gulf Arabic (1039 senses)</a></li>
+<li><a href="West%20Makian/index.html">West Makian (1031 senses)</a></li>
+<li><a href="Lombard/index.html">Lombard (1025 senses)</a></li>
+<li><a href="Lakota/index.html">Lakota (1019 senses)</a></li>
+<li><a href="Potawatomi/index.html">Potawatomi (1019 senses)</a></li>
+<li><a href="Ludian/index.html">Ludian (1013 senses)</a></li>
+<li><a href="Old%20Anatolian%20Turkish/index.html">Old Anatolian Turkish (1013 senses)</a></li>
+<li><a href="Bambara/index.html">Bambara (1012 senses)</a></li>
+<li><a href="Fala/index.html">Fala (1006 senses)</a></li>
+<li><a href="Mizo/index.html">Mizo (997 senses)</a></li>
+<li><a href="Old%20Slovak/index.html">Old Slovak (995 senses)</a></li>
+<li><a href="Chuukese/index.html">Chuukese (994 senses)</a></li>
+<li><a href="Inupiaq/index.html">Inupiaq (984 senses)</a></li>
+<li><a href="Amis/index.html">Amis (977 senses)</a></li>
+<li><a href="Proto-Indo-Iranian/index.html">Proto-Indo-Iranian (974 senses)</a></li>
+<li><a href="Tooro/index.html">Tooro (959 senses)</a></li>
+<li><a href="Karao/index.html">Karao (948 senses)</a></li>
+<li><a href="Lushootseed/index.html">Lushootseed (934 senses)</a></li>
+<li><a href="Old%20Georgian/index.html">Old Georgian (932 senses)</a></li>
+<li><a href="Mohawk/index.html">Mohawk (920 senses)</a></li>
+<li><a href="Kavalan/index.html">Kavalan (916 senses)</a></li>
+<li><a href="Nuxalk/index.html">Nuxalk (911 senses)</a></li>
+<li><a href="Old%20Ruthenian/index.html">Old Ruthenian (899 senses)</a></li>
+<li><a href="Ge%27ez/index.html">Ge&#x27;ez (894 senses)</a></li>
+<li><a href="Proto-Malayo-Polynesian/index.html">Proto-Malayo-Polynesian (871 senses)</a></li>
+<li><a href="Gun/index.html">Gun (869 senses)</a></li>
+<li><a href="Proto-Bantu/index.html">Proto-Bantu (869 senses)</a></li>
+<li><a href="Ewe/index.html">Ewe (867 senses)</a></li>
+<li><a href="Proto-Italic/index.html">Proto-Italic (855 senses)</a></li>
+<li><a href="Gamilaraay/index.html">Gamilaraay (851 senses)</a></li>
+<li><a href="Pohnpeian/index.html">Pohnpeian (839 senses)</a></li>
+<li><a href="Kalmyk/index.html">Kalmyk (839 senses)</a></li>
+<li><a href="Urak%20Lawoi%27/index.html">Urak Lawoi&#x27; (836 senses)</a></li>
+<li><a href="Louisiana%20Creole/index.html">Louisiana Creole (830 senses)</a></li>
+<li><a href="Nivkh/index.html">Nivkh (828 senses)</a></li>
+<li><a href="Waray-Waray/index.html">Waray-Waray (821 senses)</a></li>
+<li><a href="L%C3%BC/index.html">Lü (821 senses)</a></li>
+<li><a href="Ghomala%27/index.html">Ghomala&#x27; (820 senses)</a></li>
+<li><a href="Samoan/index.html">Samoan (816 senses)</a></li>
+<li><a href="Chagatai/index.html">Chagatai (813 senses)</a></li>
+<li><a href="Proto-Samoyedic/index.html">Proto-Samoyedic (807 senses)</a></li>
+<li><a href="Wolof/index.html">Wolof (804 senses)</a></li>
+<li><a href="Proto-Brythonic/index.html">Proto-Brythonic (798 senses)</a></li>
+<li><a href="Central%20Huasteca%20Nahuatl/index.html">Central Huasteca Nahuatl (794 senses)</a></li>
+<li><a href="Rwanda-Rundi/index.html">Rwanda-Rundi (792 senses)</a></li>
+<li><a href="Aghwan/index.html">Aghwan (792 senses)</a></li>
+<li><a href="Livvi/index.html">Livvi (789 senses)</a></li>
+<li><a href="Even/index.html">Even (785 senses)</a></li>
+<li><a href="Wolaytta/index.html">Wolaytta (781 senses)</a></li>
+<li><a href="Tetum/index.html">Tetum (779 senses)</a></li>
+<li><a href="Old%20Occitan/index.html">Old Occitan (770 senses)</a></li>
+<li><a href="Hamer-Banna/index.html">Hamer-Banna (768 senses)</a></li>
+<li><a href="Yucatec%20Maya/index.html">Yucatec Maya (768 senses)</a></li>
+<li><a href="Acehnese/index.html">Acehnese (763 senses)</a></li>
+<li><a href="Dakota/index.html">Dakota (763 senses)</a></li>
+<li><a href="V%C3%B5ro/index.html">Võro (762 senses)</a></li>
+<li><a href="Proto-Uralic/index.html">Proto-Uralic (752 senses)</a></li>
+<li><a href="Murui%20Huitoto/index.html">Murui Huitoto (747 senses)</a></li>
+<li><a href="Evenki/index.html">Evenki (747 senses)</a></li>
+<li><a href="Mirandese/index.html">Mirandese (746 senses)</a></li>
+<li><a href="Sassarese/index.html">Sassarese (743 senses)</a></li>
+<li><a href="Sakizaya/index.html">Sakizaya (733 senses)</a></li>
+<li><a href="Ingush/index.html">Ingush (732 senses)</a></li>
+<li><a href="Antigua%20and%20Barbuda%20Creole%20English/index.html">Antigua and Barbuda Creole English (728 senses)</a></li>
+<li><a href="Dupaningan%20Agta/index.html">Dupaningan Agta (728 senses)</a></li>
+<li><a href="Central%20Atlas%20Tamazight/index.html">Central Atlas Tamazight (722 senses)</a></li>
+<li><a href="Old%20Frisian/index.html">Old Frisian (720 senses)</a></li>
+<li><a href="Tlingit/index.html">Tlingit (708 senses)</a></li>
+<li><a href="Cubeo/index.html">Cubeo (708 senses)</a></li>
+<li><a href="Southern%20Ndebele/index.html">Southern Ndebele (704 senses)</a></li>
+<li><a href="Sotho/index.html">Sotho (699 senses)</a></li>
+<li><a href="Mycenaean%20Greek/index.html">Mycenaean Greek (696 senses)</a></li>
+<li><a href="Buryat/index.html">Buryat (695 senses)</a></li>
+<li><a href="Betawi/index.html">Betawi (691 senses)</a></li>
+<li><a href="Old%20Japanese/index.html">Old Japanese (690 senses)</a></li>
+<li><a href="Nheengatu/index.html">Nheengatu (687 senses)</a></li>
+<li><a href="Hittite/index.html">Hittite (683 senses)</a></li>
+<li><a href="Eastern%20Huasteca%20Nahuatl/index.html">Eastern Huasteca Nahuatl (682 senses)</a></li>
+<li><a href="Skolt%20Sami/index.html">Skolt Sami (680 senses)</a></li>
+<li><a href="Lindu/index.html">Lindu (677 senses)</a></li>
+<li><a href="Latgalian/index.html">Latgalian (676 senses)</a></li>
+<li><a href="Mariupol%20Greek/index.html">Mariupol Greek (673 senses)</a></li>
+<li><a href="Tarantino/index.html">Tarantino (672 senses)</a></li>
+<li><a href="Nanai/index.html">Nanai (672 senses)</a></li>
+<li><a href="Tundra%20Nenets/index.html">Tundra Nenets (664 senses)</a></li>
+<li><a href="Polabian/index.html">Polabian (663 senses)</a></li>
+<li><a href="Atayal/index.html">Atayal (663 senses)</a></li>
+<li><a href="Old%20Persian/index.html">Old Persian (660 senses)</a></li>
+<li><a href="Yogad/index.html">Yogad (654 senses)</a></li>
+<li><a href="Bourguignon/index.html">Bourguignon (652 senses)</a></li>
+<li><a href="Yurok/index.html">Yurok (652 senses)</a></li>
+<li><a href="Baluchi/index.html">Baluchi (652 senses)</a></li>
+<li><a href="Old%20Khmer/index.html">Old Khmer (651 senses)</a></li>
+<li><a href="Inari%20Sami/index.html">Inari Sami (648 senses)</a></li>
+<li><a href="Avar/index.html">Avar (643 senses)</a></li>
+<li><a href="Shona/index.html">Shona (640 senses)</a></li>
+<li><a href="Umbrian/index.html">Umbrian (637 senses)</a></li>
+<li><a href="Kalasha/index.html">Kalasha (635 senses)</a></li>
+<li><a href="Old%20Uyghur/index.html">Old Uyghur (632 senses)</a></li>
+<li><a href="Chungli%20Ao/index.html">Chungli Ao (619 senses)</a></li>
+<li><a href="Tetelcingo%20Nahuatl/index.html">Tetelcingo Nahuatl (617 senses)</a></li>
+<li><a href="Nupe/index.html">Nupe (610 senses)</a></li>
+<li><a href="Achang/index.html">Achang (607 senses)</a></li>
+<li><a href="Bats/index.html">Bats (603 senses)</a></li>
+<li><a href="Hanunoo/index.html">Hanunoo (596 senses)</a></li>
+<li><a href="Cahuilla/index.html">Cahuilla (596 senses)</a></li>
+<li><a href="Mazanderani/index.html">Mazanderani (584 senses)</a></li>
+<li><a href="Tocharian%20A/index.html">Tocharian A (582 senses)</a></li>
+<li><a href="Taos/index.html">Taos (581 senses)</a></li>
+<li><a href="Anguthimri/index.html">Anguthimri (576 senses)</a></li>
+<li><a href="Yao%20%28Africa%29/index.html">Yao (Africa) (573 senses)</a></li>
+<li><a href="Saanich/index.html">Saanich (572 senses)</a></li>
+<li><a href="Proto-Ryukyuan/index.html">Proto-Ryukyuan (571 senses)</a></li>
+<li><a href="N%C7%80uu/index.html">Nǀuu (570 senses)</a></li>
+<li><a href="Sabaean/index.html">Sabaean (564 senses)</a></li>
+<li><a href="Proto-Japonic/index.html">Proto-Japonic (557 senses)</a></li>
+<li><a href="Etruscan/index.html">Etruscan (555 senses)</a></li>
+<li><a href="Tongan/index.html">Tongan (553 senses)</a></li>
+<li><a href="Inuktitut/index.html">Inuktitut (553 senses)</a></li>
+<li><a href="Pite%20Sami/index.html">Pite Sami (548 senses)</a></li>
+<li><a href="Proto-Balto-Slavic/index.html">Proto-Balto-Slavic (548 senses)</a></li>
+<li><a href="Proto-Permic/index.html">Proto-Permic (546 senses)</a></li>
+<li><a href="Middle%20Armenian/index.html">Middle Armenian (546 senses)</a></li>
+<li><a href="Khakas/index.html">Khakas (544 senses)</a></li>
+<li><a href="Tai%20N%C3%BCa/index.html">Tai Nüa (543 senses)</a></li>
+<li><a href="Northern%20Ndebele/index.html">Northern Ndebele (541 senses)</a></li>
+<li><a href="Sarawak%20Malay/index.html">Sarawak Malay (539 senses)</a></li>
+<li><a href="Kurt%C3%B6p/index.html">Kurtöp (539 senses)</a></li>
+<li><a href="Sambali/index.html">Sambali (537 senses)</a></li>
+<li><a href="Svan/index.html">Svan (533 senses)</a></li>
+<li><a href="Proto-Iranian/index.html">Proto-Iranian (532 senses)</a></li>
+<li><a href="Lotha%20Naga/index.html">Lotha Naga (532 senses)</a></li>
+<li><a href="Proto-Sino-Tibetan/index.html">Proto-Sino-Tibetan (527 senses)</a></li>
+<li><a href="Brunei%20Malay/index.html">Brunei Malay (526 senses)</a></li>
+<li><a href="Western%20Apache/index.html">Western Apache (522 senses)</a></li>
+<li><a href="Elfdalian/index.html">Elfdalian (517 senses)</a></li>
+<li><a href="Bangi/index.html">Bangi (517 senses)</a></li>
+<li><a href="Mbya%20Guarani/index.html">Mbya Guarani (513 senses)</a></li>
+<li><a href="Nogai/index.html">Nogai (507 senses)</a></li>
+<li><a href="K%27iche%27/index.html">K&#x27;iche&#x27; (505 senses)</a></li>
+<li><a href="Old%20Turkic/index.html">Old Turkic (505 senses)</a></li>
+<li><a href="Cypriot%20Arabic/index.html">Cypriot Arabic (503 senses)</a></li>
+</ul>
+<h2>Extraction errors and warnings</h2>
+<p><a href="errors/errors.html">Extraction errors and warnings</a></p>
+<h2>Download the raw data</h2>
+
+<p>To download the full raw data that was extracted from
+Wiktionary using wiktextract, please see the <a href="rawdata.html">raw data
+download page</a>.</p>
+
+<p><strong><a href="https://github.com/tatuylonen/wiktextract/issues/1178">
+DEPRECATED</a>:</strong>To download the post-processed data used on
+this site for the kaikki.org machine-readable dictionary, please look for the
+download links near the end of the main page for each language (or the all
+languages combined page) and various subpages.</p>
+
+<h2>Copyright and license</h2>
+<p>This data is extracted from <a href="https://en.wiktionary.org">Wiktionary</a> and is updated regularly.  The full original Wiktionary data can be downloaded from <a href="https://dumps.wikimedia.org/enwiktionary/latest/">Wikimedia dumps</a>. 
+This data is made available under the same licenses as Wiktionary - both CC-BY-SA and GFDL.  See <a href="https://en.wiktionary.org/wiki/Wiktionary:Copyrights">Wiktionary copyright page</a> for more information.</p>
+<hr/>
+<div>
+
+<p>This page is a part of the kaikki.org machine-readable  dictionary.  This dictionary is based on structured data extracted on 2026-10-30 from the enwiktionary dump dated 2026-10-01 using <a href="https://github.com/tatuylonen/wiktextract">wiktextract</a> (<a href="https://github.com/tatuylonen/wiktextract/commit/19f9a3006a405fb7bfb40193dca41c7117a009a5">19f9a30</a> and <a href="https://github.com/tatuylonen/wikitextprocessor/commit/6f96ddf5f3466707f1869fe6618390fd77dfd109">6f96ddf</a>).
+The data shown on this site has been post-processed and various details (e.g., extra categories) removed, some information disambiguated, and additional data merged from other sources.  See the <a href="rawdata.html">raw data download page</a> for the unprocessed wiktextract data.
+<p>If you use this data in academic research, please cite Tatu Ylonen: <a href="http://www.lrec-conf.org/proceedings/lrec2022/pdf/2022.lrec-1.140.pdf">Wiktextract: Wiktionary as Machine-Readable Structured Data</a>, Proceedings of the 13th Conference on Language Resources and Evaluation (LREC), pp. 1317-1325, Marseille, 20-25 June 2022.  Linking to the relevant page(s) under https://kaikki.org would also be greatly appreciated.</p>
+</p>
+</div>
+
+<script >
+var search_cache = null;
+var search_selection = 0;
+var search_query = null;
+
+var wikt_edition = "en";
+
+String.prototype.isUpper = function () {
+    var char = this[0];
+    var ret = false;
+    if (char == char.toUpperCase()) {
+        ret = true;
+    }
+    return ret;
+}
+String.prototype.isLower = function () {
+    var char = this[0];
+    var ret = false;
+    if (char == char.toLowerCase()) {
+        ret = true;
+    }
+    return ret;
+}
+
+function add_result(results, v, url, i) {
+    var a = document.createElement("a");
+    if (results.childElementCount == search_selection) {
+        a.setAttribute("class", "searchResultSelected");
+    } else {
+        a.setAttribute("class", "searchResultItem");
+    }
+    a.href = url;
+    a.textContent = v;
+    function enter() {
+        results.children.item(search_selection).setAttribute(
+            "class", "searchResultItem");
+        search_selection = i;
+        results.children.item(i).setAttribute(
+            "class", "searchResultSelected");
+    }
+    a.onmouseenter = enter;
+    results.appendChild(a);
+}
+
+function finalize_search(results, query, lst, api_search=null) {
+    /*console.log("finalize_search", query, lst); */
+    var max_cnt = 10;
+    var lcq = query.toLowerCase();
+    var matches = [];
+    for (var i = 0; i < lst.length; i++) {
+        var title = lst[i][0];
+        if (title.toLowerCase().substring(0, lcq.length) == lcq) {
+            var url = lst[i][1];
+            matches.push([lcq, results, title, url, i]);
+        }
+    }
+    function cmp_lowercase_first(a, b) {
+        var ret = a[0][0].localeCompare(b[0][0]);
+        if (ret != 0) {
+             return ret;
+        }
+        if (a[2][0].isLower() && b[2][0].isUpper()) {
+            return -1;
+        } else if (a[2][0].isUpper() && b[2][0].isLower()) {
+            return 1;
+        }
+        return 0;
+    }
+    function cmp_uppercase_first(a, b) {
+        var ret = a[0][0].localeCompare(b[0][0]);
+        if (ret != 0) {
+             return ret;
+        }
+        if (a[2][0].isLower() && b[2][0].isUpper()) {
+            return 1;
+        } else if (a[2][0].isUpper() && b[2][0].isLower()) {
+            return -1;
+        }
+        return 0;
+    }
+    var cmp_fn;
+    if (query[0].isUpper()) {
+        cmp_fn = cmp_uppercase_first;
+    } else {
+        cmp_fn = cmp_lowercase_first;
+    }
+
+    matches.sort(cmp_fn);
+    if (matches.length > 0 && typeof(api_search) == "string") {
+        window.location.href = matches[0][3]
+    }
+    var cnt = 0;
+    for (var i = 0; i < matches.length; i++) {
+        var item = matches[i];
+        add_result(item[1], item[2], item[3], item[4]);
+        cnt += 1;
+        if (cnt >= max_cnt) {
+            break;
+        }
+    }
+
+    results.style.display = "block";
+}
+
+function search_fill(api_search=null) {
+    var query_field = document.getElementById("searchField");
+    var results = document.getElementById("searchResults");
+    var query;
+    // if doing an api search, use api_search
+    // otherwise use field value
+    if (typeof(api_search) == "string") {
+        query = api_search;
+    } else {
+        query = query_field.value;
+    }
+
+    if (query != search_query) {
+        search_selection = 0;
+        search_query = query;
+    }
+    results.style.display = "none";
+    results.innerHTML = "";
+
+    if (query == "") {
+        return;
+    }
+    var prefix_len;
+    if (search_cache && search_cache[2]) {
+        prefix_len = 3;
+    } else {
+        prefix_len = 2;
+    }
+
+    var prefix = query.toLowerCase().substring(0, prefix_len);
+    if (search_cache && search_cache[0] == prefix) {
+        /*console.log("from cache"); */
+        finalize_search(results, query, search_cache[1], api_search);
+    } else {
+        var fn = prefix;
+        fn = fn.replace("/", "_slash_");
+        fn = fn.replace("\\", "_backslash_");
+        fn = fn.replace("*", "_star_");
+        fn = fn.replace("?", "_ques_");
+        fn = fn.replace("#", "_hash_");
+        fn = fn.replace(".", "_dot_");
+        fn = encodeURIComponent(fn) + ".json";
+        var url;
+        if (wikt_edition == "en") {
+            url = "/dictionary/search/start/" + fn;
+        } else {
+            url = "/" + wikt_edition + "wiktionary/search/start/" + fn;
+        }
+        fetch(url)
+            .then(function(resp) {
+                if (resp.ok) {
+                    resp.json().then(function(data) {
+                        var three_char = data[0];
+                        var lst = data[1];
+                        /* console.log("from fetch, three_char: ", three_char);*/
+
+                        search_cache = [prefix, lst, three_char];
+                        finalize_search(results, query, lst, api_search);
+                    });
+                }
+            })
+            .catch(function(resp) {
+                var li = document.createElement("div");
+                li.style.color = "red";
+                li.textContent = "Search failed due to network error";
+                results.appendChild(li);
+            });
+    }
+}
+
+function initialize() {
+    /*console.log("initialize"); */
+    var query_field = document.getElementById("searchField");
+    var query_button = document.getElementById("searchButton");
+    var results = document.getElementById("searchResults");
+    function keydown(e) {
+        e = e || window.event;
+        var key = e.key;
+        if (!key) {
+            var charCode = e.keyCode || e.which;
+            key = String.fromCharCode(charCode);
+        }
+        if (key == "ArrowUp") {
+            if (search_selection > 0) {
+                search_selection -= 1;
+            }
+        } else if (key == "ArrowDown") {
+            if (search_selection + 1 < results.childElementCount) {
+                search_selection += 1;
+            }
+        } else if (key == "Enter") {
+            if (search_cache && search_cache[1].length > 0) {
+                results.children.item(search_selection).click();
+                return false;
+            }
+        }
+    }
+    q = new URLSearchParams(window.location.search);
+    if (q.has("q")) {
+        search_fill(q.get("q"));
+    }
+    results.onkeydown = keydown;
+    query_field.removeAttribute("disabled");
+    query_button.removeAttribute("disabled");
+    query_field.onkeydown = keydown;
+    query_field.onkeyup = search_fill;
+    query_field.onpaste = function() { setTimeout(search_fill, 100); };
+    query_button.onsubmit = function(e) {
+        if (search_cache && search_cache[1].length > 0) {
+            results.children.item(search_selection).click();
+            return false;
+        }
+    };
+}
+document.addEventListener("DOMContentLoaded", initialize);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "kanjibridge-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "import:data": "node scripts/import_data.mjs --source ../kanji-bridge",
+    "check:data": "node scripts/import_data.mjs --check",
+    "test:unit": "vitest run",
+    "test:browser": "playwright test",
+    "test": "npm run check:data && npm run test:unit && npm run build && npm run test:browser"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  }
+}

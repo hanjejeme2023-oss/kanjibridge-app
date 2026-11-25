@@ -91,7 +91,9 @@ After A and B: Claude runs gate part 1B (`docs/STAGE1_SPEC.md` §11, items 11–
 
 ## Owner answers
 
-*(empty: the pages.dev URLs and any notes from steps A and B go here)*
+Owner answers (2026-11-24): proposals P1–P7 in docs/DECISIONS.md §B are confirmed as written.
+
+*(The pages.dev URLs and any notes from steps A and B go here.)*
 
 ## NEXT ASSIGNMENT
 
