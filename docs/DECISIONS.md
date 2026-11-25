@@ -21,10 +21,19 @@ Only the owner makes decisions. Claude and Codex may **propose** one (section B)
 | D11 | The overview page is at `/`; the app is at `/app/`. The logo in the app links to `/`. | 2026-11-24 | owner |
 | D12 | No other app changes requested for now; the kanji-bridge `UX_BACKLOG.md` stays a candidate list for later decisions. | 2026-11-24 | owner |
 | D13 | Domain timing. The owner applies for the GitHub Student Developer Pack after the Thanksgiving break (on campus; verification needs presence on campus). `kanjibridge.app` must be in place before the Stage 4 public sign-in launch; fallback: register it at Cloudflare. Supabase sign-in redirect URLs list both the `*.pages.dev` address and the domain. | 2026-11-24 | owner |
+| D14 | (was P1) The hosted app runs over http(s) only. kanji-bridge's "double-click `index.html` from disk" (`file://`) mode is not kept. | 2026-11-24 | owner (proposed by Claude) |
+| D15 | (was P2) The imported data lives in `public/app/` (`data.js`, `NOTICE.md`, `LICENSE-DATA`, `licenses/`, `DATA-MANIFEST.json`, `DATA-LICENSE.md`). It is served at `/app/data.js`, so the page keeps `<script src="data.js">` unchanged. kanji-bridge's `app/index.html` and gate harness are imported as a read-only test baseline into `tests/baseline/`. | 2026-11-24 | owner (proposed by Claude) |
+| D16 | (was P3) Test tools: **Vitest** for unit tests and **Playwright Test** (Chromium) for browser tests. kanji-bridge's Python/CDP harness is not ported. Its scenarios are rewritten as Playwright specs (STAGE1_SPEC §6). | 2026-11-24 | owner (proposed by Claude) |
+| D17 | (was P4) Branch protection on `main` requires a pull request and passing CI, with **0 required approving reviews**. The owner gives approval by merging: only the owner has write access. | 2026-11-24 | owner (proposed by Claude) |
+| D18 | (was P5) The Stage 1 gate has two parts. **1A**: Claude checks the code evidence. **1B**: after the owner connects Cloudflare Pages (HANDOFF), Claude checks the preview URL. Stage 1 is done after 1B. | 2026-11-24 | owner (proposed by Claude) |
+| D19 | (was P6) In Stage 1, the UI text in `app/index.html` is filled in from `src/i18n/ja.json` at build time, by a small Vite plugin. Stage 2 decides how the language switches at run time. | 2026-11-24 | owner (proposed by Claude) |
+| D20 | (was P7) Node.js **24.19.0** (the version on this PC) is pinned in `.nvmrc` for local work, GitHub Actions and Cloudflare Pages. | 2026-11-24 | owner (proposed by Claude) |
 
 ## B. Proposals awaiting the owner
 
 Claude proposed these in Stage 0 (2026-11-24). `docs/STAGE1_SPEC.md` is written so that Stage 1 can go ahead under them. The owner confirms or changes each one, at the latest at the Stage 1 gate.
+
+**Status:** the owner confirmed P1–P7 as written on 2026-11-24 (HANDOFF "Owner answers"). Claude recorded them as **D14–D20** at Stage 1 gate 1A (2026-11-25). The table below stays as the record of the proposals and their reasons. No proposal is open.
 
 | # | Proposal | Why | Proposed by |
 |---|---|---|---|

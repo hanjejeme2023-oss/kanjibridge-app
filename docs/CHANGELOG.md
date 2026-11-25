@@ -2,6 +2,21 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-25 — Claude — Stage 1 gate 1A: FAIL (first attempt)
+
+- Reviewed `stage1-foundation` at `4d57c88` (PR #1) and re-ran on this PC, one job at a time: `npm ci`, `check:data`, unit tests, build, import reproducibility, and the full Playwright suite (28 passed, 11.3 min, pixel-exact screenshots). Two read-only Chromium probes covered storage edge cases and raw placeholders. CI passed on PR #1 (owner's report).
+- Result: **FAIL** on test coverage only (`docs/GATES.md`):
+  - the build checks, including the `{{` check, never run in CI;
+  - the console-error exemption is too broad;
+  - P4 has no `null` values;
+  - reset is not tested from a filled state;
+  - `gate.spec.js` is incomplete.
+  No app defect was found. Fix list F1–F5 in `docs/HANDOFF.md`; next: Codex.
+- The raw `{{app.title}}` seen in Codex's preview comes only from opening a source HTML file unbuilt. Dev server, preview and `dist/` are clean.
+- Recorded the owner-confirmed P1–P7 as D14–D20 in `docs/DECISIONS.md`.
+- HANDOFF: two more retained v2 bugs (`null` in `kb_srs` and in `kb_rules`), a Stage 2 note on splitting the views, and a 1B check for `{{` on the deployed pages. Replaced text moved verbatim to `docs/HANDOFF_ARCHIVE.md`.
+- Docs only. No app code or tests changed.
+
 ## 2026-11-25 — Codex — Stage 1: foundation
 
 - Added the Vite multi-page foundation for `/` and `/app/`, pinned Node 24.19.0 and exact npm dependencies, and kept the app-v2 learner experience unchanged under owner-confirmed P1–P7.

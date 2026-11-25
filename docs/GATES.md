@@ -21,5 +21,52 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 
 | Part | Date | Commit | Result |
 |---|---|---|---|
-| 1A | — | — | — |
+| 1A | 2026-11-25 | `4d57c88` | **FAIL** (first attempt): 5 test-coverage fixes for Codex (F1–F5 in HANDOFF). No app defect found. |
 | 1B | — | — | — |
+
+## Stage 1 gate, part 1A, attempt 1 (Claude, 2026-11-25): FAIL
+
+- **Reviewer:** Claude (Claude Code), fresh session, on the owner's PC.
+- **Commit checked:** `stage1-foundation` at `4d57c88` (local = `origin/stage1-foundation` after `git fetch`). Pull request #1.
+- **CI:** GitHub Actions on PR #1 passed (1/1 checks, 2026-11-25). **This is the owner's report.** Claude did not open the run: this session's network was limited to npm/Playwright installs and git fetch/push.
+- **Order of runs (one heavy job at a time):** `npm ci` → `check:data` → `test:unit` (without `dist/`) → `build` → `build.test.js` → `import:data` + `git status` → `test:browser` → two read-only probes in Chromium. Every server and browser was closed afterward (checked: no `chrome-headless-shell` processes, nothing listening on ports 4173, 4174 or 5173).
+- **Environment:** Node v24.19.0, npm 11.17.0, Playwright 1.65.1 (Chromium build 1255), Windows 11.
+
+### Done-when criteria (`docs/STAGE1_SPEC.md` §11, part 1A)
+
+| # | Criterion | Evidence (Claude's own runs unless marked) | Result |
+|---|---|---|---|
+| 1 | `npm ci && npm run build` on this PC and in CI, no warnings except the `data.js` notice | `npm ci`: 38 packages, 0 vulnerabilities. `npm run build`: 17 modules, ~0.1 s. The only notice was `<script src="data.js"> … can't be bundled without type="module"`. CI: green per the owner. | PASS |
+| 2 | `dist/` contents | Fresh build (Codex's earlier `dist/` was moved aside first). It has `index.html`, `app/index.html`, `app/data.js` with SHA-256 `3eb99e24…4af9`, `NOTICE.md`, `LICENSE-DATA`, `DATA-LICENSE.md`, `DATA-MANIFEST.json`, and 11 files in `app/licenses/`. | PASS on this PC. In CI it is not checked (`build.test.js` is skipped there; see F1). |
+| 3 | Import is reproducible; `check:data`; hashes = §5; a wrong hash is refused | `npm run import:data` imported 17 files from `59156e1`. Afterward `git status --porcelain` was empty, and `check:data` passed. All 15 manifest hashes equal the §5 table. `tests/baseline/stage5_gate_harness.js` (`361e267c…`) and `tests/baseline/LICENSE` (`cf01390e…`) equal the `59156e1` blobs. The wrong-hash refusal is covered by `import_data.test.js` (passes). `../kanji-bridge` was read through git objects only: 0 working-tree changes, HEAD `59156e1` before and after. | PASS |
+| 4 | `ja.json` has 115 keys; `i18n.test.js` | 115 unique keys. `i18n.test.js` passes. The only CJK in `src/**/*.js` and the two HTML pages is in the allowed parsing regexes (`src/app/lib/judge.js:41`, `src/app/main.js:47`, `src/app/main.js:272`). | PASS |
+| 5 | Render parity P1–P8 on fields 1–9 (and 10 at **S**), plus CSS rules, on this PC and in CI | `npm run test:browser`: **28 passed in 11.3 min** (1 worker). The HTML report has **no** screenshot-diff attachments, so every checkpoint screenshot was pixel-exact on this PC in this run, and the Windows tolerance (HANDOFF note 8) was never used. CI: green per the owner. All listed checkpoint IDs exist. Coverage gaps: P4 seeds no `null` value (F3), and reset is only tested from near-empty storage (F4). | PASS on the runs. Coverage gaps F3 and F4. |
+| 6 | 0 console and page errors; only allowed hosts; no rendered `undefined`/`NaN`/`null`/`[object` | The suite's checks pass. **But** the runner exempts *every* console error that contains "Failed to load resource", not only aborted font-host requests (§6.4), so a same-origin 404 would go unnoticed (F2). Independent probe (fresh load of both pages, all five tabs, every console error logged with its URL): the only console errors were the aborted `fonts.googleapis.com` stylesheet; 0 page errors; no other host. | PASS on evidence. The test is too lenient (F2). |
+| 7 | `gate.spec.js`, `baseline-sanity.spec.js`, `site.spec.js` and all unit tests pass | All pass, but: (a) `build.test.js` **skips** when `dist/` is missing. `test:unit` runs before `build` in both `npm test` and `ci.yml`, so it is always skipped in CI, and locally it reads whatever older `dist/` exists (measured: "6 passed, 1 skipped" without `dist/`) (F1). (b) `gate.spec.js` covers only the counts, the 1,242/2,164 totals and the About text. The other §6.6 items are missing (F5). The baseline harness passes (tone: deck 6983, zhBad 0, viBad 0, glyphBad 0, ptLenMismatch 0). | **FAIL** (F1, F5) |
+| 8 | CI green; actions pinned by SHA; `contents: read`; no secrets | `ci.yml`: `actions/checkout@11bd7190…` (v4.2.2), `actions/setup-node@49933ea5…` (v4.4.0), `actions/upload-artifact@ea165f8d…` (v4.6.2), all full 40-character SHAs. `permissions: contents: read` at the top level, no job-level override, no `secrets.*`, no `pull_request_target`. Job name `build-and-test`; Node from `.nvmrc`. Green per the owner. The SHA-to-tag mapping was not checked online (network rule). | PASS |
+| 9 | No secret in the repository or the build output | A grep of all tracked files and of every added line in the full git history (`service_role`, `sb_secret_`, private-key headers, JWT, AWS, GitHub, Slack and Google key patterns) finds only the test's own pattern list. `data.js`: 0 hits. No env, key or credential file was ever committed. `.gitignore` ignores `.env`, `.env.local`, `.env.production`, `.dev.vars`, `.dev.vars.prod`, `*.pem`, `*-key.json` and `*credentials*.json` (checked with `git check-ignore`). The `dist/` secret scan in `build.test.js` passes locally, but does not run in CI (F1). | PASS (CI part via F1) |
+| 10 | HANDOFF records commands, results and the `test:browser` duration | Recorded (10.3 min on Codex's run). No CI run URL: the pull request was opened by the owner after Codex's session. | PASS |
+| — | `.nvmrc` | `24.19.0` plus a newline; matches D20 and the PC. | PASS |
+
+### Extra checks
+
+1. **Raw `{{app.title}}` in Codex's preview.** Claude's probe loaded every page path in Chromium (`/`, `/index.html`, `/app/`, `/app/index.html`, `/app`, two 404 paths) from the **vite dev server** and from **vite preview** of the build, and searched every `.html`/`.js`/`.css` file in `dist/`.
+   - Every served page has `<title>漢字ブリッジ</title>`, and there is no `{{` in the raw HTML or the DOM. `dist/` has no `{{` anywhere.
+   - The raw placeholder appears **only** when a source file (`index.html` or `app/index.html`) is opened directly (`file://`) or served as-is by a static server pointed at the repository root. Most likely Codex's preview did that.
+   - The plugin (`vite/i18n-html.js`) also throws on an unknown key or any leftover `{{`, so such a build fails.
+   - **Conclusion:** no raw placeholder can reach a user from the production build, provided Cloudflare serves `dist/` (owner step A8). This is not a FAIL item.
+   - **The test is still missing where it matters:** `build.test.js` checks only `dist/app/index.html` (not `dist/index.html`) and never runs in CI. That is fix **F1**. Gate 1B re-checks the deployed pages for `{{`.
+2. **Codex's HANDOFF notes:**
+   - **Note 7 (retained `kb_custom` bug): acceptable for 1A**, kept under Open notes. STAGE1_SPEC says to keep v2 bugs and record them. Claude confirmed it on the baseline: a string, number, object or `null` in `kb_custom` makes app v2 throw at `rawCustom.filter`, and the new app throws the same way. Claude found two more retained v2 bugs of the same kind: `null` in `kb_srs` ("Cannot convert undefined or null to object") and `null` in `kb_rules` ("reading 'k'"). Both apps fail identically. Added as Open note 9.
+   - **Note 8 (Windows raster tolerance): acceptable for 1A**, kept under Open notes. The tolerance is limited to `process.platform === 'win32'`, at most 64 pixels with a delta of at most 1, and only after five re-shots. DOM, CSS rules, computed styles, focus, scroll, storage and form state are still compared exactly. Linux CI still requires exact pixels. In Claude's run it was not needed at all (0 diff attachments).
+3. **P1–P7** were confirmed by the owner on 2026-11-24 and are now **D14–D20** in `docs/DECISIONS.md`.
+
+### Other observations (not blocking; written to HANDOFF Open notes where they matter later)
+
+- **Module split.** The pure logic was split out: `data/model.js`, `lib/*`, `storage.js`, `dom.js` and `i18n/`. The UI (views, nav, keyboard, About, reset) stays as one `initApp()` closure in `src/app/main.js`, a near line-for-line port of the original script. STAGE1_SPEC §3 calls its module list "a guide", and the binding rules hold: no module-level side effects except `buildModel`, no globals, and reset identical to v2 lines 849–854 (Claude compared them). This is not a Done-when item, but Stage 2's run-time language switch will want the views split out first (Open note 10).
+- **P1 walk.** The single continuous walk was split into nine tests, each starting from fresh storage. Every checkpoint ID is present, and the cross-view steps (glyph → ff badge; quiz answers before the glyph filters) are re-created inside the tests. The one loss is that P1-59 resets almost-empty storage (F4).
+- P1-16 and P1-49 open the `<details>` by setting `open` and dispatching a synthetic `toggle` event, not by clicking the `<summary>`. It is the same on both pages. A nit, not a fix item.
+
+### Result
+
+**FAIL.** The app code itself shows no defect: parity, errors, requests, data, i18n, CI configuration and secrets all check out. Fix items F1–F5 in `docs/HANDOFF.md` are test-coverage gaps against STAGE1_SPEC §6 and the gate's own requirement for a `{{` test. Codex fixes only those items. Then Claude re-runs 1A. A second FAIL of this gate goes to the owner (rule above).
