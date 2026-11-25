@@ -93,3 +93,47 @@ From "Current status (2026-11-25)":
 - The owner then reports the CI result on PR #1 under "Owner answers".
 
 Next: Codex — Stage 1 gate 1A fixes (F1–F5)
+
+## 2026-11-25 — Claude — from f58879b
+
+From "Current status (2026-11-25)":
+
+- **F1–F5 fixes completed** (Codex, 2026-11-25): tests, npm scripts and CI only. The required `npm ci` and sequential `npm test` passed: 20 unit tests, 2 build checks, 36 browser tests (17.3 min). Full evidence and the intentional F1 failure are below. The last gate result is still attempt 1 FAIL; next is Claude — Stage 1 gate 1A, attempt 2. CI for this fix commit awaits the owner's report on PR #1.
+
+## Codex — F1–F5 fix evidence (2026-11-25)
+
+- **Starting point:** clean `stage1-foundation` at `54b10c8a8268aab858200b2b7f4bfe19b0063607` (Claude's gate commit), confirmed before editing. The supplied workspace was the older `kanji-bridge`; the work was done in the sibling `kanjibridge-app`. The older repository was not modified.
+- **Scope:** tests, `package.json` scripts, `.github/workflows/ci.yml`, and these handoff/changelog records only. No changes to `src/`, `app/index.html`, `index.html`, `vite/`, the imported baseline/data, dependencies or the lockfile.
+- **F1:** `test:unit` excludes `build.test.js`; `test:build` runs immediately after `build` in both `npm test` and CI. Both build tests fail if `dist/` is missing (no skip). The recursive HTML check requires both entry pages, checks every `.html` file, and names the failing file. The pinned data hash, 11 licence files and whole-build secret scan remain checked.
+- **F2:** parity and gate checks use the same console classifier. A resource error is exempt only for an exact URL recorded as aborted by the route on one of the two font hosts; exempt errors are recorded separately with their URLs. Five unit cases cover both allowed hosts, same-origin 404s, un-aborted/different font URLs, other hosts, other messages and missing locations. Every other console error is counted. Baseline fixture reads also block non-local requests; parity contexts close in `finally` even if error assertions fail.
+- **F3:** `P4-null` seeds all 11 specified safe keys with JSON `null`, plus raw `not-json` in `kb_custom`, and checkpoints all five views. The retained v2 bugs in Open notes 7 and 9 remain excluded.
+- **F4:** `P1-reset-filled` shares the exact P3 returning-learner seed, saves a card review, a glyph quiz answer, a false-friend rating and a reading unknown mark, clicks reset twice, then checkpoints cards and all other views including storage. P1-58/59 remain. Each long list settles before leaving; after the saved glyph answer, list mode releases the off-screen quiz inputs before reset.
+- **F5:** seven readable gate tests name the Harness-origin labels and assert through the new app's DOM/localStorage. They cover rule storage isolation, quiz-input count read from the baseline page, same-evaluate initial chunk limits, all card/rule/false-friend/reading/glyph states, level counts, queue order and round lengths, usage links and focus, mute, in-place tile replacement, About and reset. The baseline quiz page is closed immediately after reading its count; glyph answers and filters are separate tests to stay within the existing timeout.
+
+**F1 negative proof:** after a build, appended `{{x}}` by hand to the ignored `dist/index.html`, then ran `npm run test:build`. Exit **1**; **1 failed, 1 passed**. Exact failing line:
+
+```text
+AssertionError: dist\index.html: unfilled {{ placeholder: expected true to be false // Object.is equality
+```
+
+Then `npm run build` removed the marker and `npm run test:build` passed **2/2**. The injected file is not committed.
+
+**Verification after the fixes (one heavy job at a time):**
+
+- `npm ci`: PASS, 38 packages installed, 39 audited, 0 vulnerabilities.
+- `npm test` runs `check:data → test:unit → build → test:build → test:browser` sequentially.
+- `check:data`: PASS; imported data and baseline match the manifest.
+- `test:unit`: **7 files, 20 passed, 0 failed, 0 skipped**, 5.47 s.
+- `build`: PASS, 17 modules, 142 ms; only the existing classic `data.js` bundling notice.
+- `test:build`: **1 file, 2 passed, 0 failed, 0 skipped**, 498 ms.
+- `test:browser`: **36 passed, 0 failed, 0 skipped**, **17.3 min**, one worker. Includes the baseline harness, seven expanded gate tests, all existing parity checkpoints, `P4-null`, `P1-reset-filled` (1.2 min in this final run), and site/assets. Console/page-error and request checks passed. Therefore the full `npm test` exited **0**.
+- Exploratory browser run: 7 passed, 1 failed (6.3 min). The new filled-reset setup navigated away during chunk rendering, leaving unequal partial hidden DOMs. Settling between actions fixed the setup; its focused rerun passed (1/1, 2.7 min). The final scenario additionally returns to glyph list mode after saving the answer to reduce browser load. No app change was needed.
+- **Cleanup:** all test browsers and servers closed. After the suite, 0 `chrome-headless-shell` processes and 0 listeners on ports 4173, 4174 or 5173. Environment: Node v24.19.0, npm 11.17.0, Playwright 1.65.1 on Windows.
+- **Delivery:** `stage1-foundation` only (PR #1), no merge; protected app/data/dependency paths still match `54b10c8`. Commit prefix `[Codex] Stage 1 fix:`. The owner reports the pushed commit's CI result under Owner answers.
+- **CI for this fix commit:** pending the owner's report on PR #1. No CI request was made; external network use is limited to npm and the requested git push (the existing Playwright installation was reused).
+
+## NEXT ASSIGNMENT
+
+**Claude — Stage 1 gate 1A, attempt 2.** Review `stage1-foundation` (PR #1), re-check F1–F5 against the first-attempt findings in `docs/GATES.md` and the evidence above, and run the gate's required checks. The owner supplies the new CI result under "Owner answers". Record the gate result in `docs/GATES.md`; a second FAIL goes to the owner. The existing owner steps and gate 1B remain in force.
+
+Next: Claude — Stage 1 gate 1A, attempt 2

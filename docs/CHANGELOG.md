@@ -2,6 +2,19 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-25 — Claude — Stage 1 gate 1A, attempt 2: PASS pending CI
+
+- Reviewed `stage1-foundation` at `f58879b` (PR #1). `git diff 4d57c88..f58879b` over `src`, `app/index.html`, `index.html` and `vite` is empty, so no app code changed.
+- Verified F1–F5 one by one with Claude's own proofs:
+  - the build checks fail (and do not skip) without `dist/`;
+  - a hand-inserted `{{x}}` in `dist/index.html` and an extra nested HTML file are named in the failure;
+  - a real-Chromium probe shows that a same-origin 404 is counted, while only the aborted Google Fonts request is exempt;
+  - the P4-null, P1-reset-filled and gate assertions are present as specified.
+- Re-ran on this PC, one job at a time: `npm ci` (0 vulnerabilities), then `npm test`, exit 0. Unit 20/20, build checks 2/2, browser 36/36 in 13.8 min, every screenshot pixel-exact. All servers and browsers were closed, and the temporary probe was deleted.
+- Result: **PASS pending CI**. The CI run on `f58879b` was still running and no result reached the session. Green → PASS, then the owner does steps A and B, then Claude gate 1B. Red → a second FAIL, which the owner decides (options in HANDOFF).
+- HANDOFF: new status and next assignment. Open note 12 records a non-blocking test nit (the 読解 assertion in P1-reset-filled is true before the click). Replaced text was moved verbatim to `docs/HANDOFF_ARCHIVE.md`.
+- Docs only. No app code or tests changed.
+
 ## 2026-11-25 — Codex — Stage 1 gate 1A fixes F1–F5
 
 - Moved mandatory production-build checks after the build in npm scripts and CI, scan all built HTML for unfilled placeholders, and fail when `dist/` is absent. Proved the check rejects a hand-inserted `{{x}}` in `dist/index.html`, recorded the exact failure in HANDOFF, and rebuilt cleanly.

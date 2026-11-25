@@ -22,6 +22,7 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 | Part | Date | Commit | Result |
 |---|---|---|---|
 | 1A | 2026-11-25 | `4d57c88` | **FAIL** (first attempt): 5 test-coverage fixes for Codex (F1–F5 in HANDOFF). No app defect found. |
+| 1A | 2026-11-25 | `f58879b` | **PASS pending CI** (attempt 2): F1–F5 verified; all local runs green. It becomes PASS when the owner reports a green CI run on `f58879b`. A red CI makes it a FAIL, the second one for this gate. |
 | 1B | — | — | — |
 
 ## Stage 1 gate, part 1A, attempt 1 (Claude, 2026-11-25): FAIL
@@ -70,3 +71,53 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 ### Result
 
 **FAIL.** The app code itself shows no defect: parity, errors, requests, data, i18n, CI configuration and secrets all check out. Fix items F1–F5 in `docs/HANDOFF.md` are test-coverage gaps against STAGE1_SPEC §6 and the gate's own requirement for a `{{` test. Codex fixes only those items. Then Claude re-runs 1A. A second FAIL of this gate goes to the owner (rule above).
+
+## Stage 1 gate, part 1A, attempt 2 (Claude, 2026-11-25): PASS pending CI
+
+- **Reviewer:** Claude (Claude Code), fresh session, on the owner's PC.
+- **Commit checked:** `stage1-foundation` at `f58879b` (local = `origin/stage1-foundation` after `git fetch`). Pull request #1.
+- **CI:** the owner reported a GitHub Actions run on `f58879b` as **running** (started 2026-11-25 12:48). **No final result reached this session.** Claude did not open the run (network rule: npm/Playwright installs and git fetch/push only).
+- **Order of runs (one heavy job at a time):** `npm run test:build` with `dist/` moved out of the repository → `npm ci` → `npm test` (check:data → test:unit → build → test:build → test:browser) → F1 `{{x}}` proof and rebuild → one read-only Chromium probe (F2, F4). Every server and browser was closed afterward. Checked: no Playwright browser, vite or baseline-server process, and nothing listening on ports 4173, 4174 or 5173. The `chrome.exe` processes still running were the owner's own Google Chrome, and two idle Codex-app helper daemons were present from the start. The probe script and the moved `dist/` were deleted.
+- **Environment:** Node v24.19.0, npm 11.17.0, Playwright 1.65.1, Windows 11.
+
+### 1. App code unchanged
+
+`git diff --stat 4d57c88..f58879b -- src app/index.html index.html vite` is **empty**. Codex's own commit (`54b10c8..f58879b`) touches only `.github/workflows/ci.yml` (one line), `package.json` (scripts), `tests/` and the docs. `public/`, `scripts/`, `tests/baseline/`, the lockfile and the Vite/Vitest/Playwright configs are unchanged. All 45 non-empty lines Codex removed from HANDOFF appear verbatim in HANDOFF_ARCHIVE.
+
+### 2. Fix items
+
+| Fix | What was checked | Result |
+|---|---|---|
+| **F1** | `test:unit` = `vitest run --exclude tests/unit/build.test.js`; new `test:build` = `vitest run tests/unit/build.test.js`; `npm test` and `ci.yml` both run `test:build` right after `build`. `skipIf` is gone: both tests assert `existsSync('dist')`. Every file under `dist/` is walked; every `.html` is checked for `{{` with the file name in the message, and the two entry pages must be among them. Hash, 11 licence files and secret scan are kept. **Claude's own proofs:** (a) `dist/` moved away → `test:build` exit 1, **2 failed, 0 skipped**, `dist/ is missing; run npm run build first`. (b) `{{x}}` appended to the built `dist/index.html` → exit 1, 1 failed / 1 passed: `AssertionError: dist\index.html: unfilled {{ placeholder: expected true to be false // Object.is equality` (the same line Codex recorded in HANDOFF). `npm run build` → no `{{` left; `test:build` 2/2. (c) An extra `dist/app/licenses/probe.html` containing `{{y}}` → it is named in the failure (and the licence count catches the extra file). After it was removed: 2/2. | **PASS** |
+| **F2** | `tests/browser/lib/console-errors.js`: a console error is exempt only if its text has "Failed to load resource", **and** its `location().url` is in that page's list of URLs that the route aborted, **and** that URL's host is exactly `fonts.googleapis.com` or `fonts.gstatic.com`. The route records the URL before `route.abort()`. Only non-`127.0.0.1` requests are aborted, so a same-origin URL can never be exempt. Exempt errors go to `fontErrors` with their URLs; all others fail `close()`. `gate.spec.js` uses the same `createParity`, so it applies the same rule. 5 unit cases. **Probe (real Chromium, vite preview of the build, the same route and the repository's classifier):** after load, 0 counted errors. One injected `<img src="/no-such-file-probe.png">` → **counted**: `Failed to load resource: … 404 (Not Found)` at `http://127.0.0.1:4173/no-such-file-probe.png`. The only exempt entry was the aborted `fonts.googleapis.com/css2?…` stylesheet. | **PASS** |
+| **F3** | `P4-null` seeds JSON `null` in exactly the 11 listed keys plus raw `not-json` in `kb_custom`, and checkpoints all five views. `kb_srs`/`kb_rules` `null` and non-array `kb_custom` are left out (Open notes 7 and 9). Passed (31.2 s). | **PASS** |
+| **F4** | `P1-reset-filled` uses the P3 seed (`returningStorage`, now shared with P3), then one card review, one glyph quiz answer, one false-friend rating and one 読解 mark (each asserted except as noted below), then `#reset` twice, then cards + four tabs through `checkpointViews` (snapshot includes all localStorage). P1-58/59 are kept. Passed (1.3 min). **Nit:** the 読解 step's assertion (`#unknownreview` contains わからない) is already true before the click, because the seeded unknown word is in passage 1. The probe shows that the click does add a real mark (`kb_unknown` `["w00301"]` → `["w00301","w00339"]`). Not blocking: the action happens on both pages, and the scenario's purpose is reset from a filled store. HANDOFF Open note 12. | **PASS** |
+| **F5** | Seven gate tests on the new app's DOM/localStorage only (the baseline supplies answers, IDs and the quiz-input count). (a) `kb_rules` read before P1-09 and compared after P1-13. (b) The quiz-input count is read from the baseline page after its quiz settles to 2,164 rows. (c) `openLongList` clicks the nav button and counts the rows in the same `evaluate`: ≤ 30 and > 0, for both `ff` and `glyph`. (d) Claude matched every distinct "Harness origin" label of §6.5 P1 (`counts`, `explain`, `cards-initial` … `armed text`, `everything reset (storage)`) to a named assertion; none is missing. The §6.6 extras are also present: the title, the EDRDG sentence, the repository link, `AI（Google Gemini）`, 2,164 rows in list and quiz, and 1,242 tiles. | **PASS** |
+
+### 3. Re-run on this PC
+
+- `npm ci`: 38 packages added, 39 audited, **0 vulnerabilities**.
+- `npm test`: **exit 0**, 840 s wall clock.
+  - `check:data`: "Imported data and baseline files match DATA-MANIFEST.json."
+  - `test:unit`: **7 files, 20 passed**.
+  - `build`: 17 modules. The only notice was the classic `<script src="data.js">` one, and the log has 0 lines containing "warn".
+  - `test:build`: **2 passed**.
+  - `test:browser`: **36 passed in 13.8 min** (1 worker; 0 failed, 0 skipped, 0 flaky).
+- The HTML report holds only `index.html`: **no** screenshot-diff attachments. Every checkpoint screenshot was pixel-exact, and the Windows tolerance (Open note 8) was not used.
+
+### 4. Done-when criteria that attempt 1 marked FAIL or "via F1"
+
+| # | Attempt 1 | Now | Result |
+|---|---|---|---|
+| 2 | PASS locally; CI part via F1 | `test:build` (pinned `data.js` hash, 11 licences, `dist/index.html`, every built HTML) runs after `build` in `ci.yml` and cannot skip. Locally 2/2 on a fresh build. | PASS (CI part: pending the CI result) |
+| 5 | PASS; coverage gaps F3, F4 | P4-null and P1-reset-filled were added, and all parity checkpoints pass pixel-exact on this PC. | PASS (CI part: pending the CI result) |
+| 6 | PASS on evidence; test too lenient (F2) | Exemption narrowed and proven by the probe. All scenarios: 0 counted console errors, 0 page errors, no other host. | PASS |
+| 7 | **FAIL** (F1, F5) | `build.test.js` now runs (2/2, cannot skip); `gate.spec.js` is complete (7/7); `baseline-sanity` and `site` pass; unit tests 20/20. | PASS |
+| 8 | PASS (green per owner, on `4d57c88`) | `ci.yml` change: one added `npm run test:build` line. Pins, `contents: read`, and no secrets are unchanged. Green CI on `f58879b`: **not yet reported**. | **Pending CI** |
+| 9 | PASS; CI part via F1 | The `dist/` secret scan runs after the build in CI. Lines added since `4d57c88` contain no secret pattern; the only hits are this file's own text and the test's pattern list. | PASS (CI part: pending the CI result) |
+
+### Result
+
+**PASS pending CI.** Every fix item is done and was proven by Claude's own runs, and no app code changed. Only the green CI run on `f58879b` is missing.
+- **CI green:** the gate is **PASS** without another review. The owner records the run under "Owner answers" in HANDOFF, then does steps A and B.
+- **CI red:** the gate is **FAIL**, the second one, and goes to the owner (rule above). No new fix list goes to Codex.
