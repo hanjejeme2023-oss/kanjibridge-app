@@ -2,6 +2,15 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-25 — Codex — Stage 1 gate 1A fixes F1–F5
+
+- Moved mandatory production-build checks after the build in npm scripts and CI, scan all built HTML for unfilled placeholders, and fail when `dist/` is absent. Proved the check rejects a hand-inserted `{{x}}` in `dist/index.html`, recorded the exact failure in HANDOFF, and rebuilt cleanly.
+- Restricted console-error exemptions to font-host URLs actually aborted by the test route, with regression cases for same-origin 404s and the other boundaries. Baseline fixture requests are blocked offline, and context cleanup runs even on assertion failure.
+- Added the specified safe-null storage scenario and a filled-state reset scenario using the P3 seed and all four study actions; retained every existing checkpoint.
+- Completed the named gate assertions through DOM/localStorage, including baseline-derived glyph quiz counts, immediate chunk limits, saved progress, false-friend round order, filters, usage links, focus, About and reset.
+- Tests/scripts/CI and documentation only; app code, pages, imported data and dependencies are unchanged. `npm ci` passed (0 vulnerabilities), followed by the full sequential `npm test`: data check PASS, 20 unit tests PASS, build PASS, 2 build checks PASS, 36 browser tests PASS (17.3 min). All test servers and browsers were closed.
+- HANDOFF records the proof and results, assigns Claude — Stage 1 gate 1A, attempt 2, and preserves replaced text verbatim in HANDOFF_ARCHIVE. CI on PR #1 awaits the owner's report.
+
 ## 2026-11-25 — Claude — Stage 1 gate 1A: FAIL (first attempt)
 
 - Reviewed `stage1-foundation` at `4d57c88` (PR #1) and re-ran on this PC, one job at a time: `npm ci`, `check:data`, unit tests, build, import reproducibility, and the full Playwright suite (28 passed, 11.3 min, pixel-exact screenshots). Two read-only Chromium probes covered storage edge cases and raw placeholders. CI passed on PR #1 (owner's report).

@@ -9,9 +9,10 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "import:data": "node scripts/import_data.mjs --source ../kanji-bridge",
     "check:data": "node scripts/import_data.mjs --check",
-    "test:unit": "vitest run",
+    "test:unit": "vitest run --exclude tests/unit/build.test.js",
     "test:browser": "playwright test",
-    "test": "npm run check:data && npm run test:unit && npm run build && npm run test:browser"
+    "test": "npm run check:data && npm run test:unit && npm run build && npm run test:build && npm run test:browser",
+    "test:build": "vitest run tests/unit/build.test.js"
   },
   "devDependencies": {
     "@playwright/test": "1.65.1",

@@ -26,6 +26,20 @@ async function baselineFixtures(browser) {
   }));
 }
 
+function returningStorage(f) {
+  const now = new Date('2026-11-24T10:00:00+09:00').getTime();
+  return jsonStorage({
+    kb_srs: Object.fromEntries(f.deck.slice(0, 10).map((id, index) => [id, { box: index % 5, due: index < 5 ? now - 1 : now + 86400000 }])),
+    kb_custom: f.passageWords.slice(0, 2), kb_newtoday: { date: '2026-11-24', ids: f.deck.slice(0, 5) },
+    kb_target: 'both', kb_mute: true, kb_auto: false, kb_ex_open: true,
+    kb_rules: Object.fromEntries(f.rules.map((row) => [row.id, [row.han]])),
+    kb_ruletest: Object.fromEntries(f.rules.map((row) => [row.key, { zh: 1, vi: 0 }])),
+    kb_ffcard: { [`${f.ff[0]}:zh`]: { miss: 4, ok: 1 }, [`${f.ff[1]}:vi`]: { miss: 2, ok: 3 } },
+    kb_read: f.passages, kb_unknown: [f.passageWords[2]],
+    kb_glyphquiz: Object.fromEntries(f.glyphs.map((id, index) => [id, { zh: index % 2, vi: (index + 1) % 2 }])),
+  });
+}
+
 async function checkpointViews(pair, prefix, { styles = false } = {}) {
   await pair.checkpoint(`${prefix}-cards`, { styles });
   for (const view of ['rules', 'ff', 'read', 'glyph']) {
@@ -222,17 +236,7 @@ test('P2 seeded wrong, empty, jz, and fresh vi cases', async ({ isolatedBrowser:
 
 test('P3 returning learner parity', async ({ isolatedBrowser: browser }) => {
   const f = await baselineFixtures(browser);
-  const now = new Date('2026-11-24T10:00:00+09:00').getTime();
-  const storage = jsonStorage({
-    kb_srs: Object.fromEntries(f.deck.slice(0, 10).map((id, index) => [id, { box: index % 5, due: index < 5 ? now - 1 : now + 86400000 }])),
-    kb_custom: f.passageWords.slice(0, 2), kb_newtoday: { date: '2026-11-24', ids: f.deck.slice(0, 5) },
-    kb_target: 'both', kb_mute: true, kb_auto: false, kb_ex_open: true,
-    kb_rules: Object.fromEntries(f.rules.map((row) => [row.id, [row.han]])),
-    kb_ruletest: Object.fromEntries(f.rules.map((row) => [row.key, { zh: 1, vi: 0 }])),
-    kb_ffcard: { [`${f.ff[0]}:zh`]: { miss: 4, ok: 1 }, [`${f.ff[1]}:vi`]: { miss: 2, ok: 3 } },
-    kb_read: f.passages, kb_unknown: [f.passageWords[2]],
-    kb_glyphquiz: Object.fromEntries(f.glyphs.map((id, index) => [id, { zh: index % 2, vi: (index + 1) % 2 }])),
-  });
+  const storage = returningStorage(f);
   const pair = await createParity(browser, { storage });
   try {
     await checkpointViews(pair, 'P3-initial');
@@ -257,6 +261,63 @@ test('P4 corrupt storage parity', async ({ isolatedBrowser: browser }) => {
   };
   const pair = await createParity(browser, { storage });
   try { await checkpointViews(pair, 'P4'); } finally { await pair.close(); }
+});
+
+test('P4-null safe null values and invalid custom JSON parity', async ({ isolatedBrowser: browser }) => {
+  const storage = {
+    ...jsonStorage(Object.fromEntries([
+      'kb_mute', 'kb_auto', 'kb_target', 'kb_newtoday', 'kb_ruletest', 'kb_ex_open',
+      'kb_ffcard', 'kb_read', 'kb_unknown', 'kb_glyphquiz', 'kb_glyph',
+    ].map((key) => [key, null]))),
+    kb_custom: 'not-json',
+  };
+  const pair = await createParity(browser, { storage });
+  try { await checkpointViews(pair, 'P4-null'); } finally { await pair.close(); }
+});
+
+test('P1-reset-filled returning learner resets after four kinds of study', async ({ isolatedBrowser: browser }) => {
+  const f = await baselineFixtures(browser);
+  const pair = await createParity(browser, { storage: returningStorage(f) });
+  try {
+    await pair.act(async (page) => {
+      const before = await page.evaluate(() => localStorage.getItem('kb_srs'));
+      await page.keyboard.press('Enter');
+      await page.keyboard.press('3');
+      expect(await page.evaluate(() => localStorage.getItem('kb_srs')), 'filled reset: card review saved').not.toBe(before);
+    });
+    await pair.act(async (page) => {
+      await nav(page, 'glyph');
+      await page.locator('#gmode button[data-g="quiz"]').click();
+      await expect(page.locator('#glyphbox .grow')).toHaveCount(2164, { timeout: 60_000 });
+    });
+    await pair.act(async (page) => {
+      const input = page.locator('#glyphbox input[data-test-cell]').first();
+      await input.fill('zzz');
+      await input.press('Enter');
+      await expect(input, 'filled reset: glyph answer judged').toHaveClass(/ng/);
+    });
+    // Keep the saved answer, but release thousands of off-screen quiz inputs.
+    await pair.act((page) => page.locator('#gmode button[data-g="list"]').click());
+    await pair.act((page) => nav(page, 'ff'));
+    await pair.act(async (page) => {
+      await page.locator('#ffmode button[data-m="cards"]').click();
+      const ffBefore = await page.evaluate(() => localStorage.getItem('kb_ffcard'));
+      await page.keyboard.press('Enter');
+      await page.keyboard.press('1');
+      expect(await page.evaluate(() => localStorage.getItem('kb_ffcard')), 'filled reset: false-friend rating saved').not.toBe(ffBefore);
+    });
+    await pair.act(async (page) => {
+      await nav(page, 'read');
+      await page.locator('.tok.sino .s').first().click();
+      await expect(page.locator('#unknownreview'), 'filled reset: unknown word marked').toContainText('わからない');
+    });
+    await pair.act(async (page) => {
+      await nav(page, 'cards');
+      await page.locator('#reset').click();
+      await page.locator('#reset').click();
+    });
+    await checkpointViews(pair, 'P1-reset-filled');
+  } finally { await pair.close(); }
 });
 
 test('P5 storage unavailable parity', async ({ isolatedBrowser: browser }) => {

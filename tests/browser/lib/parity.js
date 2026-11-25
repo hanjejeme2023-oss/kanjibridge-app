@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { isAbortedFontError } from './console-errors.js';
 
 const require = createRequire(import.meta.url);
 const playwrightCoreDirectory = path.dirname(require.resolve('playwright-core'));
@@ -246,7 +247,7 @@ export async function createParity(browser, options = {}) {
   const pages = [];
   for (let index = 0; index < contexts.length; index += 1) {
     const context = contexts[index];
-    const record = { errors: [], pageErrors: [], requests: [], aborted: [] };
+    const record = { errors: [], pageErrors: [], requests: [], aborted: [], fontErrors: [] };
     records.push(record);
     await context.addInitScript(initScript, {
       seed: 20261124,
@@ -265,7 +266,10 @@ export async function createParity(browser, options = {}) {
     const page = await context.newPage();
     page.on('pageerror', (error) => record.pageErrors.push(String(error)));
     page.on('console', (message) => {
-      if (message.type() === 'error' && !/Failed to load resource/.test(message.text())) record.errors.push(message.text());
+      if (message.type() !== 'error') return;
+      const entry = { text: message.text(), url: message.location().url };
+      if (isAbortedFontError(message, record.aborted)) record.fontErrors.push(entry);
+      else record.errors.push(entry);
     });
     await page.clock.setFixedTime(new Date(FIXED_TIME));
     pages.push(page);
@@ -313,15 +317,18 @@ export async function createParity(browser, options = {}) {
       expect(pixelsMatch, `${name}: decoded screenshot pixels; ${pixelsMatch ? '' : describePngDifference(leftShot, rightShot)}`).toBe(true);
     },
     async close() {
-      for (const [index, record] of records.entries()) {
-        expect(record.pageErrors, `${index ? 'new' : 'baseline'} page errors`).toEqual([]);
-        expect(record.errors, `${index ? 'new' : 'baseline'} console errors`).toEqual([]);
-        expect(record.requests.filter((url) => {
-          const host = new URL(url).hostname;
-          return !['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(host);
-        }), 'unexpected requests').toEqual([]);
+      try {
+        for (const [index, record] of records.entries()) {
+          expect(record.pageErrors, `${index ? 'new' : 'baseline'} page errors`).toEqual([]);
+          expect(record.errors, `${index ? 'new' : 'baseline'} console errors`).toEqual([]);
+          expect(record.requests.filter((url) => {
+            const host = new URL(url).hostname;
+            return !['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(host);
+          }), 'unexpected requests').toEqual([]);
+        }
+      } finally {
+        await Promise.all(contexts.map((context) => context.close()));
       }
-      await Promise.all(contexts.map((context) => context.close()));
     },
   };
   return api;
@@ -334,6 +341,8 @@ export async function inspectBaseline(browser, callback) {
     timezoneId: 'Asia/Tokyo',
   });
   try {
+    await context.route('**/*', (route) => new URL(route.request().url()).hostname === '127.0.0.1'
+      ? route.continue() : route.abort());
     const page = await context.newPage();
     await page.clock.setFixedTime(new Date(FIXED_TIME));
     await page.goto(BASELINE_URL, { waitUntil: 'load' });
