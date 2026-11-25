@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     ...devices['Desktop Chrome'],
-    launchOptions: { args: ['--disable-gpu'] },
+    launchOptions: { args: ['--disable-gpu', '--disable-gpu-rasterization', '--disable-font-subpixel-positioning'] },
     trace: 'retain-on-failure',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],

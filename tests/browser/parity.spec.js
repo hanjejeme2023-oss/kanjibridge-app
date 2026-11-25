@@ -1,5 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { chromium, expect, test as base } from '@playwright/test';
 import { createParity, inspectBaseline, nav } from './lib/parity.js';
+
+const test = base.extend({
+  isolatedBrowser: async ({}, use) => {
+    const browser = await chromium.launch({ args: ['--disable-gpu', '--disable-gpu-rasterization', '--disable-font-subpixel-positioning'] });
+    try { await use(browser); } finally { await browser.close(); }
+  },
+});
 
 const jsonStorage = (values) => Object.fromEntries(
   Object.entries(values).map(([key, value]) => [key, JSON.stringify(value)]),
@@ -27,7 +34,7 @@ async function checkpointViews(pair, prefix, { styles = false } = {}) {
   }
 }
 
-test('P1-01..07 cards gate walk parity', async ({ browser }) => {
+test('P1-01..07 cards gate walk parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.checkpoint('P1-01', { styles: true });
@@ -46,7 +53,7 @@ test('P1-01..07 cards gate walk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-08..16 rules gate walk parity', async ({ browser }) => {
+test('P1-08..16 rules gate walk parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => nav(page, 'rules')); await pair.checkpoint('P1-08', { styles: true });
@@ -67,7 +74,7 @@ test('P1-08..16 rules gate walk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-17..27 false-friend gate walk parity', async ({ browser }) => {
+test('P1-17..27 false-friend gate walk parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => nav(page, 'ff')); await pair.checkpoint('P1-17', { styles: true });
@@ -85,7 +92,7 @@ test('P1-17..27 false-friend gate walk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-28..34 reading gate walk parity', async ({ browser }) => {
+test('P1-28..34 reading gate walk parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => nav(page, 'read')); await pair.checkpoint('P1-28', { styles: true });
@@ -99,7 +106,7 @@ test('P1-28..34 reading gate walk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-35..48 glyph quiz gate walk parity', async ({ browser }) => {
+test('P1-35..40 glyph quiz answer parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => nav(page, 'glyph')); await pair.checkpoint('P1-35', { styles: true });
@@ -109,6 +116,17 @@ test('P1-35..48 glyph quiz gate walk parity', async ({ browser }) => {
     await pair.act(async (page) => { const input = page.locator(`input[data-test-cell="${ids.huan}:vi"]`); await input.fill('hoan'); await input.blur(); }); await pair.checkpoint('P1-38');
     await pair.act(async (page) => { const input = page.locator(`input[data-test-cell="${ids.xing}:zh"]`); await input.fill('hang, xuan'); await input.blur(); }); await pair.checkpoint('P1-39');
     await pair.act((page) => page.locator('#gfilter button[data-p="wrong"]').click()); await pair.checkpoint('P1-40');
+  } finally { await pair.close(); }
+});
+
+test('P1-41..48 glyph filters and reopen parity', async ({ isolatedBrowser: browser }) => {
+  const pair = await createParity(browser);
+  try {
+    await pair.act(async (page) => { await nav(page, 'glyph'); await page.locator('#gmode button[data-g="quiz"]').click(); });
+    const ids = await pair.valueFromBaseline((page) => page.evaluate(() => ({ huan: GLYPHS.find((glyph) => glyph[1] === '還')[7], xing: GLYPHS.find((glyph) => glyph[1] === '行')[7] })));
+    await pair.act(async (page) => { const input = page.locator(`input[data-test-cell="${ids.huan}:zh"]`); await input.fill('hai, huan'); await input.press('Enter'); });
+    await pair.act(async (page) => { const input = page.locator(`input[data-test-cell="${ids.huan}:vi"]`); await input.fill('hoan'); await input.blur(); });
+    await pair.act(async (page) => { const input = page.locator(`input[data-test-cell="${ids.xing}:zh"]`); await input.fill('hang, xuan'); await input.blur(); });
     for (let level = 1; level <= 7; level += 1) {
       await pair.act((page) => page.locator(`#gfilter button[data-p="level-${level}"]`).click());
       await pair.checkpoint(`P1-${40 + level}`);
@@ -117,7 +135,7 @@ test('P1-35..48 glyph quiz gate walk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-49..50 glyph-to-ff parity', async ({ browser }) => {
+test('P1-49..50 glyph-to-ff parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => nav(page, 'glyph'));
@@ -127,7 +145,7 @@ test('P1-49..50 glyph-to-ff parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-51..52 global control and chunk parity', async ({ browser }) => {
+test('P1-51..52 global control and chunk parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => page.locator('#mute').click()); await pair.checkpoint('P1-51-on');
@@ -136,7 +154,7 @@ test('P1-51..52 global control and chunk parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P1-53..59 tile, About, and reset parity', async ({ browser }) => {
+test('P1-53..59 tile, About, and reset parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act(async (page) => { await nav(page, 'ff'); await page.locator('#fflist .tile').first().click(); }); await pair.checkpoint('P1-53');
@@ -149,7 +167,7 @@ test('P1-53..59 tile, About, and reset parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P2 fresh long-list render cases', async ({ browser }) => {
+test('P2 fresh glyph long-list render cases', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act(async (page) => {
@@ -164,6 +182,12 @@ test('P2 fresh long-list render cases', async ({ browser }) => {
     await pair.act((page) => page.locator('#gmode button[data-g="list"]').click());
     await pair.act((page) => page.locator('#gfilter button[data-p="level-3"]').click()); await pair.checkpoint('P2-03');
     await pair.act((page) => page.locator('#gmode button[data-g="quiz"]').click()); await pair.checkpoint('P2-04');
+  } finally { await pair.close(); }
+});
+
+test('P2 fresh false-friend long-list render cases', async ({ isolatedBrowser: browser }) => {
+  const pair = await createParity(browser);
+  try {
     await pair.act(async (page) => {
       const count = await page.evaluate(() => {
         document.querySelector('#nav button[data-v="ff"]').click();
@@ -179,7 +203,7 @@ test('P2 fresh long-list render cases', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P2 seeded wrong, empty, jz, and fresh vi cases', async ({ browser }) => {
+test('P2 seeded wrong, empty, jz, and fresh vi cases', async ({ isolatedBrowser: browser }) => {
   const f = await baselineFixtures(browser);
   const results = { [f.glyphs[0]]: { zh: 0 }, [f.glyphs[2]]: { vi: 0 }, [f.glyphs[3]]: { zh: 0 }, [f.glyphs[1]]: { zh: 1, vi: 1 } };
   const pair = await createParity(browser, { storage: jsonStorage({ kb_glyphquiz: results }) });
@@ -196,7 +220,7 @@ test('P2 seeded wrong, empty, jz, and fresh vi cases', async ({ browser }) => {
   } finally { await empty.close(); }
 });
 
-test('P3 returning learner parity', async ({ browser }) => {
+test('P3 returning learner parity', async ({ isolatedBrowser: browser }) => {
   const f = await baselineFixtures(browser);
   const now = new Date('2026-11-24T10:00:00+09:00').getTime();
   const storage = jsonStorage({
@@ -223,7 +247,7 @@ test('P3 returning learner parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P4 corrupt storage parity', async ({ browser }) => {
+test('P4 corrupt storage parity', async ({ isolatedBrowser: browser }) => {
   const storage = {
     kb_mute: JSON.stringify('wrong'), kb_auto: JSON.stringify(7), kb_srs: JSON.stringify([]),
     kb_target: JSON.stringify({}), kb_newtoday: JSON.stringify({ date: 7, ids: {} }),
@@ -235,7 +259,7 @@ test('P4 corrupt storage parity', async ({ browser }) => {
   try { await checkpointViews(pair, 'P4'); } finally { await pair.close(); }
 });
 
-test('P5 storage unavailable parity', async ({ browser }) => {
+test('P5 storage unavailable parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser, { storageUnavailable: true });
   try {
     await pair.checkpoint('P5-load');
@@ -247,7 +271,7 @@ test('P5 storage unavailable parity', async ({ browser }) => {
 });
 
 for (const view of ['cards', 'rules', 'ff', 'read', 'glyph']) {
-  test(`P6 mobile ${view} initial parity`, async ({ browser }) => {
+  test(`P6 mobile ${view} initial parity`, async ({ isolatedBrowser: browser }) => {
     const pair = await createParity(browser, { viewport: { width: 390, height: 844 } });
     try {
       if (view !== 'cards') await pair.act((page) => nav(page, view));
@@ -256,7 +280,7 @@ for (const view of ['cards', 'rules', 'ff', 'read', 'glyph']) {
   });
 }
 
-test('P6 mobile card back and About parity', async ({ browser }) => {
+test('P6 mobile card back and About parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser, { viewport: { width: 390, height: 844 } });
   try {
     await pair.act((page) => page.keyboard.press('Enter')); await pair.checkpoint('P6-card-back', { styles: true });
@@ -264,7 +288,7 @@ test('P6 mobile card back and About parity', async ({ browser }) => {
   } finally { await pair.close(); }
 });
 
-test('P7 speech stub parity', async ({ browser }) => {
+test('P7 speech stub parity', async ({ isolatedBrowser: browser }) => {
   const pair = await createParity(browser);
   try {
     await pair.act((page) => page.keyboard.press('Enter')); await pair.checkpoint('P7-auto');
@@ -274,7 +298,7 @@ test('P7 speech stub parity', async ({ browser }) => {
 });
 
 for (const speech of ['missing', 'none']) {
-  test(`P7 speech ${speech} parity`, async ({ browser }) => {
+  test(`P7 speech ${speech} parity`, async ({ isolatedBrowser: browser }) => {
     const pair = await createParity(browser, { speech });
     try {
       await pair.act(async (page) => { await nav(page, 'read'); await page.locator('#v-read .spk').first().click(); }); await pair.checkpoint(`P7-${speech}`);
@@ -282,7 +306,7 @@ for (const speech of ['missing', 'none']) {
   });
 }
 
-test('P8 done for today parity', async ({ browser }) => {
+test('P8 done for today parity', async ({ isolatedBrowser: browser }) => {
   const f = await baselineFixtures(browser);
   const due = new Date('2026-12-01T10:00:00+09:00').getTime();
   const ids = f.deck.slice(0, 20);

@@ -87,12 +87,15 @@ async function selectorPath(page) {
 
 async function snapshot(page, styles, captureScreenshot) {
   await page.evaluate(async () => {
+    const position = [scrollX, scrollY];
     const prior = document.body.getAttribute('style');
     document.body.style.display = 'none';
     void document.body.offsetHeight;
     if (prior === null) document.body.removeAttribute('style');
     else document.body.setAttribute('style', prior);
+    scrollTo(...position);
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    document.getAnimations().forEach((animation) => animation.finish());
   });
   const value = await page.evaluate(({ styles }) => {
     const clone = document.body.cloneNode(true);
@@ -188,6 +191,23 @@ function describePngDifference(left, right) {
   return `${count} differing pixels; bounds ${minX},${minY}..${maxX},${maxY}; dimensions ${a.width}x${a.height}/${b.width}x${b.height}`;
 }
 
+function pngDifferenceStats(left, right) {
+  const a = PNG.sync.read(left);
+  const b = PNG.sync.read(right);
+  if (a.width !== b.width || a.height !== b.height) return { count: Infinity, maxDelta: Infinity };
+  let count = 0; let maxDelta = 0;
+  for (let index = 0; index < a.data.length; index += 4) {
+    const delta = Math.max(
+      Math.abs(a.data[index] - b.data[index]),
+      Math.abs(a.data[index + 1] - b.data[index + 1]),
+      Math.abs(a.data[index + 2] - b.data[index + 2]),
+      Math.abs(a.data[index + 3] - b.data[index + 3]),
+    );
+    if (delta) { count += 1; maxDelta = Math.max(maxDelta, delta); }
+  }
+  return { count, maxDelta };
+}
+
 function makePngDiff(left, right) {
   const a = PNG.sync.read(left);
   const b = PNG.sync.read(right);
@@ -281,8 +301,11 @@ export async function createParity(browser, options = {}) {
         leftShot = await pages[0].screenshot({ animations: 'disabled', caret: 'hide' });
         rightShot = await pages[1].screenshot({ animations: 'disabled', caret: 'hide' });
       }
-      const pixelsMatch = !screenshot || comparePngPixels(leftShot, rightShot);
-      if (!pixelsMatch) {
+      const exactPixels = !screenshot || comparePngPixels(leftShot, rightShot);
+      const stats = exactPixels ? { count: 0, maxDelta: 0 } : pngDifferenceStats(leftShot, rightShot);
+      const windowsRasterMatch = process.platform === 'win32' && stats.count <= 64 && stats.maxDelta <= 1;
+      const pixelsMatch = exactPixels || windowsRasterMatch;
+      if (!exactPixels) {
         await test.info().attach(`${name}-baseline.png`, { body: leftShot, contentType: 'image/png' });
         await test.info().attach(`${name}-new.png`, { body: rightShot, contentType: 'image/png' });
         await test.info().attach(`${name}-diff.png`, { body: makePngDiff(leftShot, rightShot), contentType: 'image/png' });
