@@ -1,0 +1,35 @@
+# dependencies and build output
+node_modules/
+dist/
+.vite/
+coverage/
+
+# browser test output
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# environment files and local secrets: never commit (PROMPT §3 rule 1)
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.local
+*credentials*.json
+*-key.json
+*.pem
+*.key
+supabase/.temp/
+supabase/.branches/
+.wrangler/
+
+# editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

@@ -1,0 +1,17 @@
+# Text files are stored with LF and checked out with LF on every OS
+# (this PC has core.autocrlf=true).
+* text=auto eol=lf
+
+# Files imported from kanji-bridge are verified by SHA-256 (scripts/import_data):
+# never convert line endings or otherwise touch their bytes.
+public/app/data.js -text -diff
+public/app/NOTICE.md -text
+public/app/LICENSE-DATA -text
+public/app/licenses/** -text
+tests/baseline/** -text
+
+# binary
+*.png binary
+*.gif binary
+*.webp binary
+*.woff2 binary
