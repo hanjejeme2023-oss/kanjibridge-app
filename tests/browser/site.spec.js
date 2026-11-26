@@ -5,7 +5,7 @@ test('overview and deployed app assets are present', async ({ page, request }) =
   page.on('pageerror', (error) => errors.push(String(error)));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
   await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
-  await expect(page).toHaveTitle('漢字ブリッジ');
+  await expect(page).toHaveTitle('Kanji Bridge');
   await expect(page.locator('main a')).toHaveCount(1);
   await expect(page.locator('main a')).toHaveAttribute('href', '/app/');
   for (const path of [

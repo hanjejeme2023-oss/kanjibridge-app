@@ -11,7 +11,7 @@ import { markedTarget } from './cards.js';
 import { updateCounts, render } from '../nav.js';
 
 function ffLine(row){const reading=row.reading?(row.meaning&&!/^（.*）$/.test(row.reading)?t('ff.reading_paren',{r:row.reading}):row.reading):'';
-  return `<div><b>${{ja:()=>t('lang.short_ja'),ko:()=>t('lang.short_ko'),zh:()=>t('lang.short_zh'),vi:()=>t('lang.short_vi')}[row.lang]()}</b>${esc(row.meaning)}${reading?`<span class="ff-reading">${esc(reading)}</span>`:''}</div>`}
+  return `<div><b>${esc({ja:()=>t('lang.short_ja'),ko:()=>t('lang.short_ko'),zh:()=>t('lang.short_zh'),vi:()=>t('lang.short_vi')}[row.lang]())}</b>${esc(row.meaning)}${reading?`<span class="ff-reading">${esc(reading)}</span>`:''}</div>`}
 
 function ffExampleMarkup(f,lang){const x=ffExampleRow(model.EXAMPLES,f.id,lang);if(!x)return'';
   return `<div class="example"><div class="small sub">${esc(lang==='zh'?t('lang.zh'):t('lang.vi'))}</div><div class="${lang==='zh'?'zh':''}">${markedTarget(x)}</div>${lang==='zh'?`<div>${esc(x.pinyin)}</div>`:''}<div class="translation">${esc(x.translation)}</div></div>`;

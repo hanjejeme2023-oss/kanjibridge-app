@@ -1,4 +1,7 @@
 {
+  "meta.native_name": "日本語",
+  "meta.html_lang": "ja",
+  "meta.number_locale": "ja-JP",
   "app.title": "漢字ブリッジ",
   "header.logo_mark": "漢",
   "header.logo_text": "ブリッジ",
@@ -9,6 +12,7 @@
   "nav.glyph": "字体",
   "header.mute": "ミュート",
   "header.topstat": "今日 {due} 枚　習得 {learned}/{total}",
+  "header.lang_label": "表示言語",
   "lang.ja": "日本語",
   "lang.ko": "韓国語",
   "lang.zh": "中国語",
@@ -113,5 +117,16 @@
   "about.licence_after": "。",
   "about.ai_note": "例文と一部の意味は AI（Google Gemini）が作ったもので、誤りを含むことがある。",
   "about.privacy": "データは集めていない。学習の記録はこのブラウザの中だけに保存される。",
-  "overview.open_app": "アプリを開く"
+  "notice.content_ja": "このバージョンでは、意味・例文の訳・解説は日本語で表示される。",
+  "overview.page_title": "漢字ブリッジ：知っている漢字から中国語とベトナム語へ",
+  "overview.meta_description": "日本語と韓国語を知っている人のための、中国語とベトナム語の無料の学習アプリ。単語カード、音のルール、偽の友達、読解、字体の5つの画面。",
+  "overview.lead": "日本語と韓国語で知っている漢字の読みと意味を手がかりに、中国語とベトナム語の単語を覚えるアプリ。",
+  "overview.free": "無料。登録は不要で、学習の記録はこのブラウザに保存される。",
+  "overview.start": "はじめる",
+  "overview.views_heading": "5つの画面",
+  "overview.shot_alt": "「{view}」の画面",
+  "overview.sources_heading": "データとライセンス",
+  "overview.notices": "帰属表示とライセンスの全文：",
+  "overview.privacy_heading": "プライバシー",
+  "overview.privacy_text": "アカウントはなく、アクセス解析もしていない。学習の記録はこのブラウザの中だけに保存される。アプリはフォントを Google Fonts から読み込む。読み上げにはブラウザの音声を使い、オンラインの音声の場合は読み上げる語がその提供元（Microsoft や Google など）に送られる。"
 }

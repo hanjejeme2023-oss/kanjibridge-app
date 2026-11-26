@@ -20,7 +20,7 @@ function markPassageRead(passageId){if(!model.PASSAGE_IDS.has(passageId))return;
 
 function renderRead(){
   const unknown=unknownIds();
-  $('#psel').innerHTML=model.PASSAGES.map(p=>`<button data-p="${p.id}" class="${p.id===state.pid?'on':''}">${t('read.passage_name',{lang:p.lang==='vi'?t('lang.short_vi'):t('lang.short_zh'),n:p.n})}${passageChecked(p,state.readIds,unknown)?esc(t('read.checked')):''}</button>`).join('');
+  $('#psel').innerHTML=model.PASSAGES.map(p=>`<button data-p="${p.id}" class="${p.id===state.pid?'on':''}">${esc(t('read.passage_name',{lang:p.lang==='vi'?t('lang.short_vi'):t('lang.short_zh'),n:p.n}))}${passageChecked(p,state.readIds,unknown)?esc(t('read.checked')):''}</button>`).join('');
   $$('#psel button').forEach(b=>b.onclick=()=>{if(b.dataset.p!==state.pid){markPassageRead(state.pid);state.pid=b.dataset.p;state.selTok=null}renderRead()});
   const p=model.PASSAGES.find(x=>x.id===state.pid),ann=$('#showann').checked;
   $('#passage').className='passage '+(p.lang==='zh'?'zh':'');

@@ -1,75 +1,76 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{app.title}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&family=Noto+Sans+KR:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+JP:wght@500;700&family=Noto+Serif+KR:wght@500&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
+<link rel="preload" href="/app/data.js" as="script">
 </head>
 <body>
 <header>
   <div class="bar">
-    <div class="logo"><span class="han">{{header.logo_mark}}</span> {{header.logo_text}}</div>
+    <div class="logo" data-i18n-text="header.logo_text"><span class="han" data-i18n="header.logo_mark">{{header.logo_mark}}</span> {{header.logo_text}}</div>
     <nav id="nav">
-      <button data-v="cards" class="on">{{nav.cards}} <span class="tabcount" id="count-cards"></span></button>
-      <button data-v="rules">{{nav.rules}} <span class="tabcount" id="count-rules"></span></button>
-      <button data-v="ff">{{nav.ff}} <span class="tabcount" id="count-ff"></span></button>
-      <button data-v="read">{{nav.read}} <span class="tabcount" id="count-read"></span></button>
-      <button data-v="glyph">{{nav.glyph}} <span class="tabcount" id="count-glyph"></span></button>
+      <button data-v="cards" class="on" data-i18n-text="nav.cards">{{nav.cards}} <span class="tabcount" id="count-cards"></span></button>
+      <button data-v="rules" data-i18n-text="nav.rules">{{nav.rules}} <span class="tabcount" id="count-rules"></span></button>
+      <button data-v="ff" data-i18n-text="nav.ff">{{nav.ff}} <span class="tabcount" id="count-ff"></span></button>
+      <button data-v="read" data-i18n-text="nav.read">{{nav.read}} <span class="tabcount" id="count-read"></span></button>
+      <button data-v="glyph" data-i18n-text="nav.glyph">{{nav.glyph}} <span class="tabcount" id="count-glyph"></span></button>
     </nav>
-    <button class="toggle" id="mute" type="button"><i></i>{{header.mute}}</button>
+    <button class="toggle" id="mute" type="button" data-i18n-text="header.mute"><i></i>{{header.mute}}</button>
     <div class="today" id="topstat"></div>
   </div>
 </header>
 
 <main>
 <section id="v-cards">
-  <p class="tab-explain">{{cards.explain}}</p>
+  <p class="tab-explain" data-i18n="cards.explain">{{cards.explain}}</p>
   <div class="toolbar">
     <div class="seg" id="target">
-      <button data-t="vi" class="on">{{lang.vi}}</button>
-      <button data-t="zh">{{lang.zh}}</button>
-      <button data-t="both">{{lang.both}}</button>
+      <button data-t="vi" class="on" data-i18n="lang.vi">{{lang.vi}}</button>
+      <button data-t="zh" data-i18n="lang.zh">{{lang.zh}}</button>
+      <button data-t="both" data-i18n="lang.both">{{lang.both}}</button>
     </div>
-    <div style="display:flex;gap:16px;align-items:center"><button class="toggle" id="autoplay" type="button"><i></i>{{cards.autoplay}}</button><span class="sub small" id="queueinfo"></span></div>
+    <div style="display:flex;gap:16px;align-items:center"><button class="toggle" id="autoplay" type="button" data-i18n-text="cards.autoplay"><i></i>{{cards.autoplay}}</button><span class="sub small" id="queueinfo"></span></div>
   </div>
   <div class="progress"><i id="prog"></i></div>
   <div id="cardbox"></div>
 </section>
 
 <section id="v-rules" class="hidden">
-  <p class="tab-explain">{{rules.explain}}</p>
+  <p class="tab-explain" data-i18n="rules.explain">{{rules.explain}}</p>
   <div class="rulebar" id="rulebar"></div>
   <div id="ruledetail"></div>
 </section>
 
 <section id="v-ff" class="hidden">
-  <p class="tab-explain">{{ff.explain}}</p>
+  <p class="tab-explain" data-i18n="ff.explain">{{ff.explain}}</p>
   <div class="toolbar">
     <div class="seg" id="ffmode">
-      <button data-m="list" class="on">{{common.list}}</button>
-      <button data-m="cards">{{ff.mode_cards}}</button>
+      <button data-m="list" class="on" data-i18n="common.list">{{common.list}}</button>
+      <button data-m="cards" data-i18n="ff.mode_cards">{{ff.mode_cards}}</button>
     </div>
     <div class="seg" id="fffilter">
-      <button data-f="all" class="on">{{common.all}}</button>
-      <button data-f="zh">{{lang.zh}}</button>
-      <button data-f="vi">{{lang.vi}}</button>
+      <button data-f="all" class="on" data-i18n="common.all">{{common.all}}</button>
+      <button data-f="zh" data-i18n="lang.zh">{{lang.zh}}</button>
+      <button data-f="vi" data-i18n="lang.vi">{{lang.vi}}</button>
     </div>
     <div class="seg" id="fflang" style="display:none">
-      <button data-l="zh" class="on">{{lang.zh}}</button>
-      <button data-l="vi">{{lang.vi}}</button>
+      <button data-l="zh" class="on" data-i18n="lang.zh">{{lang.zh}}</button>
+      <button data-l="vi" data-i18n="lang.vi">{{lang.vi}}</button>
     </div>
-    <div class="sub small" id="ffhelp">{{ff.help}}</div>
+    <div class="sub small" id="ffhelp" data-i18n="ff.help">{{ff.help}}</div>
   </div>
   <div class="tiles" id="fflist"></div>
 </section>
 
 <section id="v-read" class="hidden">
-  <p class="tab-explain">{{read.explain}}</p>
+  <p class="tab-explain" data-i18n="read.explain">{{read.explain}}</p>
   <div class="toolbar">
     <div class="seg" id="psel"></div>
-    <label class="sub small"><input type="checkbox" id="showann" checked> {{read.show_annotations}}</label>
+    <label class="sub small" data-i18n-text="read.show_annotations"><input type="checkbox" id="showann" checked> {{read.show_annotations}}</label>
   </div>
   <div class="passage" id="passage"></div>
   <div class="trans" id="ptrans"></div>
@@ -78,25 +79,25 @@
 </section>
 
 <section id="v-glyph" class="hidden">
-  <p class="tab-explain">{{glyph.explain}}</p>
+  <p class="tab-explain" data-i18n="glyph.explain">{{glyph.explain}}</p>
   <div class="toolbar">
     <div class="seg" id="gmode">
-      <button data-g="list" class="on">{{common.list}}</button>
-      <button data-g="quiz">{{glyph.mode_quiz}}</button>
+      <button data-g="list" class="on" data-i18n="common.list">{{common.list}}</button>
+      <button data-g="quiz" data-i18n="glyph.mode_quiz">{{glyph.mode_quiz}}</button>
     </div>
     <div class="seg glyph-filters" id="gfilter">
-      <button data-p="all" class="on">{{common.all}}</button>
-      <button data-p="diff">{{glyph.filter_diff}}</button>
-      <button data-p="jz">{{glyph.filter_jz}}</button>
-      <button data-p="jk">{{glyph.filter_jk}}</button>
-      <button data-p="level-1">{{glyph.filter_level|n=1}}</button>
-      <button data-p="level-2">{{glyph.filter_level|n=2}}</button>
-      <button data-p="level-3">{{glyph.filter_level|n=3}}</button>
-      <button data-p="level-4">{{glyph.filter_level|n=4}}</button>
-      <button data-p="level-5">{{glyph.filter_level|n=5}}</button>
-      <button data-p="level-6">{{glyph.filter_level|n=6}}</button>
-      <button data-p="level-7">{{glyph.filter_level|n=7}}</button>
-      <button data-p="wrong">{{glyph.filter_wrong}}</button>
+      <button data-p="all" class="on" data-i18n="common.all">{{common.all}}</button>
+      <button data-p="diff" data-i18n="glyph.filter_diff">{{glyph.filter_diff}}</button>
+      <button data-p="jz" data-i18n="glyph.filter_jz">{{glyph.filter_jz}}</button>
+      <button data-p="jk" data-i18n="glyph.filter_jk">{{glyph.filter_jk}}</button>
+      <button data-p="level-1" data-i18n="glyph.filter_level" data-i18n-params="n=1">{{glyph.filter_level|n=1}}</button>
+      <button data-p="level-2" data-i18n="glyph.filter_level" data-i18n-params="n=2">{{glyph.filter_level|n=2}}</button>
+      <button data-p="level-3" data-i18n="glyph.filter_level" data-i18n-params="n=3">{{glyph.filter_level|n=3}}</button>
+      <button data-p="level-4" data-i18n="glyph.filter_level" data-i18n-params="n=4">{{glyph.filter_level|n=4}}</button>
+      <button data-p="level-5" data-i18n="glyph.filter_level" data-i18n-params="n=5">{{glyph.filter_level|n=5}}</button>
+      <button data-p="level-6" data-i18n="glyph.filter_level" data-i18n-params="n=6">{{glyph.filter_level|n=6}}</button>
+      <button data-p="level-7" data-i18n="glyph.filter_level" data-i18n-params="n=7">{{glyph.filter_level|n=7}}</button>
+      <button data-p="wrong" data-i18n="glyph.filter_wrong">{{glyph.filter_wrong}}</button>
     </div>
   </div>
   <div id="glyphbox"></div>
@@ -104,12 +105,12 @@
 </main>
 
 <footer>
-  <span>{{footer.storage_note}}</span>
-  <span class="foot-links"><button id="about" type="button" aria-expanded="false" aria-controls="aboutpanel">{{footer.about}}</button><button id="reset">{{footer.reset}}</button></span>
-  <div class="about hidden" id="aboutpanel" role="region" aria-label="{{footer.about}}"><p><b>{{footer.about}}</b></p><p>{{about.intro}}</p><p><b>{{about.data_label}}</b>{{about.data_sources}}</p><p>{{about.edrdg}}</p><p>{{about.licence_before}}<a href="https://github.com/hanjejeme2023-oss/kanji-bridge" target="_blank" rel="noopener">github.com/hanjejeme2023-oss/kanji-bridge</a>{{about.licence_after}}</p><p>{{about.ai_note}}</p><p>{{about.privacy}}</p></div>
+  <span data-i18n="footer.storage_note">{{footer.storage_note}}</span>
+  <span class="foot-links"><button id="about" type="button" aria-expanded="false" aria-controls="aboutpanel" data-i18n="footer.about">{{footer.about}}</button><button id="reset" data-i18n="footer.reset">{{footer.reset}}</button></span>
+  <div class="about hidden" id="aboutpanel" role="region" aria-label="{{footer.about}}" data-i18n-attr="aria-label=footer.about"><p><b data-i18n="footer.about">{{footer.about}}</b></p><p data-i18n="about.intro">{{about.intro}}</p><p data-i18n-text="about.data_sources"><b data-i18n="about.data_label">{{about.data_label}}</b>{{about.data_sources}}</p><p data-i18n="about.edrdg">{{about.edrdg}}</p><p data-i18n-text="about.licence_before about.licence_after">{{about.licence_before}}<a href="https://github.com/hanjejeme2023-oss/kanji-bridge" target="_blank" rel="noopener">github.com/hanjejeme2023-oss/kanji-bridge</a>{{about.licence_after}}</p><p data-i18n="about.ai_note">{{about.ai_note}}</p><p data-i18n="about.privacy">{{about.privacy}}</p></div>
 </footer>
 
-<script src="data.js"></script>
+
 <script type="module" src="/src/app/main.js"></script>
 </body>
 </html>

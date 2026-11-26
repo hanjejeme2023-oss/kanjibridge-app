@@ -8,7 +8,7 @@ const playwrightCoreDirectory = path.dirname(require.resolve('playwright-core'))
 const { PNG } = require(path.join(playwrightCoreDirectory, 'lib/utilsBundle.js'));
 
 const BASELINE_URL = 'http://127.0.0.1:4174/index.html';
-const NEW_URL = 'http://127.0.0.1:4173/app/';
+const NEW_URL = 'http://127.0.0.1:4173/app/?lang=ja';
 const FIXED_TIME = '2026-11-24T10:00:00+09:00';
 
 function initScript({ seed, speech = 'voices', storage = {}, storageUnavailable = false }) {
@@ -86,7 +86,25 @@ async function selectorPath(page) {
   });
 }
 
-async function snapshot(page, styles, captureScreenshot) {
+async function snapshot(page, styles, captureScreenshot, normalise = false) {
+  // N3: hide only the new switch during layout/style/pixel capture, then restore it.
+  const prior = normalise ? await page.evaluate(() => {
+    const element = document.querySelector('#lang');
+    if (!element) return null;
+    const style = element.getAttribute('style');
+    element.style.display = 'none';
+    return { style };
+  }) : null;
+  try { return await rawSnapshot(page, styles, captureScreenshot, normalise); }
+  finally {
+    if (prior) await page.evaluate(({ style }) => {
+      const element = document.querySelector('#lang');
+      if (style === null) element.removeAttribute('style'); else element.setAttribute('style', style);
+    }, prior);
+  }
+}
+
+async function rawSnapshot(page, styles, captureScreenshot, normalise) {
   await page.evaluate(async () => {
     const position = [scrollX, scrollY];
     const prior = document.body.getAttribute('style');
@@ -98,9 +116,21 @@ async function snapshot(page, styles, captureScreenshot) {
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     document.getAnimations().forEach((animation) => animation.finish());
   });
-  const value = await page.evaluate(({ styles }) => {
+  const value = await page.evaluate(({ styles, normalise }) => {
     const clone = document.body.cloneNode(true);
     clone.querySelectorAll('script').forEach((node) => node.remove());
+    if (normalise) {
+      // N1: invisible translation markers only.
+      clone.querySelectorAll('*').forEach(element => {
+        ['data-i18n', 'data-i18n-text', 'data-i18n-attr', 'data-i18n-params'].forEach(name => element.removeAttribute(name));
+      });
+      // N2: only the header logo changes element type.
+      const logo = clone.querySelector('.bar > a.logo');
+      if (logo) { const div = document.createElement('div'); div.className = 'logo'; div.append(...logo.childNodes); logo.replaceWith(div); }
+      clone.querySelector('#lang')?.remove();
+      // N4: Japanese has no content notice, including in the live page.
+      if (document.querySelector('.content-note')) throw new Error('N4: Japanese content notice must not exist');
+    }
     const footer = clone.querySelector('footer');
     if (footer) {
       let node = footer.nextSibling;
@@ -113,6 +143,13 @@ async function snapshot(page, styles, captureScreenshot) {
     const css = [...document.styleSheets]
       .filter((sheet) => !sheet.href || new URL(sheet.href).origin === location.origin)
       .flatMap((sheet) => [...sheet.cssRules].map((rule) => rule.cssText));
+    // N6: additional rules may style only the explicitly approved additions/locales.
+    const allowedRule = rule => rule.cssRules
+      ? rule.constructor.name === 'CSSMediaRule' && [...rule.cssRules].every(allowedRule)
+      : !!rule.selectorText && rule.selectorText.split(',').every(selector => /^(?:a\.logo|#lang|\.content-note|html:lang\()/.test(selector.trim()));
+    const cssAllowed = normalise ? [...document.styleSheets]
+      .filter(sheet => !sheet.href || new URL(sheet.href).origin === location.origin)
+      .flatMap(sheet => [...sheet.cssRules].map(allowedRule)) : null;
     const metadata = [...document.head.querySelectorAll('meta,title,link[rel="preconnect"],link[href*="fonts.googleapis.com"]')]
       .map((element) => element.outerHTML);
     const forms = [...document.querySelectorAll('input')].map((input) => [
@@ -129,15 +166,18 @@ async function snapshot(page, styles, captureScreenshot) {
     const bad = (document.querySelector('main').innerText + document.querySelector('header').innerText)
       .match(/undefined|NaN|\bnull\b|\[object/g) || [];
     let computed = null;
+    const logoStyleIndices = [];
     if (styles) {
       const elements = [
         ...document.querySelectorAll('header *'),
         ...[...document.querySelectorAll('main *')].slice(0, 400),
         ...document.querySelectorAll('footer *'),
       ];
-      computed = elements.map((element) => {
+      const compared = normalise ? elements.filter(element => !element.closest('#lang')) : elements;
+      computed = compared.map((element, index) => {
+        if (normalise && element.closest('.logo')) logoStyleIndices.push(index);
         const style = getComputedStyle(element);
-        return [element.tagName, [...style].sort().map((property) => [property, style.getPropertyValue(property)])];
+        return [normalise && element.matches('a.logo') ? 'DIV' : element.tagName, [...style].sort().map((property) => [property, style.getPropertyValue(property)])];
       });
     }
     return {
@@ -152,8 +192,10 @@ async function snapshot(page, styles, captureScreenshot) {
       css,
       bad,
       computed,
+      cssAllowed,
+      logoStyleIndices,
     };
-  }, { styles });
+  }, { styles, normalise });
   value.focus = await selectorPath(page);
   value.screenshot = captureScreenshot ? await page.screenshot({ animations: 'disabled', caret: 'hide' }) : null;
   return value;
@@ -252,7 +294,7 @@ export async function createParity(browser, options = {}) {
     await context.addInitScript(initScript, {
       seed: 20261124,
       speech: options.speech ?? 'voices',
-      storage: options.storage ?? {},
+      storage: { ...(options.storage ?? {}), kb_lang: JSON.stringify('ja') },
       storageUnavailable: options.storageUnavailable ?? false,
     });
     await context.route('**/*', async (route) => {
@@ -276,6 +318,7 @@ export async function createParity(browser, options = {}) {
   }
   await pages[0].goto(BASELINE_URL, { waitUntil: 'load' });
   await pages[1].goto(NEW_URL, { waitUntil: 'load' });
+  await pages[1].waitForFunction(() => document.documentElement.lang === 'ja');
   await Promise.all(pages.map(quiet));
 
   const api = {
@@ -290,8 +333,17 @@ export async function createParity(browser, options = {}) {
     async checkpoint(name, { styles = false, screenshot = true } = {}) {
       await Promise.all(pages.map((page) => page.evaluate(() => document.fonts.ready)));
       const [left, right] = screenshot
-        ? [await snapshot(pages[0], styles, true), await snapshot(pages[1], styles, true)]
-        : await Promise.all(pages.map((page) => snapshot(page, styles, false)));
+        ? [await snapshot(pages[0], styles, true), await snapshot(pages[1], styles, true, true)]
+        : await Promise.all(pages.map((page, index) => snapshot(page, styles, false, index === 1)));
+      // N5: ignore cursor only on the logo subtree; every layout/colour property still compares.
+      for (const index of right.logoStyleIndices) {
+        for (const entry of right.computed[index][1]) if (entry[0] === 'cursor') entry[1] = left.computed[index][1].find(item => item[0] === 'cursor')[1];
+      }
+      expect(right.css.slice(0, left.css.length), `${name}: N6 original CSS rules`).toEqual(left.css);
+      expect(right.cssAllowed.slice(left.css.length).every(Boolean), `${name}: N6 unapproved additional CSS`).toBe(true);
+      right.css = right.css.slice(0, left.css.length);
+      delete left.cssAllowed; delete right.cssAllowed;
+      delete left.logoStyleIndices; delete right.logoStyleIndices;
       let leftShot = left.screenshot;
       let rightShot = right.screenshot;
       delete left.screenshot;
@@ -303,7 +355,7 @@ export async function createParity(browser, options = {}) {
       for (let attempt = 0; screenshot && attempt < 5 && !comparePngPixels(leftShot, rightShot); attempt += 1) {
         await Promise.all(pages.map((page) => page.waitForTimeout(250)));
         leftShot = await pages[0].screenshot({ animations: 'disabled', caret: 'hide' });
-        rightShot = await pages[1].screenshot({ animations: 'disabled', caret: 'hide' });
+        rightShot = (await snapshot(pages[1], false, true, true)).screenshot;
       }
       const exactPixels = !screenshot || comparePngPixels(leftShot, rightShot);
       const stats = exactPixels ? { count: 0, maxDelta: 0 } : pngDifferenceStats(leftShot, rightShot);

@@ -12,6 +12,11 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Stage 2 step 2 complete (Codex, 2026-11-26).** Step 1 is committed as `3cc6808`; steps 3–5 remain.
+  - Added the 130-key en/ja/ko catalogs from the approved table, locale resolution and fallback, static markers with strict build validation, language application and deferred classic-data loading. Applied only the §8.2 parity normalisations and Note 12 assertion correction. Note 14's temporary `PENDING_OVERVIEW_KEYS` exemption lists exactly the ten overview keys awaiting step 4; the root placeholder now uses `overview.start`.
+  - `npm test` PASS: pinned-data check; 7 unit files / 34 tests (4.78 s); build (170 ms, zero warnings); 2 build checks (651 ms); 36 browser tests (17.1 min), workers 1. A preceding focused run passed 3 browser checks (23.7 s). Browsers and servers closed.
+  - N5 ignores only `cursor` on the logo and its descendants; only the changed logo root tag is recorded as DIV (its unchanged child tags retain their baseline values). No other computed property is ignored. All 114 Stage 1 Japanese app strings are unchanged, checked against the committed fixture and approved table. No dependency, original app CSS, imported data, settings or architect-owned specification changed.
+
 - **Stage 2 resumed (Codex, 2026-11-26):** Claude answered Open notes 14–15 through the owner; answers are recorded below. The previous clarification stop is resolved. Step 1 is complete; steps 2–5 remain.
   - **Step 1:** split the bootstrap, shared state/model instance, five views, navigation, keyboard, speech, toast, chunk renderer, table tests, rule tags and footer. Reading/label/passage formatting is late-bound. Added the unused `rerenderAll()` entry point, preserving card/round state and scroll without creating progress writes.
   - **Protected files unchanged:** `tests/`, `app/index.html`, `index.html`, `public/`, `vite/`, and `src/app/styles.css`. No dependency or settings change.
@@ -153,4 +158,4 @@ The start condition is met. P8–P13 are D22–D27 (all option (a), so no "If P�
 
 Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`. Never merge, force-push or delete a branch.
 
-Next: Codex — Stage 2 step 2 (i18n core; Notes 14–15 answered)
+Next: Codex — Stage 2 step 3 (app changes)

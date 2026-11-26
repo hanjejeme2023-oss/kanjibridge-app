@@ -308,8 +308,9 @@ test('P1-reset-filled returning learner resets after four kinds of study', async
     });
     await pair.act(async (page) => {
       await nav(page, 'read');
+      const before = await page.evaluate(() => JSON.parse(localStorage.getItem('kb_unknown') || '[]').length);
       await page.locator('.tok.sino .s').first().click();
-      await expect(page.locator('#unknownreview'), 'filled reset: unknown word marked').toContainText('わからない');
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem('kb_unknown') || '[]').length), 'filled reset: one new unknown word marked').toBe(before + 1);
     });
     await pair.act(async (page) => {
       await nav(page, 'cards');

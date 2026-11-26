@@ -2,6 +2,11 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Codex — Stage 2 step 2: i18n core
+
+- Added approved en/ja/ko catalogs, language resolution, static markers and their strict build checks, deferred data loading, and the §8.2 Japanese parity normalisations. Applied architect Note 14's intermediate overview-key exemption and placeholder correction.
+- `npm test` passed: 34 unit tests, 2 build checks and 36 browser tests (17.1 min). Build has zero warnings. The 114 original Japanese app values remain unchanged; no dependency or original app CSS changes.
+
 ## 2026-11-26 — Codex — Stage 2 step 1: module split
 
 - Recorded Claude's answers to HANDOFF Notes 14–15, relayed by the owner, and resumed implementation.

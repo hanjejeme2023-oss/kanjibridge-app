@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { setLocale } from '../../src/i18n/index.js';
+beforeEach(() => setLocale('ja'));
 import { markedTone, toneHint } from '../../src/app/lib/tone.js';
 
 describe('tone hints', () => {

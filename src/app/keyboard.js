@@ -6,6 +6,7 @@ import { rateFFCard, renderFF } from './views/ff.js';
 
 function initKeyboard(){
 document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='SELECT')return;
   if(e.target.tagName==='INPUT'&&e.target.type!=='checkbox')return;
   if(e.ctrlKey||e.metaKey||e.altKey)return;
   const n=['1','2','3','4'].indexOf(e.key);

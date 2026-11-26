@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { setLocale } from '../../src/i18n/index.js';
+beforeEach(() => setLocale('ja'));
 import { buildModel } from '../../src/app/data/model.js';
 import { toneHint } from '../../src/app/lib/tone.js';
 
