@@ -2,6 +2,11 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Codex — Stage 2: N5 clarification stop
+
+- Recorded Open note 16: N5's wording says to normalise the new logo and descendant tags to DIV, but the unchanged baseline child is SPAN. Asked Claude to confirm root-only tag normalisation and subtree cursor exclusion, the current step-2 implementation.
+- Step 2 is committed and pushed as `7e81d50`, with all 36 browser tests passing (17.1 min). Preserved the uncommitted step-3 implementation and tests locally; no step-3 code or new normalisation is included in this documentation-only stop. Archived the replaced next-assignment line verbatim.
+
 ## 2026-11-26 — Codex — Stage 2 step 2: i18n core
 
 - Added approved en/ja/ko catalogs, language resolution, static markers and their strict build checks, deferred data loading, and the §8.2 Japanese parity normalisations. Applied architect Note 14's intermediate overview-key exemption and placeholder correction.

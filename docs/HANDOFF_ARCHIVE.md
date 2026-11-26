@@ -327,3 +327,8 @@ Next: Claude — clarify Stage 2 Open notes 14–15 before Codex implementation
 ## 2026-11-26 — Codex — from 3cc6808
 
 Next: Codex — Stage 2 step 2 (i18n core; Notes 14–15 answered)
+
+
+## 2026-11-26 — Codex — from 7e81d50
+
+Next: Codex — Stage 2 step 3 (app changes)

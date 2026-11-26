@@ -12,6 +12,12 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Stage 2 paused for specification clarification (Codex, 2026-11-26): Open note 16.** On review, N5's literal tag-normalisation wording conflicts with leaving the baseline unchanged. Step 2's helper currently normalises only the changed logo root tag, as disclosed below; that interpretation needs the architect's confirmation. No further implementation is proceeding under the owner's conflict-stop rule.
+  - **Pushed checkpoints:** step 1 `3cc6808`; step 2 `7e81d50`. Both passed full `npm test` before the following step began. Step 1 browser duration 16.6 min; step 2 browser duration 17.1 min.
+  - **Step 3 draft remains uncommitted in the working tree:** approved select placement/placeholder, logo link, notice, separate i18n stylesheet, cached UI-label refresh, state/scroll-preserving language switches, and new i18n browser tests. No step-3 code is included in this documentation-only clarification commit. Steps 4–5 have not started; no overview images or final review screenshots exist yet.
+  - Draft checks: 34 unit tests passed (4.14 s); builds passed without warnings. First focused i18n run: 11 passed / 3 failed / 11 not run (30.4 s); fixed hidden queue-label translation and an unnecessary hidden FF-control style mutation. Second focused run: 23 passed / 2 failed (3.2 min); identified a 23 px glyph scroll shift and English desktop nav overflow (583 px content / 442 px available). Draft fixes preserve scroll across the complete language update and widen only en/ko `.bar` to 1280 px. The focused regression run passed both tests (1.6 min): glyph scroll/round trip (34.1 s) and all desktop layouts (58.0 s). Browsers and test servers closed. Full step-3 `npm test` has not run; step 3 is not complete.
+  - Draft CSS: the prescribed `a.logo`, `#lang`, `.content-note` and Korean font-fallback rules, plus `html:lang(en) .bar, html:lang(ko) .bar { max-width:1280px }` for the desktop overflow observed in the failed 1280 px layout test and its trace screenshot. Original `styles.css` is unchanged. No dependency or settings changes.
+
 - **Stage 2 step 2 complete (Codex, 2026-11-26).** Step 1 is committed as `3cc6808`; steps 3–5 remain.
   - Added the 130-key en/ja/ko catalogs from the approved table, locale resolution and fallback, static markers with strict build validation, language application and deferred classic-data loading. Applied only the §8.2 parity normalisations and Note 12 assertion correction. Note 14's temporary `PENDING_OVERVIEW_KEYS` exemption lists exactly the ten overview keys awaiting step 4; the root placeholder now uses `overview.start`.
   - `npm test` PASS: pinned-data check; 7 unit files / 34 tests (4.78 s); build (170 ms, zero warnings); 2 build checks (651 ms); 36 browser tests (17.1 min), workers 1. A preceding focused run passed 3 browser checks (23.7 s). Browsers and servers closed.
@@ -99,6 +105,8 @@ From `docs/STAGE1_INVENTORY.md` §6. Each line names the stage it belongs to.
 
    **Answered by Claude (architect), relayed by the owner, 2026-11-26:** Add the placeholder: `<select id="lang" aria-label="{{header.lang_label}}" data-i18n-attr="aria-label=header.lang_label"></select>`. Keep it immediately after `#topstat`, on the same line without intervening whitespace. The strict build check has no exception. N3 removes the entire element for Japanese parity.
 
+16. **Stage 2 blocking question — N5 computed-style tag scope (Codex, 2026-11-26).** STAGE2_SPEC §8.2 says normalisations apply to the new page only. N5 says: "For `.logo` and its descendants, record the tag as `DIV` and ignore `cursor` (inherited from the link)." The baseline logo is `<div class="logo"><span class="han">…</span> …</div>`: its root tag is DIV and its child's tag is SPAN. Recording both new tags as DIV while leaving the baseline unchanged creates a SPAN/DIV mismatch even when styling is identical. The committed step-2 helper currently records only the changed `a.logo` root as DIV, keeps the descendant SPAN tag, and ignores only `cursor` on the logo and its descendants; this was reported in the step-2 status but needs confirmation rather than an inferred exception. **Question for Claude:** confirm that N5's tag normalisation applies only to the changed `a.logo` root, while `cursor` is ignored throughout the logo subtree and all descendant tags remain compared unchanged, or prescribe a different exact comparison. No additional normalisation has been added.
+
 ## Owner steps (Stage 1): done
 
 Steps A0, A (Cloudflare Pages) and B (`protect-main`) are done. The results are under "Owner answers", and the full step text is in `docs/HANDOFF_ARCHIVE.md` (2026-11-26, from `a696df0`). Two optional checks from step A were never reported. They block nothing:
@@ -158,4 +166,4 @@ The start condition is met. P8–P13 are D22–D27 (all option (a), so no "If P�
 
 Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`. Never merge, force-push or delete a branch.
 
-Next: Codex — Stage 2 step 3 (app changes)
+Next: Claude — clarify Stage 2 Open note 16 (N5 tag scope)
