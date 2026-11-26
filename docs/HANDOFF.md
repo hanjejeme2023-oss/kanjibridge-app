@@ -10,12 +10,13 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 **Archive rule:** text removed from this file is moved **verbatim** to `docs/HANDOFF_ARCHIVE.md` **in the same commit**, under a heading with the date, the author and the commit it was taken from. Nothing is reworded on the way. Never drop an open problem, a note for a later stage or a rule that is still valid. Those stay here until they are done.
 
-## Current status (2026-11-25)
+## Current status (2026-11-26)
 
-- **Stage 1 gate 1B: items 11–12 PASS, item 13 after the merge** (Claude, 2026-11-25, commit `b54d8f0`; details in `docs/GATES.md`).
+- **Stage 1 gate: PASS. Stage 1 is complete** (Claude, 2026-11-26; details in `docs/GATES.md`).
+  - **Item 13 (production):** PR #1 was merged as `fa4bc35`. On that commit, `build-and-test` and the "Cloudflare Pages" check run are both green (public GitHub API). Production deployment `https://745d72e9.kanjibridge-app.pages.dev`. `https://kanjibridge-app.pages.dev` serves `/` and `/app/` byte-identical to a local build of `fa4bc35`; `/app` → 308 `/app/`; `data.js` has the pinned hash; the four attribution files equal `public/app/`; no `{{`. In Chromium with the network on: 0 console errors and 0 page errors on `/` and in all five views.
+- **Stage 1 gate 1B: items 11–12 PASS on the preview** (Claude, 2026-11-25, commit `b54d8f0`).
   - Preview: `https://stage1-foundation.kanjibridge-app.pages.dev` (deployment `https://6c84e7d7.kanjibridge-app.pages.dev`), built by Cloudflare from `b54d8f0`. Its `/` and `/app/` are byte-identical to a local build of the same commit. `/app` → 308 `/app/`. `data.js` has the pinned hash. The four attribution files are equal to `public/app/`. No `{{`.
   - Network on: 0 console errors and 0 page errors on `/` and in all five views. Only the preview origin and the two Google Fonts hosts were requested. With the same seeded `Math.random`, all five views are byte-identical PNGs to the published kanji-bridge app (`59156e1`). Screenshots: `C:\Users\Anna Tran\kb-gate1b-shots\` (not committed).
-  - Item 13 (production from `main`) can only be checked after the merge (NEXT ASSIGNMENT).
 - **Stage 1 gate 1A: PASS** (attempt 2, commit `f58879b`). CI was green on `f58879b` and `a39dcfd` (owner's report) and on `b54d8f0` (read by Claude).
 - **F1–F5 fixes** (Codex, 2026-11-25): tests, npm scripts and CI only. Codex's evidence was moved to `docs/HANDOFF_ARCHIVE.md` (from `f58879b`); the gate's own evidence is in `docs/GATES.md`.
 - **Stage 1 implementation** (Codex, 2026-11-25): Vite builds the overview at `/` and the exact app-v2 UI at `/app/`. It includes the pinned data/baseline importer, the module split, the 115-key Japanese i18n layer, unit tests, the P1–P8 browser parity suite and a SHA-pinned GitHub Actions workflow. The optional `windows-latest` CI job was not added; this PC is the Windows check.
@@ -124,6 +125,8 @@ Owner answers (2026-11-25, relayed to Claude through the claude.ai chat at gate 
   - "Require an additional approval for unattributed Copilot pull requests" was on by default and was left on. No effect: Copilot is not used.
   - Actions: Fork pull request workflows = Require approval for all external contributors (changed). Workflow permissions were already read-only. "Allow GitHub Actions to create and approve pull requests" was already off.
   - Collaborators: 0.
+
+Owner answers (2026-11-25 21:19, relayed to Claude through the claude.ai chat): PR #1 was merged at about 21:00 (merge commit `fa4bc35`). `https://kanjibridge-app.pages.dev/app/` opens and shows the app.
 
 ## NEXT ASSIGNMENT
 

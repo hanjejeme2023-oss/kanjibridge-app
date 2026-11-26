@@ -24,6 +24,9 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 | 1A | 2026-11-25 | `4d57c88` | **FAIL** (first attempt): 5 test-coverage fixes for Codex (F1–F5 in HANDOFF). No app defect found. |
 | 1A | 2026-11-25 | `f58879b` | **PASS (CI green on f58879b and a39dcfd, owner's report)** (attempt 2): F1–F5 verified; all local runs green. |
 | 1B | 2026-11-25 | `b54d8f0` | **11–12 PASS, 13 after the merge.** Preview `https://stage1-foundation.kanjibridge-app.pages.dev` serves both pages, the redirect and the pinned data; 0 console and page errors; all five views are pixel-identical to the published kanji-bridge app. |
+| 1B | 2026-11-26 | `fa4bc35` (`main`) | **Item 13 PASS → 1B PASS.** Production `https://kanjibridge-app.pages.dev` serves the same bytes as a local build of the merge commit; CI and the Cloudflare deployment on `fa4bc35` are green; 0 console and page errors in all five views. |
+
+**Stage 1 gate: PASS** (2026-11-26, Claude). Part 1A passed on `f58879b` (CI green); part 1B passed on the preview (`b54d8f0`, items 11–12) and on production (`fa4bc35`, item 13). Stage 1 is complete.
 
 Note on 1A (2026-11-25, Claude, at the start of gate 1B): the owner reported that `build-and-test` on PR #1 passed on `f58879b` and on `a39dcfd` (a docs-only commit). The "pending CI" condition of attempt 2 is met, so gate 1A is **PASS**. Claude did not open the runs (no GitHub CLI login on this PC).
 
@@ -183,3 +186,46 @@ This can only be checked after the owner merges PR #1. The first production buil
 ### Result
 
 **Items 11–12 PASS; item 13 after the merge.** The preview serves the production build of the gated app, with the pinned data, 0 console errors and pixel-identical views. Nothing blocks the merge. Owner steps A11 (build comments) and A13 (preview access policy) are still unchecked. Neither one blocks the merge.
+
+## Stage 1 gate, part 1B, item 13: production (Claude, 2026-11-26): PASS
+
+- **Reviewer:** Claude (Claude Code), on the owner's PC.
+- **Commit checked:** `main` at `fa4bc35` (`fa4bc35f69a743ad047934e755f312a0368c0db1`), the merge of PR #1. After `git fetch` and `git pull --ff-only`, local `main` = `origin/main` = `fa4bc35`, working tree clean. `git diff 06e9518 fa4bc35` is **empty** (the merge tree equals the last gated branch commit), and `git diff b54d8f0 fa4bc35` touches only `docs/`. So production runs the app that gates 1A and 1B checked.
+- **Owner's report** (2026-11-25 21:19, HANDOFF "Owner answers"): PR #1 merged at about 21:00; `https://kanjibridge-app.pages.dev/app/` opens and shows the app.
+- **Check runs on `fa4bc35`** (public GitHub API `/repos/hanjejeme2023-oss/kanjibridge-app/commits/fa4bc35/check-runs`, no login; `total_count` 2):
+  - `build-and-test` (GitHub Actions): **completed, success**, 2026-11-26 02:01:15 → 02:10:30 UTC. Run `https://github.com/hanjejeme2023-oss/kanjibridge-app/actions/runs/45739598218`.
+  - "Cloudflare Pages" (app "Cloudflare Workers and Pages"): **completed, success**, "Deployed successfully" / "Deploy successful!", 2026-11-26 02:01:30 UTC. Deployment URL `https://745d72e9.kanjibridge-app.pages.dev`. This is the first successful production build; the one on `94a4480` had failed as expected (no `package.json` on `main` then).
+- **Local reference build:** `npm run build` of `fa4bc35` on this PC: 17 modules, only the classic `data.js` notice. `dist/index.html` `ed699160…f054`, `dist/app/index.html` `d819e4b9…2d33`, the same hashes and asset names as at item 11.
+- **Environment:** Node v24.19.0; curl; Playwright 1.65.1 with its Chromium; Windows 11; network on.
+
+### Item 11 checks on `https://kanjibridge-app.pages.dev`
+
+| Path | Status | Evidence | Result |
+|---|---|---|---|
+| `/` | 200 `text/html` | 358 bytes, SHA-256 `ed699160434f1c13…284cf054`: **byte-identical** to the local `dist/index.html` (and to the preview at item 11). `<title>漢字ブリッジ</title>`, one link to `/app/`. 0 occurrences of `{{`. | PASS |
+| `/app/` | 200 `text/html` | 6,458 bytes, SHA-256 `d819e4b900140a8d…338eb2d33`: **byte-identical** to the local `dist/app/index.html`. 0 occurrences of `{{`. | PASS |
+| `/app` | **308** | `Location: /app/` | PASS |
+| `/app/data.js` | 200 `application/javascript` | 6,626,537 bytes, SHA-256 `3eb99e245782a1aae7e76144bd656be9648c7b075441b70f2e1a6f7f0eb84af9` (the pinned hash) | PASS |
+| `/app/NOTICE.md`, `/app/LICENSE-DATA`, `/app/DATA-LICENSE.md`, `/app/DATA-MANIFEST.json` | 200 each | SHA-256 equal to `public/app/` (`1cf48bc2…`, `14465010…`, `e82f4f82…`, `2def8d6e…`) | PASS |
+| `/assets/app-kjB9kN6M.js`, `/assets/app-HrzICvdG.css`, `/assets/overview-C4jC_1Dd.css` | 200 each | SHA-256 equal to the local `dist/assets/` files | PASS |
+
+### Light browser check
+
+A temporary script in the git-ignored `test-results/` (deleted afterward) used the repository's Playwright Chromium, one fresh context, viewport 1280×720, network on. It opened `/`, then `/app/`, and clicked the five `#nav` buttons in order (1.5 s each). No screenshots (the item 12 comparison already covers the look, and the bytes are the same).
+
+| Check | Result |
+|---|---|
+| Console errors (`/` and `/app/`, all five views) | **0** |
+| Page errors | **0** |
+| Failed requests, responses ≥ 400 | none |
+| Hosts requested | `kanjibridge-app.pages.dev`, `fonts.googleapis.com`, `fonts.gstatic.com` |
+| Each view visible after its click | cards, rules, ff, read, glyph: yes |
+| `undefined`, `NaN`, `null`, `[object`, `{{` in the header and view text | none |
+| Title / `<html lang>` | `漢字ブリッジ` / `ja` |
+| Header | カード 4,051 / 音のルール 8 / 偽の友達 1,242 / 読解 80 / 字体 2,164 / 今日 20 枚　習得 0/6983 (the same as the preview and the published app) |
+
+The script closed its context and the browser; afterward no headless Chromium process was running.
+
+### Result
+
+**Item 13 PASS. Gate part 1B PASS. Stage 1 gate PASS.** Production from `main` serves exactly the gated build, with the pinned data and 0 errors. Owner steps A11 (build comments) and A13 (preview access policy) are still unchecked; they never blocked the gate.

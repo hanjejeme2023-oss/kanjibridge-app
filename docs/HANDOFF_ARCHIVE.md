@@ -179,3 +179,12 @@ Gate 1A, attempt 2 is **PASS pending CI** (`docs/GATES.md`). Everything Claude c
    - **(c) Merge anyway on local evidence.** Not recommended: step B makes a green `build-and-test` a merge requirement.
 
 Next: Owner — confirm CI on f58879b (green → steps A and B, then Claude gate 1B; red → owner decides)
+
+## 2026-11-26 — Claude — from fa4bc35
+
+Heading "Current status (2026-11-25)" (renamed "Current status (2026-11-26)").
+
+From "Current status (2026-11-25)" (replaced by updated lines):
+
+- **Stage 1 gate 1B: items 11–12 PASS, item 13 after the merge** (Claude, 2026-11-25, commit `b54d8f0`; details in `docs/GATES.md`).
+  - Item 13 (production from `main`) can only be checked after the merge (NEXT ASSIGNMENT).

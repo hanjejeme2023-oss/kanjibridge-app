@@ -2,6 +2,11 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Claude — Stage 1 gate 1B: item 13 PASS on production; Stage 1 complete
+
+- Checked production from `main` at `fa4bc35` (the merge of PR #1; its tree equals `06e9518`). `build-and-test` and the Cloudflare Pages check run are green. `https://kanjibridge-app.pages.dev` serves `/` and `/app/` byte-identical to a local build, the `/app` → `/app/` 308, the pinned `data.js` and the four attribution files; no `{{`. 0 console and page errors in all five views (Chromium, network on). The temporary script was deleted.
+- GATES: item 13 section, table row and "Stage 1 gate: PASS". HANDOFF: status and the owner's merge report. Replaced text was moved verbatim to `docs/HANDOFF_ARCHIVE.md`. Docs only.
+
 ## 2026-11-25 — Claude — Stage 1 gate 1B: items 11–12 PASS, item 13 after the merge
 
 - Checked the Cloudflare Pages preview of `b54d8f0` (`https://stage1-foundation.kanjibridge-app.pages.dev`). Both pages, the `/app` → `/app/` 308 redirect, the pinned `data.js` hash and the four attribution files are correct. No `{{`. The served HTML is byte-identical to a local build. 0 console and page errors with the network on. All five views are byte-identical screenshots to the published kanji-bridge app, using the same seeded `Math.random`. Unseeded, only the random rules example differed. CI and the Cloudflare check run on `b54d8f0` were green (read from the public GitHub API). The temporary script was deleted. The screenshots stay outside the repository.
