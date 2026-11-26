@@ -1,4 +1,3 @@
-import { t } from '../../i18n/index.js';
 import { splitVals } from '../lib/text.js';
 
 export function buildModel(kb) {
@@ -17,8 +16,10 @@ export function buildModel(kb) {
       j: row.jp || row.trad,
       z: row.simp || row.trad,
       p: row.pinyin || '',
-      jr: row.ja ? (row.ja_use === 'rare' ? t('word.rare_reading', { r: row.ja }) : row.ja) : '',
-      k: row.ko ? (row.ko_use === 'rare' ? t('word.rare_reading', { r: row.ko }) : row.ko) : '',
+      ja: row.ja || '',
+      jaRare: row.ja_use === 'rare',
+      ko: row.ko || '',
+      koRare: row.ko_use === 'rare',
       v: row.vi || '',
       ff: row.false_friend || '',
       lit: !!row.lit,
@@ -44,11 +45,8 @@ export function buildModel(kb) {
     translation: row[5], start: row[6], len: row[7],
   }]));
   const RULES = kb.rules;
-  const NONE_RULE = { jong: 0, vi: [''], label: t('rules.none_label') };
+  const NONE_RULE = { jong: 0, vi: [''] };
 
-  const LANG_LABEL = {
-    ja: t('lang.short_ja'), ko: t('lang.short_ko'), zh: t('lang.short_zh'), vi: t('lang.short_vi'),
-  };
   const LANG_ORDER = ['ja', 'ko', 'zh', 'vi'];
   const FF_ROWS = new Map();
   kb.ff_meanings.forEach((row) => {
@@ -63,7 +61,6 @@ export function buildModel(kb) {
       || (meaning.lang === 'zh' && word.z !== word.j && word.z !== word.h ? `${word.z} ${word.p}` : meaning.reading || '');
     const line = (meaning) => ({
       lang: meaning.lang,
-      label: LANG_LABEL[meaning.lang],
       reading: display(meaning),
       meaning: meaning.meaning_ja || '',
       trap: !!meaning.is_trap,
@@ -83,10 +80,7 @@ export function buildModel(kb) {
   const PASSAGES = PASSAGE_ROWS.map((passage) => ({
     id: passage.passage_id,
     lang: passage.lang,
-    name: t('read.passage_name', {
-      lang: passage.lang === 'vi' ? t('lang.short_vi') : t('lang.short_zh'),
-      n: ++PASSAGE_N[passage.lang],
-    }),
+    n: ++PASSAGE_N[passage.lang],
     tr: passage.translation_ja,
     toks: passage.tokens.map((token) => (token.word_id
       ? { t: token.t, w: WORD_BY_ID.get(token.word_id) }
@@ -111,6 +105,10 @@ export function buildModel(kb) {
   });
 
   return {
+    ALL_WORD_IDS: new Set(WORD_BY_ID.keys()),
+    FF_BY_ID: new Map(FF.map(f => [f.id, f])),
+    PASSAGE_IDS: new Set(PASSAGES.map(p => p.id)),
+    GLYPH_IDS: new Set(GLYPHS.map(g => g[7])),
     WORD_BY_ID,
     RAW_WORD_BY_ID,
     WORDS,

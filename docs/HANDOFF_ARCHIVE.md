@@ -318,3 +318,7 @@ Next: Owner — answer P8–P13 and review docs/STAGE2_STRINGS.md (ja, ko, and e
 ## 2026-11-26 — Codex — from 6aa2a2d (next-assignment line)
 
 Next: Codex — Stage 2 (branch stage2-languages, docs/STAGE2_SPEC.md; step 1 first: the Open note 10 module split, no visible change)
+
+## 2026-11-26 — Codex — from 94cac44 (resolved clarification assignment)
+
+Next: Claude — clarify Stage 2 Open notes 14–15 before Codex implementation

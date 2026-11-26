@@ -12,6 +12,15 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Stage 2 resumed (Codex, 2026-11-26):** Claude answered Open notes 14–15 through the owner; answers are recorded below. The previous clarification stop is resolved. Step 1 is complete; steps 2–5 remain.
+  - **Step 1:** split the bootstrap, shared state/model instance, five views, navigation, keyboard, speech, toast, chunk renderer, table tests, rule tags and footer. Reading/label/passage formatting is late-bound. Added the unused `rerenderAll()` entry point, preserving card/round state and scroll without creating progress writes.
+  - **Protected files unchanged:** `tests/`, `app/index.html`, `index.html`, `public/`, `vite/`, and `src/app/styles.css`. No dependency or settings change.
+  - **Final checkpoint:** `npm test` PASS: pinned-data check; 7 unit files / 20 tests (6.92 s); build (220 ms, only the existing classic-script warning); 2 build checks (629 ms); 36 browser tests (16.6 min), workers 1. Browsers and servers closed.
+  - **Earlier checkpoint:** 35/36 browser tests passed in 36.4 min; the glyph-answer parity scenario hit the unchanged 180 s timeout during snapshot work, with no reported parity mismatch. Free RAM was about 710 MB of 8 GB. The owner offered to free memory; the final unchanged suite passed, including that scenario in 1.5 min. No test, timeout or tolerance was changed.
+  - **Supplemental checks:** module imports succeed without DOM/storage globals using a temporary JSON loader; all 12,508 words' Japanese/Korean formatted readings equal Stage 1. A temporary Chinese-passage browser comparison passed both the passage and selected-word-sheet checkpoints against app v2 (1 test, 12.2 s). Its first launch had a temporary config working-directory error; corrected before the successful run. Supplemental files are git-ignored.
+  - **Inherited Stage 1 naming collision corrected:** its Chinese passage callback named the token `t`, shadowing the translation helper `t('read.annotation', …)`. Renamed the token to `token` while replacing reading accesses with `jr`/`kr`. This restores app-v2 behavior (baseline line 758), as the supplemental parity check proves; it is not a retained app-v2 bug.
+
+
 - **Codex stopped before implementation (2026-11-26): specification clarification required.** The owner's instruction says to stop, record the question and push if the spec conflicts; Open notes 14–15 below record two conflicts. This status supersedes the implementation assignment below until clarified. No implementation step has started.
   - Setup in `kanjibridge-app`: `git fetch origin`, `git switch stage2-languages`, `git pull --ff-only` succeeded; HEAD was `6aa2a2d`, the working tree was clean, and `git config user.email` was `311183901+hanjejeme2023-oss@users.noreply.github.com`.
   - The configured workspace was the sibling read-only source repository, so all project operations used the explicit `kanjibridge-app` working directory. No source-repository file was changed.
@@ -77,7 +86,13 @@ From `docs/STAGE1_INVENTORY.md` §6. Each line names the stage it belongs to.
 13. Stage 3 (sync): the new setting `kb_lang` (`docs/STAGE2_SPEC.md` §4.3) is the local copy of `profiles.ui_lang`. It is stored only on an explicit choice, and reset does not clear it. The `ui_lang` check constraint (`in ('en','ja','ko')`, PROMPT §6) must accept every locale file, so that a future `vi.json` needs no schema change, or the constraint is extended by a migration in the same change.
 
 14. **Stage 2 blocking question — intermediate key-use checks (Codex, 2026-11-26).** STAGE2_SPEC §2 places all locale files and the §8.1 unit tests in step 2, requires `npm test` to pass before step 3, and puts overview implementation in step 4. §4.1 removes `overview.open_app` and adds all 11 new `overview.*` keys in step 2; §8.1 item 7 requires every non-meta key to be used and every referenced key to exist. The current root `index.html` still references `overview.open_app`; most new overview keys have no use until step 4. **Question:** may step 2 update the placeholder link to `overview.start` and temporarily exempt the not-yet-implemented overview keys from the unused-key check (with the exemption removed in step 4), or should the spec prescribe another intermediate arrangement? No exemption or early overview implementation has been made.
+
+   **Answered by Claude (architect), relayed by the owner, 2026-11-26:** In step 2, change the root placeholder link from `{{overview.open_app}}` to `{{overview.start}}`. Add the named constant `PENDING_OVERVIEW_KEYS` to the key-use unit test, listing exactly the overview keys not used yet; only those may be unused. All referenced keys must exist and every other non-meta key must be used. Step 4 deletes the constant and its use; the gate checks there is no exemption.
+
 15. **Stage 2 blocking question — language-switch marker contract (Codex, 2026-11-26).** §4.4 says every marker key has its placeholder, and §4.4.1 requires a marker without its placeholder to fail the build. However, §5.1 prescribes `<select id="lang" data-i18n-attr="aria-label=header.lang_label"></select>` with no `aria-label="{{header.lang_label}}"` placeholder. **Question:** should the select include `aria-label="{{header.lang_label}}"`, preserving its specified position and whitespace, or is this marker an explicit exception to the strict build check? Neither choice has been implemented.
+
+
+   **Answered by Claude (architect), relayed by the owner, 2026-11-26:** Add the placeholder: `<select id="lang" aria-label="{{header.lang_label}}" data-i18n-attr="aria-label=header.lang_label"></select>`. Keep it immediately after `#topstat`, on the same line without intervening whitespace. The strict build check has no exception. N3 removes the entire element for Japanese parity.
 
 ## Owner steps (Stage 1): done
 
@@ -138,4 +153,4 @@ The start condition is met. P8–P13 are D22–D27 (all option (a), so no "If P�
 
 Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`. Never merge, force-push or delete a branch.
 
-Next: Claude — clarify Stage 2 Open notes 14–15 before Codex implementation
+Next: Codex — Stage 2 step 2 (i18n core; Notes 14–15 answered)

@@ -2,6 +2,12 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Codex — Stage 2 step 1: module split
+
+- Recorded Claude's answers to HANDOFF Notes 14–15, relayed by the owner, and resumed implementation.
+- Split the app into shared state, model instance, view, UI, navigation, keyboard and footer modules. Made translated readings and labels late-bound and added a state-preserving re-render entry point. Renamed the Chinese reading token to avoid the inherited Stage 1 translation-helper collision, restoring app-v2 behavior.
+- No tests, HTML, public assets, Vite files, original app styles or dependencies changed. Final `npm test`: 20 unit tests, 2 build checks and all 36 browser tests passed (browser: 16.6 min). An earlier run had one snapshot timeout; tests and limits stayed unchanged. Supplemental checks proved all 12,508 formatted word readings equal Stage 1 and Chinese passage/word-sheet parity equals app v2.
+
 ## 2026-11-26 — Codex — Stage 2: specification clarification stop
 
 - Verified the requested branch setup at clean HEAD `6aa2a2d` and the required Git email in `kanjibridge-app`; left the sibling source repository unchanged.
