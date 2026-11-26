@@ -188,3 +188,88 @@ From "Current status (2026-11-25)" (replaced by updated lines):
 
 - **Stage 1 gate 1B: items 11–12 PASS, item 13 after the merge** (Claude, 2026-11-25, commit `b54d8f0`; details in `docs/GATES.md`).
   - Item 13 (production from `main`) can only be checked after the merge (NEXT ASSIGNMENT).
+
+## 2026-11-26 — Claude — from a696df0
+
+From "Current status (2026-11-26)" (replaced by updated bullets":
+
+- **Git:** identity `Hanje Unesaki <311183901+hanjejeme2023-oss@users.noreply.github.com>` (D9); check `git config user.email` before committing. `origin` = github.com/hanjejeme2023-oss/kanjibridge-app. Stage 0 was committed and **not pushed**: the owner pushes `main` (step A0 below).
+- **Decisions:** D1–D20 (owner). D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D17 (was P4: 0 required approvals) affects the branch protection steps below. No proposal is open.
+
+From "Rules in force":
+
+- Stage 1 changes nothing that a learner can see or do. A suspected app v2 bug is kept and written under "Open notes".
+
+From "Owner steps after Codex Stage 1 passes the gate" (the whole section; steps A0, A and B are done":
+
+## Owner steps after Codex Stage 1 passes the gate
+
+**Do these after Codex Stage 1 passes the gate (part 1A in `docs/GATES.md`). Not before.** Only step A0 is needed earlier. Labels in the Cloudflare and GitHub dashboards change from time to time. If a label differs, look for the nearest match, and tell Claude what you saw.
+
+### A0. Push Stage 0 (any time before Codex starts)
+
+1. In a terminal in `kanjibridge-app`: `git push -u origin main`.
+2. Open github.com/hanjejeme2023-oss/kanjibridge-app and check that `PROMPT.md`, `docs/` and `public/app/DATA-LICENSE.md` are there.
+
+### A. Connect the repository to Cloudflare Pages (after Codex Stage 1 passes the gate)
+
+1. Sign in at **dash.cloudflare.com** (2FA on).
+2. Left menu: **Compute (Workers) → Workers & Pages** (older dashboards: **Workers & Pages**). Click **Create application**.
+3. Choose the **Pages** tab (or the link "Looking to deploy Pages? Get started"). Then click **Import an existing Git repository** (older label: "Connect to Git").
+4. Click **Connect GitHub**. In the GitHub window: install "Cloudflare Workers and Pages" on the account **hanjejeme2023-oss**, choose **Only select repositories → kanjibridge-app**, then click **Install & Authorize**.
+5. Back in Cloudflare, select **kanjibridge-app** and click **Begin setup**.
+6. **Project name:** `kanjibridge-app`, which gives `kanjibridge-app.pages.dev`. If the name is taken, choose a similar one and tell Claude.
+7. **Production branch:** `main`.
+8. **Build settings** (`docs/STAGE1_SPEC.md` §8):
+   - Framework preset **None**;
+   - Build command **`npm run build`**;
+   - Build output directory **`dist`**;
+   - Root directory left empty.
+9. **Environment variables (advanced):** add `NODE_VERSION` = `24.19.0`. Add nothing else. Never add a key or password here.
+10. Click **Save and Deploy**. Wait for the first build to finish. Its log should end with a success message.
+11. Open the project → **Settings → Builds** (older label: Builds & deployments) → **Branch control**. Check that the production branch is `main` and that **Preview branches = All non-production branches**. Also check that **Build comments** on pull requests are on (they are by default).
+12. Open the project → **Deployments**. Copy the preview URL of the `stage1-foundation` branch (or the pull request's comment link) and the production URL `https://kanjibridge-app.pages.dev`. Paste both into this file under "Owner answers", or give them to Claude.
+13. Optional: in the project → **Settings → General**, check that **Access policy** for previews is off. The repository is public, so public previews reveal nothing new.
+
+### B. Protect `main` on GitHub (after Codex Stage 1 passes the gate, and after CI has run at least once)
+
+1. Open github.com/hanjejeme2023-oss/kanjibridge-app → **Settings** (2FA on).
+2. Left menu: **Rules → Rulesets** → **New ruleset → New branch ruleset**.
+3. **Ruleset name:** `protect-main`. **Enforcement status:** **Active**.
+4. **Bypass list:** leave it **empty**. Even the owner goes through a pull request.
+5. **Target branches:** **Add target → Include default branch** (`main`).
+6. Tick these **Branch rules**:
+   - **Restrict deletions**;
+   - **Block force pushes**;
+   - **Require a pull request before merging**, with **Required approvals = 0** (proposal P4: GitHub does not let the author of a pull request approve it, and every pull request here comes from the owner's account. The owner's approval is the merge itself). Also tick **Require conversation resolution before merging**;
+   - **Require status checks to pass**, with **Require branches to be up to date before merging** ticked. Then **Add checks**, type `build-and-test` and pick the GitHub Actions check. It appears only after the workflow has run once on a pull request.
+7. Click **Create**.
+8. **Settings → Actions → General:**
+   - **Fork pull request workflows from outside collaborators** = **Require approval for all external contributors**;
+   - **Workflow permissions** = **Read repository contents and packages permissions**;
+   - leave **Allow GitHub Actions to create and approve pull requests** unticked.
+   
+   Click **Save** for each section.
+9. **Settings → Collaborators:** check that nobody else has write access. Only the owner merges.
+10. Test it: on the Stage 1 pull request, the **Merge** button should stay blocked until `build-and-test` is green.
+
+After A and B: Claude runs gate part 1B (`docs/STAGE1_SPEC.md` §11, items 11–13) on the preview URL. Then the owner merges the Stage 1 pull request.
+
+From "NEXT ASSIGNMENT":
+
+## NEXT ASSIGNMENT
+
+**Owner — merge PR #1 and look at production. Then: Claude — Stage 1 gate 1B item 13 and the Stage 2 specification.**
+
+Gate 1B items 11–12 passed on the preview (`docs/GATES.md`). Nothing blocks the merge.
+
+1. **Optional, before merging:** open `C:\Users\Anna Tran\kb-gate1b-shots\` and look at the screenshots side by side (`preview-<view>.png` and `published-<view>.png`; STAGE1_SPEC §11 item 12 asks the owner to look). Also, if you like, check steps A11 (Build comments) and A13 (preview Access policy) in Cloudflare. Neither one blocks the merge.
+2. On PR #1, wait until `build-and-test` is **green on the last commit** (this gate's docs commit). The ruleset blocks the merge until then.
+3. Check that every conversation on PR #1 is **resolved** (the ruleset requires it).
+4. Click **Merge pull request** (a normal merge commit is fine; Squash is not needed). Do not delete anything else.
+5. Wait for the production deployment in Cloudflare (project `kanjibridge-app` → Deployments, branch `main`). Then open `https://kanjibridge-app.pages.dev/app/` and check that the app looks the same as the preview. Write the result (and the deployment status) under "Owner answers".
+6. **Claude — next session (start of Stage 2):** run the gate 1B item 11 checks on `https://kanjibridge-app.pages.dev` (`/`, `/app/`, the `/app` redirect, the `data.js` hash, the four attribution files, no `{{`) and record them in `docs/GATES.md` as item 13. Then write the Stage 2 specification (`docs/STAGE2_SPEC.md`) from PROMPT §5 and the Open notes for Stage 2 (6 and 10).
+
+If the production build fails, do not change any setting: copy the build log from Cloudflare → Deployments and bring it to the Claude session.
+
+Next: Owner — wait for green CI, merge PR #1, check https://kanjibridge-app.pages.dev/app/; then Claude — gate 1B item 13 and the Stage 2 spec

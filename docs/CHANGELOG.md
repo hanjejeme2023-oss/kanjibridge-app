@@ -2,6 +2,13 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Claude — Stage 2: specification, strings draft and proposals P8–P13
+
+- New `docs/STAGE2_SPEC.md`, the Codex assignment. Step 1 is the module split with no visible change (Open note 10). Then come the run-time language system (bundled locale files, `data-i18n` markers, `kb_lang`, `?lang=`, data loaded after the language is applied), the switch, the logo link, the notice and the per-language overview pages with generated screenshots. Also: tests (ja parity against app v2 with the declared normalisations N1–N7, i18n behaviour, review screenshots, overview, build) and the Stage 2 Done-when list. Adding a language takes one locale file.
+- New `docs/STAGE2_STRINGS.md`: the glossary, the style rules and all 130 keys in ja/en/ko for the owner's review (Open note 6 applied). The ja column was checked by script against `src/i18n/ja.json`.
+- DECISIONS: D21 (the domain is not part of Stage 2; owner's assignment). Open proposals P8–P13 with Claude's recommendations.
+- HANDOFF: status, rules, Open notes 6/10/12 annotated, new Open note 13 (`kb_lang` and `profiles.ui_lang`), the finished owner-steps section reduced to a pointer (A11 and A13 kept), and the next assignment. Replaced text was moved verbatim to `docs/HANDOFF_ARCHIVE.md`. Docs only.
+
 ## 2026-11-26 — Claude — Stage 1 gate 1B: item 13 PASS on production; Stage 1 complete
 
 - Checked production from `main` at `fa4bc35` (the merge of PR #1; its tree equals `06e9518`). `build-and-test` and the Cloudflare Pages check run are green. `https://kanjibridge-app.pages.dev` serves `/` and `/app/` byte-identical to a local build, the `/app` → `/app/` 308, the pinned `data.js` and the four attribution files; no `{{`. 0 console and page errors in all five views (Chromium, network on). The temporary script was deleted.

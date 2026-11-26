@@ -12,6 +12,13 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Stage 2 specification written** (Claude, 2026-11-26, branch `stage2-languages`):
+  - `docs/STAGE2_SPEC.md` (the assignment for Codex);
+  - `docs/STAGE2_STRINGS.md` (130 keys, ja/en/ko draft for the owner's review);
+  - proposals **P8–P13** in `docs/DECISIONS.md` §B;
+  - D21 records that the domain is not part of Stage 2.
+  
+  Codex starts after the owner's answers (NEXT ASSIGNMENT).
 - **Stage 1 gate: PASS. Stage 1 is complete** (Claude, 2026-11-26; details in `docs/GATES.md`).
   - **Item 13 (production):** PR #1 was merged as `fa4bc35`. On that commit, `build-and-test` and the "Cloudflare Pages" check run are both green (public GitHub API). Production deployment `https://745d72e9.kanjibridge-app.pages.dev`. `https://kanjibridge-app.pages.dev` serves `/` and `/app/` byte-identical to a local build of `fa4bc35`; `/app` → 308 `/app/`; `data.js` has the pinned hash; the four attribution files equal `public/app/`; no `{{`. In Chromium with the network on: 0 console errors and 0 page errors on `/` and in all five views.
 - **Stage 1 gate 1B: items 11–12 PASS on the preview** (Claude, 2026-11-25, commit `b54d8f0`).
@@ -24,15 +31,15 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 - **Pull request / CI:** the owner opened PR #1 (`stage1-foundation` → `main`). GitHub CLI is not logged in on this PC, so agents cannot open pull requests. The repository is public, so an agent **can** read the check results of a pushed commit without login: `https://api.github.com/repos/hanjejeme2023-oss/kanjibridge-app/commits/<sha>/check-runs` lists `build-and-test` and "Cloudflare Pages" (with the preview URLs). The run logs still need the owner.
 - **Source:** kanji-bridge, final commit `59156e1` (`59156e119bb4ec1652ac573e9cf821c0d064e9dc`), at `../kanji-bridge`. It is a read-only reference: never modify it. The pinned `app/data.js` hash is SHA-256 `3eb99e245782a1aae7e76144bd656be9648c7b075441b70f2e1a6f7f0eb84af9`. Note: during Stage 0 (2026-11-24, about 22:00–22:16 local time) another session committed `16f68be` ("vi-edition") on top of `59156e1` in `../kanji-bridge` and was still writing untracked files there. The import reads git objects at the pinned commit, not the working tree or `HEAD`, so this does not affect Stage 1. Re-pinning to a later commit needs an owner decision.
 - **This PC:** Node v24.19.0 and npm 11.17.0 are installed (checked 2026-11-24). Nothing needs installing before Stage 1. Chrome and Edge are installed. Git has `core.autocrlf=true`, so `.gitattributes` forces LF and keeps the imported files byte-exact.
-- **Git:** identity `Hanje Unesaki <311183901+hanjejeme2023-oss@users.noreply.github.com>` (D9); check `git config user.email` before committing. `origin` = github.com/hanjejeme2023-oss/kanjibridge-app. Stage 0 was committed and **not pushed**: the owner pushes `main` (step A0 below).
-- **Decisions:** D1–D20 (owner). D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D17 (was P4: 0 required approvals) affects the branch protection steps below. No proposal is open.
+- **Git:** identity `Hanje Unesaki <311183901+hanjejeme2023-oss@users.noreply.github.com>` (D9); check `git config user.email` before committing. `origin` = github.com/hanjejeme2023-oss/kanjibridge-app. `main` is protected by the ruleset `protect-main` (owner step B, recorded under "Owner answers"): changes reach `main` only through a pull request with a green `build-and-test`. Agents never commit to `main`.
+- **Decisions:** D1–D21 (owner). D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D21 (2026-11-26) takes the domain out of Stage 2. D17 (was P4: 0 required approvals) is what the ruleset uses. **Proposals P8–P13 (Stage 2) are open** (`docs/DECISIONS.md` §B).
 
 ## Rules in force
 
 - PROMPT §1 workflow: one agent at a time; every stage ends with a Claude gate (`docs/GATES.md`).
 - Machine safety: never run a build and a headless browser at the same time; browser runs close what they start. `npm test` runs its steps in order, and Playwright uses `workers: 1`.
 - PROMPT §3: no secrets anywhere (`docs/SECURITY.md`); least privilege; no visible change without a decision (D12).
-- Stage 1 changes nothing that a learner can see or do. A suspected app v2 bug is kept and written under "Open notes".
+- Stage 2: the only visible changes allowed are the list in proposal P13 (`docs/STAGE2_SPEC.md` §5.5), once the owner confirms it. In Japanese, the app stays pixel-identical to app v2 apart from those items (the parity suite). A suspected app v2 bug is still kept and written under "Open notes".
 
 ## Open notes (for later stages)
 
@@ -43,66 +50,21 @@ From `docs/STAGE1_INVENTORY.md` §6. Each line names the stage it belongs to.
 3. Stage 3: the footer line and About's privacy sentence say that progress stays in this browser. The owner decides new wording for signed-in users.
 4. Stage 4: the privacy policy and the CSP must cover Google Fonts and the browser's cloud speech voices. Self-hosting the same fonts is a candidate decision with no visible change.
 5. Stage 4: the markup has `style="…"` attributes; the CSP `style-src` needs a decision.
-6. Stage 2: translation notes in INVENTORY §6 item 6 (the Windows menu names in `speech.no_voice`, the sentence split around the About link, Japanese typography in separators).
+6. Stage 2: translation notes in INVENTORY §6 item 6 (the Windows menu names in `speech.no_voice`, the sentence split around the About link, Japanese typography in separators). *(2026-11-26: applied in `docs/STAGE2_STRINGS.md` §1.3. Keep this note until the Stage 2 gate passes.)*
 7. Stage 1 retained v2 bug: a non-array `kb_custom` value makes the pinned baseline throw at `rawCustom.filter`. P4 therefore omits a wrong-type value for that key after confirming the baseline error; all other storage keys are exercised with corrupt/wrong-type values.
 8. Stage 1 test infrastructure: Windows Chromium produced repeatable Skia antialias rounding at rounded borders (19–34 pixels differing by one channel step) although DOM, CSS rules, computed styles, focus, scroll, storage and form state were equal. The parity helper saves baseline/new/diff attachments and permits only `<= 64` pixels with `maxDelta <= 1` on Windows. Linux CI still requires exact decoded-pixel equality.
 9. Stage 1 retained v2 bugs (found at gate 1A, Claude): app v2 also throws when `kb_srs` is `null` ("Cannot convert undefined or null to object") or `kb_rules` is `null` ("Cannot read properties of null (reading 'k')"). The new app fails in the same way. For `kb_custom`, a string, number, object or `null` throws; invalid JSON text and arrays do not. Hardening storage parsing is a visible behaviour change, so it needs an owner decision. Natural place: Stage 3, when the sync engine reads and writes these keys anyway.
-10. Stage 2 (architecture): `src/app/main.js` keeps all views, nav, the keyboard handler, About and reset in one `initApp()` closure. Before adding the run-time language switch, split the views into modules as in STAGE1_SPEC §3, so that a language change can re-render them. Keep the parity suite green while doing it.
+10. Stage 2 (architecture): `src/app/main.js` keeps all views, nav, the keyboard handler, About and reset in one `initApp()` closure. Before adding the run-time language switch, split the views into modules as in STAGE1_SPEC §3, so that a language change can re-render them. Keep the parity suite green while doing it. *(2026-11-26: specified as step 1 of `docs/STAGE2_SPEC.md` §3. Keep this note until the Stage 2 gate passes.)*
 11. *(Done at gate 1B, 2026-11-25: the deployed pages are built from `dist` and contain no `{{`. Moved to the archive.)*
-12. Test nit (gate 1A attempt 2, Claude; for the next Codex test change, no separate session): in `P1-reset-filled`, the 読解 step asserts that `#unknownreview` contains わからない. That is already true before the click, because the P3 seed marks a word in passage 1. The click does add a mark (probe: `kb_unknown` grows from 1 to 2 ids). A meaningful assertion would compare the `kb_unknown` length before and after, as the other three steps do. It does not block anything.
+12. Test nit (gate 1A attempt 2, Claude; for the next Codex test change, no separate session): in `P1-reset-filled`, the 読解 step asserts that `#unknownreview` contains わからない. That is already true before the click, because the P3 seed marks a word in passage 1. The click does add a mark (probe: `kb_unknown` grows from 1 to 2 ids). A meaningful assertion would compare the `kb_unknown` length before and after, as the other three steps do. It does not block anything. *(2026-11-26: included in `docs/STAGE2_SPEC.md` §8.2.)*
+13. Stage 3 (sync): the new setting `kb_lang` (`docs/STAGE2_SPEC.md` §4.3) is the local copy of `profiles.ui_lang`. It is stored only on an explicit choice, and reset does not clear it. The `ui_lang` check constraint (`in ('en','ja','ko')`, PROMPT §6) must accept every locale file, so that a future `vi.json` needs no schema change, or the constraint is extended by a migration in the same change.
 
-## Owner steps after Codex Stage 1 passes the gate
+## Owner steps (Stage 1): done
 
-**Do these after Codex Stage 1 passes the gate (part 1A in `docs/GATES.md`). Not before.** Only step A0 is needed earlier. Labels in the Cloudflare and GitHub dashboards change from time to time. If a label differs, look for the nearest match, and tell Claude what you saw.
+Steps A0, A (Cloudflare Pages) and B (`protect-main`) are done. The results are under "Owner answers", and the full step text is in `docs/HANDOFF_ARCHIVE.md` (2026-11-26, from `a696df0`). Two optional checks from step A were never reported. They block nothing:
 
-### A0. Push Stage 0 (any time before Codex starts)
-
-1. In a terminal in `kanjibridge-app`: `git push -u origin main`.
-2. Open github.com/hanjejeme2023-oss/kanjibridge-app and check that `PROMPT.md`, `docs/` and `public/app/DATA-LICENSE.md` are there.
-
-### A. Connect the repository to Cloudflare Pages (after Codex Stage 1 passes the gate)
-
-1. Sign in at **dash.cloudflare.com** (2FA on).
-2. Left menu: **Compute (Workers) → Workers & Pages** (older dashboards: **Workers & Pages**). Click **Create application**.
-3. Choose the **Pages** tab (or the link "Looking to deploy Pages? Get started"). Then click **Import an existing Git repository** (older label: "Connect to Git").
-4. Click **Connect GitHub**. In the GitHub window: install "Cloudflare Workers and Pages" on the account **hanjejeme2023-oss**, choose **Only select repositories → kanjibridge-app**, then click **Install & Authorize**.
-5. Back in Cloudflare, select **kanjibridge-app** and click **Begin setup**.
-6. **Project name:** `kanjibridge-app`, which gives `kanjibridge-app.pages.dev`. If the name is taken, choose a similar one and tell Claude.
-7. **Production branch:** `main`.
-8. **Build settings** (`docs/STAGE1_SPEC.md` §8):
-   - Framework preset **None**;
-   - Build command **`npm run build`**;
-   - Build output directory **`dist`**;
-   - Root directory left empty.
-9. **Environment variables (advanced):** add `NODE_VERSION` = `24.19.0`. Add nothing else. Never add a key or password here.
-10. Click **Save and Deploy**. Wait for the first build to finish. Its log should end with a success message.
-11. Open the project → **Settings → Builds** (older label: Builds & deployments) → **Branch control**. Check that the production branch is `main` and that **Preview branches = All non-production branches**. Also check that **Build comments** on pull requests are on (they are by default).
-12. Open the project → **Deployments**. Copy the preview URL of the `stage1-foundation` branch (or the pull request's comment link) and the production URL `https://kanjibridge-app.pages.dev`. Paste both into this file under "Owner answers", or give them to Claude.
-13. Optional: in the project → **Settings → General**, check that **Access policy** for previews is off. The repository is public, so public previews reveal nothing new.
-
-### B. Protect `main` on GitHub (after Codex Stage 1 passes the gate, and after CI has run at least once)
-
-1. Open github.com/hanjejeme2023-oss/kanjibridge-app → **Settings** (2FA on).
-2. Left menu: **Rules → Rulesets** → **New ruleset → New branch ruleset**.
-3. **Ruleset name:** `protect-main`. **Enforcement status:** **Active**.
-4. **Bypass list:** leave it **empty**. Even the owner goes through a pull request.
-5. **Target branches:** **Add target → Include default branch** (`main`).
-6. Tick these **Branch rules**:
-   - **Restrict deletions**;
-   - **Block force pushes**;
-   - **Require a pull request before merging**, with **Required approvals = 0** (proposal P4: GitHub does not let the author of a pull request approve it, and every pull request here comes from the owner's account. The owner's approval is the merge itself). Also tick **Require conversation resolution before merging**;
-   - **Require status checks to pass**, with **Require branches to be up to date before merging** ticked. Then **Add checks**, type `build-and-test` and pick the GitHub Actions check. It appears only after the workflow has run once on a pull request.
-7. Click **Create**.
-8. **Settings → Actions → General:**
-   - **Fork pull request workflows from outside collaborators** = **Require approval for all external contributors**;
-   - **Workflow permissions** = **Read repository contents and packages permissions**;
-   - leave **Allow GitHub Actions to create and approve pull requests** unticked.
-   
-   Click **Save** for each section.
-9. **Settings → Collaborators:** check that nobody else has write access. Only the owner merges.
-10. Test it: on the Stage 1 pull request, the **Merge** button should stay blocked until `build-and-test` is green.
-
-After A and B: Claude runs gate part 1B (`docs/STAGE1_SPEC.md` §11, items 11–13) on the preview URL. Then the owner merges the Stage 1 pull request.
+- Step A11: Open the project → **Settings → Builds** (older label: Builds & deployments) → **Branch control**. Check that the production branch is `main` and that **Preview branches = All non-production branches**. Also check that **Build comments** on pull requests are on (they are by default).
+- Step A13: Optional: in the project → **Settings → General**, check that **Access policy** for previews is off. The repository is public, so public previews reveal nothing new.
 
 ## Owner answers
 
@@ -130,17 +92,24 @@ Owner answers (2026-11-25 21:19, relayed to Claude through the claude.ai chat): 
 
 ## NEXT ASSIGNMENT
 
-**Owner — merge PR #1 and look at production. Then: Claude — Stage 1 gate 1B item 13 and the Stage 2 specification.**
+**Owner — answer proposals P8–P13 and review the Stage 2 wording. Then: Codex — Stage 2 on the branch `stage2-languages`.**
 
-Gate 1B items 11–12 passed on the preview (`docs/GATES.md`). Nothing blocks the merge.
+Stage 1 is complete (gate PASS, `docs/GATES.md`). The Stage 2 specification is ready: `docs/STAGE2_SPEC.md`, with the strings draft `docs/STAGE2_STRINGS.md`.
 
-1. **Optional, before merging:** open `C:\Users\Anna Tran\kb-gate1b-shots\` and look at the screenshots side by side (`preview-<view>.png` and `published-<view>.png`; STAGE1_SPEC §11 item 12 asks the owner to look). Also, if you like, check steps A11 (Build comments) and A13 (preview Access policy) in Cloudflare. Neither one blocks the merge.
-2. On PR #1, wait until `build-and-test` is **green on the last commit** (this gate's docs commit). The ruleset blocks the merge until then.
-3. Check that every conversation on PR #1 is **resolved** (the ruleset requires it).
-4. Click **Merge pull request** (a normal merge commit is fine; Squash is not needed). Do not delete anything else.
-5. Wait for the production deployment in Cloudflare (project `kanjibridge-app` → Deployments, branch `main`). Then open `https://kanjibridge-app.pages.dev/app/` and check that the app looks the same as the preview. Write the result (and the deployment status) under "Owner answers".
-6. **Claude — next session (start of Stage 2):** run the gate 1B item 11 checks on `https://kanjibridge-app.pages.dev` (`/`, `/app/`, the `/app` redirect, the `data.js` hash, the four attribution files, no `{{`) and record them in `docs/GATES.md` as item 13. Then write the Stage 2 specification (`docs/STAGE2_SPEC.md`) from PROMPT §5 and the Open notes for Stage 2 (6 and 10).
+1. **Owner:** answer **P8–P13** in `docs/DECISIONS.md` §B. Each has options (a)/(b) and Claude's recommendation; "P8 a, P9 a, …" is enough. Write the answers under "Owner answers" (or give them to Claude).
+2. **Owner:** review `docs/STAGE2_STRINGS.md`:
+   - §1 (terms, style) first;
+   - then the **ja** and **ko** columns of §3 (and **en** if you like);
+   - rows marked ★ need a decision: app name, view names, short labels, rating words, the Korean Windows menu names, and the new privacy sentence.
+   
+   Edit a cell directly, or write "Owner: …" in its memo. Then write "strings approved" (with any exceptions) under "Owner answers".
+3. **Claude** (only if the answers change the spec or the strings): a short session that records P8–P13 as D-numbers and updates `docs/STAGE2_SPEC.md` and `docs/STAGE2_STRINGS.md`. If every answer is (a) and the strings are approved as they are, Codex may start directly, and Claude records the D-numbers at the gate.
+4. **Codex — Stage 2** on the branch `stage2-languages` (already on GitHub; pull it first), following `docs/STAGE2_SPEC.md`:
+   - step 1 first (the module split, no visible change, no test change);
+   - push after each step;
+   - report in this file (`docs/STAGE2_SPEC.md` §13);
+   - stop with "Next: Claude — Stage 2 gate (part 2A)".
+   
+   Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`.
 
-If the production build fails, do not change any setting: copy the build log from Cloudflare → Deployments and bring it to the Claude session.
-
-Next: Owner — wait for green CI, merge PR #1, check https://kanjibridge-app.pages.dev/app/; then Claude — gate 1B item 13 and the Stage 2 spec
+Next: Owner — answer P8–P13 and review docs/STAGE2_STRINGS.md (ja, ko, and en); then Codex — Stage 2 (branch stage2-languages)
