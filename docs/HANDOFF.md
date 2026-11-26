@@ -108,7 +108,21 @@ Owner answers (2026-11-24): proposals P1–P7 in docs/DECISIONS.md §B are confi
 
 Owner answers (2026-11-25, relayed to Claude at gate 1A): pull request #1 (`stage1-foundation` → `main`) is open. GitHub Actions CI on it passed (1/1 checks OK).
 
-*(The pages.dev URLs and any notes from steps A and B go here.)*
+Owner answers (2026-11-25, relayed to Claude through the claude.ai chat at gate 1B):
+
+- **CI:** `build-and-test` on PR #1 passed on both `f58879b` and `a39dcfd`. Gate 1A is therefore **PASS** (`docs/GATES.md`).
+- **Step A (Cloudflare Pages):**
+  - The GitHub app "Cloudflare Workers and Pages" is installed on **kanjibridge-app only**.
+  - Project name `kanjibridge-app`. Production branch `main`. Framework preset None. Build command `npm run build`. Build output directory `dist`. Root directory empty. Environment variables: only `NODE_VERSION=24.19.0`.
+  - Branch control: production branch `main`; Preview branches = All non-production branches.
+  - The first production build (`main`, `94a4480`) **failed**, because `main` has no `package.json` yet (the app is still in PR #1). Node 24.19.0 was installed. This was expected; the build should pass after the merge.
+  - No `stage1-foundation` preview existed yet, because nothing was pushed after the connection.
+  - Not checked yet: Build comments (step A11) and Access policy (step A13).
+- **Step B (GitHub):**
+  - Ruleset `protect-main`: Active; Bypass list empty; target = default branch. Rules: Restrict deletions; Block force pushes; Require a pull request before merging (approvals 0, conversation resolution on); Require status checks to pass (`build-and-test`, "up to date" on).
+  - "Require an additional approval for unattributed Copilot pull requests" was on by default and was left on. No effect: Copilot is not used.
+  - Actions: Fork pull request workflows = Require approval for all external contributors (changed). Workflow permissions were already read-only. "Allow GitHub Actions to create and approve pull requests" was already off.
+  - Collaborators: 0.
 
 ## NEXT ASSIGNMENT
 

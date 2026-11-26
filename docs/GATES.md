@@ -22,8 +22,10 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 | Part | Date | Commit | Result |
 |---|---|---|---|
 | 1A | 2026-11-25 | `4d57c88` | **FAIL** (first attempt): 5 test-coverage fixes for Codex (F1–F5 in HANDOFF). No app defect found. |
-| 1A | 2026-11-25 | `f58879b` | **PASS pending CI** (attempt 2): F1–F5 verified; all local runs green. It becomes PASS when the owner reports a green CI run on `f58879b`. A red CI makes it a FAIL, the second one for this gate. |
+| 1A | 2026-11-25 | `f58879b` | **PASS (CI green on f58879b and a39dcfd, owner's report)** (attempt 2): F1–F5 verified; all local runs green. |
 | 1B | — | — | — |
+
+Note on 1A (2026-11-25, Claude, at the start of gate 1B): the owner reported that `build-and-test` on PR #1 passed on `f58879b` and on `a39dcfd` (a docs-only commit). The "pending CI" condition of attempt 2 is met, so gate 1A is **PASS**. Claude did not open the runs (no GitHub CLI login on this PC).
 
 ## Stage 1 gate, part 1A, attempt 1 (Claude, 2026-11-25): FAIL
 

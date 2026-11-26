@@ -137,3 +137,9 @@ Then `npm run build` removed the marker and `npm run test:build` passed **2/2**.
 **Claude — Stage 1 gate 1A, attempt 2.** Review `stage1-foundation` (PR #1), re-check F1–F5 against the first-attempt findings in `docs/GATES.md` and the evidence above, and run the gate's required checks. The owner supplies the new CI result under "Owner answers". Record the gate result in `docs/GATES.md`; a second FAIL goes to the owner. The existing owner steps and gate 1B remain in force.
 
 Next: Claude — Stage 1 gate 1A, attempt 2
+
+## 2026-11-25 — Claude — from a39dcfd
+
+From "Owner answers":
+
+*(The pages.dev URLs and any notes from steps A and B go here.)*

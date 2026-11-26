@@ -2,6 +2,10 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-25 — Claude — Stage 1 gate 1B: owner steps A and B recorded
+
+- Recorded the owner's report in HANDOFF "Owner answers": CI green on `f58879b` and `a39dcfd` (gate 1A is now PASS in `docs/GATES.md`), Cloudflare Pages connected (step A), and `main` protected by the ruleset `protect-main` (step B). The placeholder line was moved verbatim to `docs/HANDOFF_ARCHIVE.md`. Docs only; this push also triggers the first `stage1-foundation` preview.
+
 ## 2026-11-25 — Claude — Stage 1 gate 1A, attempt 2: PASS pending CI
 
 - Reviewed `stage1-foundation` at `f58879b` (PR #1). `git diff 4d57c88..f58879b` over `src`, `app/index.html`, `index.html` and `vite` is empty, so no app code changed.
