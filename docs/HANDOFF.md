@@ -12,6 +12,12 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Codex stopped before implementation (2026-11-26): specification clarification required.** The owner's instruction says to stop, record the question and push if the spec conflicts; Open notes 14–15 below record two conflicts. This status supersedes the implementation assignment below until clarified. No implementation step has started.
+  - Setup in `kanjibridge-app`: `git fetch origin`, `git switch stage2-languages`, `git pull --ff-only` succeeded; HEAD was `6aa2a2d`, the working tree was clean, and `git config user.email` was `311183901+hanjejeme2023-oss@users.noreply.github.com`.
+  - The configured workspace was the sibling read-only source repository, so all project operations used the explicit `kanjibridge-app` working directory. No source-repository file was changed.
+  - Read the seven requested documents in order in the intended repository. `tests/unit/model.test.js` does not read the `jr`/`k` fields, so the conditional stop in §3.2 does not apply.
+  - Steps 1–5: not started; no step commits. `npm test` and `test:browser`: not run (documentation-only stop before any implementation); browser duration: not applicable. No screenshots generated, no new dependencies, no settings changes.
+
 - **Owner's Stage 2 answers recorded** (Claude, 2026-11-26, branch `stage2-languages`). **Codex can start Stage 2.**
   - P8–P13: all (a), recorded as **D22–D27** (`docs/DECISIONS.md`).
   - Every ★ row of `docs/STAGE2_STRINGS.md` is decided. 10 keys (12 cells) changed from the draft, listed in its §5:
@@ -69,6 +75,9 @@ From `docs/STAGE1_INVENTORY.md` §6. Each line names the stage it belongs to.
 11. *(Done at gate 1B, 2026-11-25: the deployed pages are built from `dist` and contain no `{{`. Moved to the archive.)*
 12. Test nit (gate 1A attempt 2, Claude; for the next Codex test change, no separate session): in `P1-reset-filled`, the 読解 step asserts that `#unknownreview` contains わからない. That is already true before the click, because the P3 seed marks a word in passage 1. The click does add a mark (probe: `kb_unknown` grows from 1 to 2 ids). A meaningful assertion would compare the `kb_unknown` length before and after, as the other three steps do. It does not block anything. *(2026-11-26: included in `docs/STAGE2_SPEC.md` §8.2.)*
 13. Stage 3 (sync): the new setting `kb_lang` (`docs/STAGE2_SPEC.md` §4.3) is the local copy of `profiles.ui_lang`. It is stored only on an explicit choice, and reset does not clear it. The `ui_lang` check constraint (`in ('en','ja','ko')`, PROMPT §6) must accept every locale file, so that a future `vi.json` needs no schema change, or the constraint is extended by a migration in the same change.
+
+14. **Stage 2 blocking question — intermediate key-use checks (Codex, 2026-11-26).** STAGE2_SPEC §2 places all locale files and the §8.1 unit tests in step 2, requires `npm test` to pass before step 3, and puts overview implementation in step 4. §4.1 removes `overview.open_app` and adds all 11 new `overview.*` keys in step 2; §8.1 item 7 requires every non-meta key to be used and every referenced key to exist. The current root `index.html` still references `overview.open_app`; most new overview keys have no use until step 4. **Question:** may step 2 update the placeholder link to `overview.start` and temporarily exempt the not-yet-implemented overview keys from the unused-key check (with the exemption removed in step 4), or should the spec prescribe another intermediate arrangement? No exemption or early overview implementation has been made.
+15. **Stage 2 blocking question — language-switch marker contract (Codex, 2026-11-26).** §4.4 says every marker key has its placeholder, and §4.4.1 requires a marker without its placeholder to fail the build. However, §5.1 prescribes `<select id="lang" data-i18n-attr="aria-label=header.lang_label"></select>` with no `aria-label="{{header.lang_label}}"` placeholder. **Question:** should the select include `aria-label="{{header.lang_label}}"`, preserving its specified position and whitespace, or is this marker an explicit exception to the strict build check? Neither choice has been implemented.
 
 ## Owner steps (Stage 1): done
 
@@ -129,4 +138,4 @@ The start condition is met. P8–P13 are D22–D27 (all option (a), so no "If P�
 
 Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`. Never merge, force-push or delete a branch.
 
-Next: Codex — Stage 2 (branch stage2-languages, docs/STAGE2_SPEC.md; step 1 first: the Open note 10 module split, no visible change)
+Next: Claude — clarify Stage 2 Open notes 14–15 before Codex implementation

@@ -314,3 +314,7 @@ Stage 1 is complete (gate PASS, `docs/GATES.md`). The Stage 2 specification is r
    Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`.
 
 Next: Owner — answer P8–P13 and review docs/STAGE2_STRINGS.md (ja, ko, and en); then Codex — Stage 2 (branch stage2-languages)
+
+## 2026-11-26 — Codex — from 6aa2a2d (next-assignment line)
+
+Next: Codex — Stage 2 (branch stage2-languages, docs/STAGE2_SPEC.md; step 1 first: the Open note 10 module split, no visible change)

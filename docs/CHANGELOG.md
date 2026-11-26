@@ -2,6 +2,12 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Codex — Stage 2: specification clarification stop
+
+- Verified the requested branch setup at clean HEAD `6aa2a2d` and the required Git email in `kanjibridge-app`; left the sibling source repository unchanged.
+- Read the assigned documents and recorded HANDOFF Open notes 14–15: the step-2 all-keys-used requirement precedes the step-4 overview, and the prescribed select markup lacks the placeholder required by the strict marker check.
+- Stopped under the owner's explicit conflict rule before implementation. No app, test, dependency, setting or architect-owned specification changed. No tests or screenshots run. Archived the replaced HANDOFF next-assignment line verbatim.
+
 ## 2026-11-26 — Claude — Stage 2: owner's answers recorded (D22–D27, ★ strings)
 
 - Recorded the owner's answers. P8–P13 are all (a), now D22–D27 (D19 superseded, D15 partly, D11 refined). The ★ strings are decided: 10 keys / 12 cells changed, listed in `docs/STAGE2_STRINGS.md` §5 ("Kanji Bridge" in en/ko, ko 거짓 짝, en Glyphs / ko 글자형, ko 힌트 표시). The other rows are reviewed on the screenshots at the gate. The STAGE2_SPEC start condition is met. HANDOFF: owner answers, status, and next assignment Codex — Stage 2; replaced text moved verbatim to the archive. Docs only.
