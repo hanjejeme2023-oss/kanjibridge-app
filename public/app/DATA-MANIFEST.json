@@ -1,0 +1,127 @@
+{
+  "source": {
+    "repository": "https://github.com/hanjejeme2023-oss/kanji-bridge",
+    "commit": "59156e119bb4ec1652ac573e9cf821c0d064e9dc"
+  },
+  "files": [
+    {
+      "group": "data",
+      "source": "app/data.js",
+      "target": "public/app/data.js",
+      "bytes": 6626537,
+      "sha256": "3eb99e245782a1aae7e76144bd656be9648c7b075441b70f2e1a6f7f0eb84af9"
+    },
+    {
+      "group": "data",
+      "source": "NOTICE.md",
+      "target": "public/app/NOTICE.md",
+      "bytes": 6023,
+      "sha256": "1cf48bc2b142405e6866d7d9ee5da89be2682126888ead93094f409fbe314317"
+    },
+    {
+      "group": "data",
+      "source": "LICENSE-DATA",
+      "target": "public/app/LICENSE-DATA",
+      "bytes": 2301,
+      "sha256": "14465010292a460c3f98408137178b642b6a8af609023353484bf5d8b6c8f6b9"
+    },
+    {
+      "group": "data",
+      "source": "licenses/CC-BY-SA-4.0.txt",
+      "target": "public/app/licenses/CC-BY-SA-4.0.txt",
+      "bytes": 20138,
+      "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5"
+    },
+    {
+      "group": "data",
+      "source": "licenses/CC-CEDICT-LICENSE.html",
+      "target": "public/app/licenses/CC-CEDICT-LICENSE.html",
+      "bytes": 18019,
+      "sha256": "b1803a051f89f001999f8b5c66194b0fe41d9c85fdc3f0020fde92d3f6852d87"
+    },
+    {
+      "group": "data",
+      "source": "licenses/FREQUENCYWORDS-CONTENT-LICENSE.md",
+      "target": "public/app/licenses/FREQUENCYWORDS-CONTENT-LICENSE.md",
+      "bytes": 913,
+      "sha256": "a92fcc50e27f7b2d5860ec1c1ce794dc4c892d945bfa4c8c3136cdfd213ee710"
+    },
+    {
+      "group": "data",
+      "source": "licenses/HSK30-MIT-LICENSE.txt",
+      "target": "public/app/licenses/HSK30-MIT-LICENSE.txt",
+      "bytes": 1129,
+      "sha256": "9cd70c000ea23c899e71b2cbe7c28e18c60937f6e74d1b344d2923f6bddae44a"
+    },
+    {
+      "group": "data",
+      "source": "licenses/JMDICT-EDRDG-LICENSE.html",
+      "target": "public/app/licenses/JMDICT-EDRDG-LICENSE.html",
+      "bytes": 13587,
+      "sha256": "52f60ea9ca68170a2f0663d7dba381ebf1bd57c17a3347dfe21153865c156692"
+    },
+    {
+      "group": "data",
+      "source": "licenses/KAIKKI-ENWIKTIONARY-LICENSE.html",
+      "target": "public/app/licenses/KAIKKI-ENWIKTIONARY-LICENSE.html",
+      "bytes": 47529,
+      "sha256": "cf9de3055d71ac51596e43a998724fc8ee192177fc7720f7227b02205e4b9e67"
+    },
+    {
+      "group": "data",
+      "source": "licenses/KAIKKI-VIWIKTIONARY-LICENSE.html",
+      "target": "public/app/licenses/KAIKKI-VIWIKTIONARY-LICENSE.html",
+      "bytes": 20455,
+      "sha256": "693a4610c12bba9641e86e0131066433e73e3c2d4e91d79521cab3ef840f2bc7"
+    },
+    {
+      "group": "data",
+      "source": "licenses/KANJIDIC2-EDRDG-LICENSE.html",
+      "target": "public/app/licenses/KANJIDIC2-EDRDG-LICENSE.html",
+      "bytes": 13587,
+      "sha256": "52f60ea9ca68170a2f0663d7dba381ebf1bd57c17a3347dfe21153865c156692"
+    },
+    {
+      "group": "data",
+      "source": "licenses/LIBHANGUL-HANJA-BSD-3-CLAUSE.txt",
+      "target": "public/app/licenses/LIBHANGUL-HANJA-BSD-3-CLAUSE.txt",
+      "bytes": 1471,
+      "sha256": "d51680a63b4f9200fae1efd41f7fa3301180a80bcbb19814464c1cc504af6c2b"
+    },
+    {
+      "group": "data",
+      "source": "licenses/OPENCC-APACHE-2.0-LICENSE.txt",
+      "target": "public/app/licenses/OPENCC-APACHE-2.0-LICENSE.txt",
+      "bytes": 9165,
+      "sha256": "b534e465949558eec2597b04f5092b5e161236a68dfbfd04d547592ac3964308"
+    },
+    {
+      "group": "data",
+      "source": "licenses/UNICODE-LICENSE.txt",
+      "target": "public/app/licenses/UNICODE-LICENSE.txt",
+      "bytes": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    {
+      "group": "baseline",
+      "source": "app/index.html",
+      "target": "tests/baseline/app/index.html",
+      "bytes": 65711,
+      "sha256": "904be17b2e4bf1f502cfcacbf1a88d6eda1e214edfbae7cf3ba8e1da710a7cac"
+    },
+    {
+      "group": "baseline",
+      "source": "docs/review_scripts/stage5_gate_harness.js",
+      "target": "tests/baseline/stage5_gate_harness.js",
+      "bytes": 16514,
+      "sha256": "361e267cbba8e81f203d4a9ecb3dd5dfd81724b3aa0f64346974e700ac2b2445"
+    },
+    {
+      "group": "baseline",
+      "source": "LICENSE",
+      "target": "tests/baseline/LICENSE",
+      "bytes": 1479,
+      "sha256": "cf01390e8f48c3868c85074f3c90cb3612676222e9986cc1069b8d3d729038e9"
+    }
+  ]
+}
