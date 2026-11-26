@@ -8,6 +8,8 @@ Claude (architect), 2026-11-26. Read `PROMPT.md` and `docs/HANDOFF.md` first, th
 
 Both answers are recorded in HANDOFF "Owner answers". This file is written for Claude's recommendation on each proposal. Where an answer changes the work, the section says what changes ("If P… = (b)"). If an answer is missing or unclear, stop and write the question into HANDOFF. Do not guess.
 
+**Start condition: met (2026-11-26).** The owner chose **(a) for every proposal P8–P13**, recorded as **D22–D27** in `docs/DECISIONS.md`. So the "If P… = (b)" branches below do not apply. The owner decided every ★ row of `docs/STAGE2_STRINGS.md`. The remaining rows are approved for implementation as written there. The owner reviews them on the en and ko review screenshots at the Stage 2 gate (§8.4, §11 item 14). Codex may start.
+
 **Baseline** (unchanged from Stage 1): kanji-bridge app v2, `tests/baseline/app/index.html` at `59156e1`. In Japanese, the app must still equal it, except for the approved changes in §8.2.
 
 ## 1. Goal and scope
@@ -448,7 +450,7 @@ All text comes from keys (`docs/STAGE2_STRINGS.md` §3.14 lists the new ones and
 
 ## 7. Strings
 
-- The values come from `docs/STAGE2_STRINGS.md` **after the owner's approval**. Copy them exactly, including the notation (`⎵` = space, `〔U+3000〕` = U+3000). If the owner wrote a change in a memo cell starting with "Owner:", that change wins. If anything in the table is unclear, stop and ask in HANDOFF.
+- The values come from `docs/STAGE2_STRINGS.md` **after the owner's approval** (★ rows decided 2026-11-26; the other rows are approved for implementation and reviewed on the screenshots at the gate, §11 item 14). Copy them exactly, including the notation (`⎵` = space, `〔U+3000〕` = U+3000). If the owner wrote a change in a memo cell starting with "Owner:", that change wins. If anything in the table is unclear, stop and ask in HANDOFF.
 - Key order in each JSON file: the order of the table (§3.0 → §3.14).
 - `about.edrdg` is identical in all files (test).
 - Never put markup in a value. Never build a sentence by joining two values in code (the existing `{name}` templates already avoid that). Never add a value that is not in the table. If the code needs a new string, stop and ask Claude for a key and its three values.
@@ -523,7 +525,7 @@ Use the same context settings as the parity suite (seeded random, fixed clock, s
 6. **Notice:** present as the first child of `<main>` in en and ko; absent in ja (P11 (a)); it follows a switch.
 7. **No leftover language** in en and in ko, in all five initial views and the states of item 2:
    - (a) no hiragana or katakana (`[぀-ヿ]`) in the text of `header`, every `.toolbar`, `.tab-explain`, `.rate`, `.opts` labels, `#unknownreview` label, `.ghead`, `footer` and `#aboutpanel`, nor in any `aria-label`, `title`, `placeholder` or `alt` anywhere. Data shown inside these areas (for example a Japanese reading) is not in them by design; if Codex finds one, list it and exempt that element by selector, with a comment;
-   - (b) in ko: no text node inside an element with a `data-i18n` marker equals the **en** value of its key, unless en and ko are equal (`header.logo_mark`, `about.edrdg`);
+   - (b) in ko: no text node inside an element with a `data-i18n` marker equals the **en** value of its key, unless en and ko are equal (`header.logo_mark`, `header.logo_text`, `about.edrdg`; the app name is "Kanji Bridge" in both, `docs/STAGE2_STRINGS.md` §1.1);
    - (c) in en: the same check against the ko value.
 8. **Tab counts:** formatted with the locale (`4,051`).
 9. **Layout guards** in en and ko, at 1280×800 and 390×844, for the five initial views and the card back:
@@ -537,7 +539,7 @@ Use the same context settings as the parity suite (seeded random, fixed clock, s
 
 - **What:** ja, en and ko; 1280×800 and 390×844; the five initial views, the card back, and the About panel open: 42 PNGs.
 - **Where:** `test-results/stage2-shots/<lang>-<width>-<state>.png` (git-ignored), also attached to the report.
-- There are **no pixel assertions**: these are for Codex's own check (step 5) and for the gate. Only the error and request checks apply.
+- There are **no pixel assertions**: these are for Codex's own check (step 5) and for the gate, where the owner also reviews the en and ko wording on them (§11 item 14). Only the error and request checks apply.
 - Codex looks at every en and ko shot. Codex fixes layout breaks (§5.4), or lists them in HANDOFF if a fix would change ja.
 
 ### 8.5 Overview tests (`tests/browser/site.spec.js`, rewritten)
@@ -628,6 +630,7 @@ As in STAGE1_SPEC §6.7. CI on GitHub Actions has `timeout-minutes: 30`. The Sta
     - 0 console errors in each language and on each page;
     - the switch works and is remembered.
 14. **The owner has approved the wording** (PROMPT §5 Stage 2) after using the preview in ja and ko (and looking at en). This is recorded in HANDOFF "Owner answers". Any wording change found here goes into `docs/STAGE2_STRINGS.md` and the JSON files in the same commit, and Claude re-checks items 3–4.
+    - **How this is met (owner, 2026-11-26):** the ★ rows were decided on 2026-11-26 (`docs/STAGE2_STRINGS.md` §5). The owner checks the remaining rows on the en and ko review screenshots (§8.4) at this gate. "The owner has approved the wording" is met when the owner has looked at those screenshots (and the preview) and approved, and that is recorded in HANDOFF "Owner answers".
 15. After the owner merges: production `https://kanjibridge-app.pages.dev` shows the same as the preview (as Stage 1 item 13).
 
 **How the gate runs:**
@@ -638,6 +641,8 @@ As in STAGE1_SPEC §6.7. CI on GitHub Actions has `timeout-minutes: 30`. The Sta
 - a second FAIL of the same part goes to the owner.
 
 ## 12. Questions for the owner
+
+**Answered on 2026-11-26:** (a) for each of P8–P13, recorded as **D22–D27**. The ★ rows are decided (`docs/STAGE2_STRINGS.md` §5). The table stays as the record.
 
 Codex cannot start until these are answered. They are proposals **P8–P13** in `docs/DECISIONS.md` §B, each with Claude's recommendation:
 
@@ -650,7 +655,7 @@ Codex cannot start until these are answered. They are proposals **P8–P13** in 
 | P12 | The run-time mechanism (technical, no visible effect) | (a) as in §4 | §4 |
 | P13 | The complete list of visible changes | (a) the list in §5.5 | §5.5 |
 
-Also in `docs/STAGE2_STRINGS.md`: the rows marked ★ (app name, view names, short labels, rating words, the Korean Windows menu names, and the new privacy sentence).
+Also in `docs/STAGE2_STRINGS.md`: the rows marked ★ (app name, view names, short labels, rating words, the Korean Windows menu names, and the new privacy sentence). *(Decided on 2026-11-26; see its §5.)*
 
 ## 13. Reporting
 

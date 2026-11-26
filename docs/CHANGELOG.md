@@ -2,6 +2,10 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Claude — Stage 2: owner's answers recorded (D22–D27, ★ strings)
+
+- Recorded the owner's answers. P8–P13 are all (a), now D22–D27 (D19 superseded, D15 partly, D11 refined). The ★ strings are decided: 10 keys / 12 cells changed, listed in `docs/STAGE2_STRINGS.md` §5 ("Kanji Bridge" in en/ko, ko 거짓 짝, en Glyphs / ko 글자형, ko 힌트 표시). The other rows are reviewed on the screenshots at the gate. The STAGE2_SPEC start condition is met. HANDOFF: owner answers, status, and next assignment Codex — Stage 2; replaced text moved verbatim to the archive. Docs only.
+
 ## 2026-11-26 — Claude — Stage 2: specification, strings draft and proposals P8–P13
 
 - New `docs/STAGE2_SPEC.md`, the Codex assignment. Step 1 is the module split with no visible change (Open note 10). Then come the run-time language system (bundled locale files, `data-i18n` markers, `kb_lang`, `?lang=`, data loaded after the language is applied), the switch, the logo link, the notice and the per-language overview pages with generated screenshots. Also: tests (ja parity against app v2 with the declared normalisations N1–N7, i18n behaviour, review screenshots, overview, build) and the Stage 2 Done-when list. Adding a language takes one locale file.

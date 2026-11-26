@@ -12,13 +12,20 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 
 ## Current status (2026-11-26)
 
+- **Owner's Stage 2 answers recorded** (Claude, 2026-11-26, branch `stage2-languages`). **Codex can start Stage 2.**
+  - P8–P13: all (a), recorded as **D22–D27** (`docs/DECISIONS.md`).
+  - Every ★ row of `docs/STAGE2_STRINGS.md` is decided. 10 keys (12 cells) changed from the draft, listed in its §5:
+    - the app name is "Kanji Bridge" in en and ko;
+    - ko 거짓 짝 (false friends);
+    - en Glyphs / ko 글자형 (字体);
+    - ko 힌트 표시 (`read.show_annotations`).
+  - The other rows are approved for implementation. The owner reviews them on the en/ko review screenshots at the Stage 2 gate (`docs/STAGE2_SPEC.md` §11 item 14).
+  - `docs/STAGE2_SPEC.md`: start condition marked as met; §7, §8.3 item 7(b), §8.4, §11 item 14 and §12 updated to match.
 - **Stage 2 specification written** (Claude, 2026-11-26, branch `stage2-languages`):
   - `docs/STAGE2_SPEC.md` (the assignment for Codex);
   - `docs/STAGE2_STRINGS.md` (130 keys, ja/en/ko draft for the owner's review);
   - proposals **P8–P13** in `docs/DECISIONS.md` §B;
   - D21 records that the domain is not part of Stage 2.
-  
-  Codex starts after the owner's answers (NEXT ASSIGNMENT).
 - **Stage 1 gate: PASS. Stage 1 is complete** (Claude, 2026-11-26; details in `docs/GATES.md`).
   - **Item 13 (production):** PR #1 was merged as `fa4bc35`. On that commit, `build-and-test` and the "Cloudflare Pages" check run are both green (public GitHub API). Production deployment `https://745d72e9.kanjibridge-app.pages.dev`. `https://kanjibridge-app.pages.dev` serves `/` and `/app/` byte-identical to a local build of `fa4bc35`; `/app` → 308 `/app/`; `data.js` has the pinned hash; the four attribution files equal `public/app/`; no `{{`. In Chromium with the network on: 0 console errors and 0 page errors on `/` and in all five views.
 - **Stage 1 gate 1B: items 11–12 PASS on the preview** (Claude, 2026-11-25, commit `b54d8f0`).
@@ -32,14 +39,18 @@ Read `PROMPT.md` first, then this file. Do **one** assignment for your role. The
 - **Source:** kanji-bridge, final commit `59156e1` (`59156e119bb4ec1652ac573e9cf821c0d064e9dc`), at `../kanji-bridge`. It is a read-only reference: never modify it. The pinned `app/data.js` hash is SHA-256 `3eb99e245782a1aae7e76144bd656be9648c7b075441b70f2e1a6f7f0eb84af9`. Note: during Stage 0 (2026-11-24, about 22:00–22:16 local time) another session committed `16f68be` ("vi-edition") on top of `59156e1` in `../kanji-bridge` and was still writing untracked files there. The import reads git objects at the pinned commit, not the working tree or `HEAD`, so this does not affect Stage 1. Re-pinning to a later commit needs an owner decision.
 - **This PC:** Node v24.19.0 and npm 11.17.0 are installed (checked 2026-11-24). Nothing needs installing before Stage 1. Chrome and Edge are installed. Git has `core.autocrlf=true`, so `.gitattributes` forces LF and keeps the imported files byte-exact.
 - **Git:** identity `Hanje Unesaki <311183901+hanjejeme2023-oss@users.noreply.github.com>` (D9); check `git config user.email` before committing. `origin` = github.com/hanjejeme2023-oss/kanjibridge-app. `main` is protected by the ruleset `protect-main` (owner step B, recorded under "Owner answers"): changes reach `main` only through a pull request with a green `build-and-test`. Agents never commit to `main`.
-- **Decisions:** D1–D21 (owner). D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D21 (2026-11-26) takes the domain out of Stage 2. D17 (was P4: 0 required approvals) is what the ruleset uses. **Proposals P8–P13 (Stage 2) are open** (`docs/DECISIONS.md` §B).
+- **Decisions:** D1–D27 (owner).
+  - D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D17 (was P4: 0 required approvals) is what the ruleset uses.
+  - D21 (2026-11-26) takes the domain out of Stage 2.
+  - D22–D27 (2026-11-26) are the confirmed Stage 2 proposals P8–P13. D26 supersedes D19 from Stage 2 on and partly D15. D24 refines D11.
+  - No proposal is open.
 
 ## Rules in force
 
 - PROMPT §1 workflow: one agent at a time; every stage ends with a Claude gate (`docs/GATES.md`).
 - Machine safety: never run a build and a headless browser at the same time; browser runs close what they start. `npm test` runs its steps in order, and Playwright uses `workers: 1`.
 - PROMPT §3: no secrets anywhere (`docs/SECURITY.md`); least privilege; no visible change without a decision (D12).
-- Stage 2: the only visible changes allowed are the list in proposal P13 (`docs/STAGE2_SPEC.md` §5.5), once the owner confirms it. In Japanese, the app stays pixel-identical to app v2 apart from those items (the parity suite). A suspected app v2 bug is still kept and written under "Open notes".
+- Stage 2: the only visible changes allowed are the list in D27 (was P13; `docs/STAGE2_SPEC.md` §5.5). In Japanese, the app stays pixel-identical to app v2 apart from those items (the parity suite). A suspected app v2 bug is still kept and written under "Open notes".
 
 ## Open notes (for later stages)
 
@@ -90,26 +101,32 @@ Owner answers (2026-11-25, relayed to Claude through the claude.ai chat at gate 
 
 Owner answers (2026-11-25 21:19, relayed to Claude through the claude.ai chat): PR #1 was merged at about 21:00 (merge commit `fa4bc35`). `https://kanjibridge-app.pages.dev/app/` opens and shows the app.
 
+Owner answers (2026-11-26 10:31, relayed to Claude through the claude.ai chat):
+
+- **Proposals P8–P13: all (a).** Recorded as D22–D27 (P8 → D22 … P13 → D27).
+- **Content** (meanings and example sentences) stays Japanese, as D1 says. The owner confirmed that it does not need translating now.
+- **★ rows in `docs/STAGE2_STRINGS.md`:**
+  - App name: ja stays 漢字ブリッジ. **en and ko: "Kanji Bridge"** (not written in Hangul in ko). Every ko key that names the app uses it (title, header, About, overview).
+  - Sound rules: en "Sound rules", ko "발음 규칙" (as drafted).
+  - False friends: en "False friends", **ko "거짓 짝"**. Every ko key that used 가짜 친구 follows.
+  - 字体: **en "Glyphs", ko "글자형"**. Every en key that used "Characters" as this view's name, and every ko key that used 자형, follows.
+  - All other ★ rows are **approved as drafted**: the short labels JP/KR/CN/VN and 일/한/중/베; the rating buttons Again/Hard/Good/Easy and 다시/어려움/좋음/쉬움; the Windows menu names; the overview privacy sentence (it may be published). The Korean Windows menu names stay as drafted, because the owner cannot check them on a Korean Windows.
+  - The glossary (§1.1) uses the same words. The changed keys are listed in `docs/STAGE2_STRINGS.md` §5.
+- **`read.show_annotations` (★, not in the list above):** Claude asked in this session. The owner answered **ko "힌트 표시"** (the draft was 주석 표시).
+- **The other (non-★) rows:** the owner checks them at the Stage 2 gate on the en and ko review screenshots (`docs/STAGE2_SPEC.md` §8.4). That is how §11 item 14 ("the owner has approved the wording") is met.
+
 ## NEXT ASSIGNMENT
 
-**Owner — answer proposals P8–P13 and review the Stage 2 wording. Then: Codex — Stage 2 on the branch `stage2-languages`.**
+**Codex — Stage 2** on the branch `stage2-languages`, following `docs/STAGE2_SPEC.md`. **Step 1 first: the module split of Open note 10, with no visible change.**
 
-Stage 1 is complete (gate PASS, `docs/GATES.md`). The Stage 2 specification is ready: `docs/STAGE2_SPEC.md`, with the strings draft `docs/STAGE2_STRINGS.md`.
+The start condition is met. P8–P13 are D22–D27 (all option (a), so no "If P… = (b)" branch applies). The strings in `docs/STAGE2_STRINGS.md` are the values to copy, with the ★ rows decided by the owner.
 
-1. **Owner:** answer **P8–P13** in `docs/DECISIONS.md` §B. Each has options (a)/(b) and Claude's recommendation; "P8 a, P9 a, …" is enough. Write the answers under "Owner answers" (or give them to Claude).
-2. **Owner:** review `docs/STAGE2_STRINGS.md`:
-   - §1 (terms, style) first;
-   - then the **ja** and **ko** columns of §3 (and **en** if you like);
-   - rows marked ★ need a decision: app name, view names, short labels, rating words, the Korean Windows menu names, and the new privacy sentence.
-   
-   Edit a cell directly, or write "Owner: …" in its memo. Then write "strings approved" (with any exceptions) under "Owner answers".
-3. **Claude** (only if the answers change the spec or the strings): a short session that records P8–P13 as D-numbers and updates `docs/STAGE2_SPEC.md` and `docs/STAGE2_STRINGS.md`. If every answer is (a) and the strings are approved as they are, Codex may start directly, and Claude records the D-numbers at the gate.
-4. **Codex — Stage 2** on the branch `stage2-languages` (already on GitHub; pull it first), following `docs/STAGE2_SPEC.md`:
-   - step 1 first (the module split, no visible change, no test change);
-   - push after each step;
-   - report in this file (`docs/STAGE2_SPEC.md` §13);
-   - stop with "Next: Claude — Stage 2 gate (part 2A)".
-   
-   Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`.
+1. `git fetch origin`, `git switch stage2-languages`, `git pull --ff-only`.
+2. Step 1 (`docs/STAGE2_SPEC.md` §3): the module split, no visible change, no change under `tests/`, `app/index.html`, `index.html`, `public/` or `vite/`. `npm test` passes.
+3. Steps 2–5 in order (§2). Push after each step (`git push origin stage2-languages`).
+4. Report in this file (§13): status, commits per step, commands and results, the `test:browser` duration, image sizes, the N5 list, every `i18n.css` layout rule with its reason, open notes. Add a CHANGELOG entry. Follow the archive rule.
+5. Stop with `Next: Claude — Stage 2 gate (part 2A)`.
 
-Next: Owner — answer P8–P13 and review docs/STAGE2_STRINGS.md (ja, ko, and en); then Codex — Stage 2 (branch stage2-languages)
+Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`. Never merge, force-push or delete a branch.
+
+Next: Codex — Stage 2 (branch stage2-languages, docs/STAGE2_SPEC.md; step 1 first: the Open note 10 module split, no visible change)

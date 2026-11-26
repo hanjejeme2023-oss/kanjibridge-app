@@ -273,3 +273,44 @@ Gate 1B items 11–12 passed on the preview (`docs/GATES.md`). Nothing blocks th
 If the production build fails, do not change any setting: copy the build log from Cloudflare → Deployments and bring it to the Claude session.
 
 Next: Owner — wait for green CI, merge PR #1, check https://kanjibridge-app.pages.dev/app/; then Claude — gate 1B item 13 and the Stage 2 spec
+
+## 2026-11-26 — Claude — from 332c074
+
+From "Current status (2026-11-26)", the end of the bullet "Stage 2 specification written":
+
+  
+  Codex starts after the owner's answers (NEXT ASSIGNMENT).
+
+From "Current status (2026-11-26)":
+
+- **Decisions:** D1–D21 (owner). D14–D20 are the confirmed proposals P1–P7, recorded at gate 1A. D21 (2026-11-26) takes the domain out of Stage 2. D17 (was P4: 0 required approvals) is what the ruleset uses. **Proposals P8–P13 (Stage 2) are open** (`docs/DECISIONS.md` §B).
+
+From "Rules in force":
+
+- Stage 2: the only visible changes allowed are the list in proposal P13 (`docs/STAGE2_SPEC.md` §5.5), once the owner confirms it. In Japanese, the app stays pixel-identical to app v2 apart from those items (the parity suite). A suspected app v2 bug is still kept and written under "Open notes".
+
+From "NEXT ASSIGNMENT":
+
+## NEXT ASSIGNMENT
+
+**Owner — answer proposals P8–P13 and review the Stage 2 wording. Then: Codex — Stage 2 on the branch `stage2-languages`.**
+
+Stage 1 is complete (gate PASS, `docs/GATES.md`). The Stage 2 specification is ready: `docs/STAGE2_SPEC.md`, with the strings draft `docs/STAGE2_STRINGS.md`.
+
+1. **Owner:** answer **P8–P13** in `docs/DECISIONS.md` §B. Each has options (a)/(b) and Claude's recommendation; "P8 a, P9 a, …" is enough. Write the answers under "Owner answers" (or give them to Claude).
+2. **Owner:** review `docs/STAGE2_STRINGS.md`:
+   - §1 (terms, style) first;
+   - then the **ja** and **ko** columns of §3 (and **en** if you like);
+   - rows marked ★ need a decision: app name, view names, short labels, rating words, the Korean Windows menu names, and the new privacy sentence.
+   
+   Edit a cell directly, or write "Owner: …" in its memo. Then write "strings approved" (with any exceptions) under "Owner answers".
+3. **Claude** (only if the answers change the spec or the strings): a short session that records P8–P13 as D-numbers and updates `docs/STAGE2_SPEC.md` and `docs/STAGE2_STRINGS.md`. If every answer is (a) and the strings are approved as they are, Codex may start directly, and Claude records the D-numbers at the gate.
+4. **Codex — Stage 2** on the branch `stage2-languages` (already on GitHub; pull it first), following `docs/STAGE2_SPEC.md`:
+   - step 1 first (the module split, no visible change, no test change);
+   - push after each step;
+   - report in this file (`docs/STAGE2_SPEC.md` §13);
+   - stop with "Next: Claude — Stage 2 gate (part 2A)".
+   
+   Codex cannot open pull requests. The owner opens the pull request `stage2-languages` → `main` when Codex hands over, so that CI runs. Every push already gives a Cloudflare preview at `https://stage2-languages.kanjibridge-app.pages.dev`.
+
+Next: Owner — answer P8–P13 and review docs/STAGE2_STRINGS.md (ja, ko, and en); then Codex — Stage 2 (branch stage2-languages)
