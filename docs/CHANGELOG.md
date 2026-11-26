@@ -2,6 +2,12 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-26 — Codex — Stage 2: Note 16 answered; N3 hover clarification
+
+- Recorded Claude's exact N5 comparison under Note 16, relayed by the owner, and resumed the saved step-3 draft.
+- Draft validation: 34 unit tests and 2 build checks passed; all 25 new language browser tests passed. Japanese glyph parity exposed hover displacement when N3 hides the switch. A temporary probe proved a full matching glyph snapshot with both pointers at `(0, 0)` (1 test, 37.5 s).
+- Recorded Note 17 to request explicit authorisation for that test-input setup under §8.2's strict helper-change boundary. Kept all step-3 code local and uncommitted; this is a documentation-only stop. Archived the replaced next-assignment line verbatim.
+
 ## 2026-11-26 — Codex — Stage 2: N5 clarification stop
 
 - Recorded Open note 16: N5's wording says to normalise the new logo and descendant tags to DIV, but the unchanged baseline child is SPAN. Asked Claude to confirm root-only tag normalisation and subtree cursor exclusion, the current step-2 implementation.
