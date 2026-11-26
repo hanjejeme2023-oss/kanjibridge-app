@@ -2,6 +2,11 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-25 — Claude — Stage 1 gate 1B: items 11–12 PASS, item 13 after the merge
+
+- Checked the Cloudflare Pages preview of `b54d8f0` (`https://stage1-foundation.kanjibridge-app.pages.dev`). Both pages, the `/app` → `/app/` 308 redirect, the pinned `data.js` hash and the four attribution files are correct. No `{{`. The served HTML is byte-identical to a local build. 0 console and page errors with the network on. All five views are byte-identical screenshots to the published kanji-bridge app, using the same seeded `Math.random`. Unseeded, only the random rules example differed. CI and the Cloudflare check run on `b54d8f0` were green (read from the public GitHub API). The temporary script was deleted. The screenshots stay outside the repository.
+- GATES: the 1B section and table row. HANDOFF: new status, Open note 11 done, and the next assignment (owner merges PR #1, then Claude checks item 13 on production and writes the Stage 2 spec). Replaced text was moved verbatim to `docs/HANDOFF_ARCHIVE.md`. Docs only.
+
 ## 2026-11-25 — Claude — Stage 1 gate 1B: owner steps A and B recorded
 
 - Recorded the owner's report in HANDOFF "Owner answers": CI green on `f58879b` and `a39dcfd` (gate 1A is now PASS in `docs/GATES.md`), Cloudflare Pages connected (step A), and `main` protected by the ruleset `protect-main` (step B). The placeholder line was moved verbatim to `docs/HANDOFF_ARCHIVE.md`. Docs only; this push also triggers the first `stage1-foundation` preview.

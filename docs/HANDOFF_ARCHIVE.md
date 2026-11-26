@@ -143,3 +143,39 @@ Next: Claude — Stage 1 gate 1A, attempt 2
 From "Owner answers":
 
 *(The pages.dev URLs and any notes from steps A and B go here.)*
+
+## 2026-11-25 — Claude — from b54d8f0
+
+From "Current status (2026-11-25)":
+
+- **Stage 1 gate 1A, attempt 2: PASS pending CI** (Claude, 2026-11-25, commit `f58879b`; details in `docs/GATES.md`).
+  - No app code changed since attempt 1. F1–F5 were each verified with Claude's own proofs: the `{{x}}` and missing-`dist/` failures, and a real-Chromium probe that shows a same-origin 404 is now counted.
+  - `npm ci`, then `npm test` on this PC: exit 0. Unit 20/20, build checks 2/2, browser **36/36 in 13.8 min**, every screenshot pixel-exact.
+  - **The only open item is CI on `f58879b`.** At the gate it was still running (owner's report) and no result came in. Green → the gate is PASS. Red → the gate is a second FAIL, decided by the owner (NEXT ASSIGNMENT below).
+
+From "Current status (2026-11-25)" (replaced by an updated bullet):
+
+- **Pull request / CI:** the owner opened PR #1 (`stage1-foundation` → `main`). GitHub Actions passed on it (1/1 checks, 2026-11-25, owner's report). GitHub CLI is not logged in on this PC, so agents cannot open pull requests or read CI runs. After each push, the owner reports the CI result (and, if possible, the run URL) under "Owner answers".
+
+From "Open notes (for later stages)":
+
+11. Stage 1 gate 1B (Claude): check that the Cloudflare build output directory is `dist` and that no deployed page (`/`, `/app/`) contains `{{`. A raw `{{app.title}}` appears only if the source HTML is served unbuilt (gate 1A, extra check 1).
+
+From "NEXT ASSIGNMENT":
+
+**Owner — confirm CI on `f58879b`, then steps A and B. After that: Claude — Stage 1 gate 1B.**
+
+Gate 1A, attempt 2 is **PASS pending CI** (`docs/GATES.md`). Everything Claude can check on this PC passed. The only missing evidence is the GitHub Actions run on `f58879b`.
+
+1. Open PR #1 → **Checks**, and look at `build-and-test` for commit `f58879b`. Write the result and the run URL under "Owner answers" above.
+2. **If it is green:** gate 1A is **PASS**, and no further review is needed. Then do:
+   - **step A** (connect Cloudflare Pages);
+   - **step B** (protect `main`; the check `build-and-test` now exists).
+
+   Paste the `stage1-foundation` preview URL and the production URL under "Owner answers". Then start **Claude — Stage 1 gate 1B** (`docs/STAGE1_SPEC.md` §11 items 11–13, plus Open note 11).
+3. **If it is red:** gate 1A is a **second FAIL**. By the rule in `docs/GATES.md`, Claude does not write another fix list for Codex, and the owner decides. Save the failing step's log (or the `playwright-report` artifact) and bring it to a Claude session. The likely options are:
+   - **(a) A CI-only problem** (Linux install, timing, or the 30-minute job limit; this PC's run took 13.8 min of browser tests). The owner lets Codex fix it under a narrow brief written from the log.
+   - **(b) A real parity difference that appears only on Linux.** Claude analyses the report first, then the owner decides (a) or a spec change.
+   - **(c) Merge anyway on local evidence.** Not recommended: step B makes a green `build-and-test` a merge requirement.
+
+Next: Owner — confirm CI on f58879b (green → steps A and B, then Claude gate 1B; red → owner decides)

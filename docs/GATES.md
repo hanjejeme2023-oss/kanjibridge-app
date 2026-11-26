@@ -23,7 +23,7 @@ No gate: Stage 0 sets up the repository and writes the Stage 1 assignment. It co
 |---|---|---|---|
 | 1A | 2026-11-25 | `4d57c88` | **FAIL** (first attempt): 5 test-coverage fixes for Codex (F1–F5 in HANDOFF). No app defect found. |
 | 1A | 2026-11-25 | `f58879b` | **PASS (CI green on f58879b and a39dcfd, owner's report)** (attempt 2): F1–F5 verified; all local runs green. |
-| 1B | — | — | — |
+| 1B | 2026-11-25 | `b54d8f0` | **11–12 PASS, 13 after the merge.** Preview `https://stage1-foundation.kanjibridge-app.pages.dev` serves both pages, the redirect and the pinned data; 0 console and page errors; all five views are pixel-identical to the published kanji-bridge app. |
 
 Note on 1A (2026-11-25, Claude, at the start of gate 1B): the owner reported that `build-and-test` on PR #1 passed on `f58879b` and on `a39dcfd` (a docs-only commit). The "pending CI" condition of attempt 2 is met, so gate 1A is **PASS**. Claude did not open the runs (no GitHub CLI login on this PC).
 
@@ -123,3 +123,63 @@ Note on 1A (2026-11-25, Claude, at the start of gate 1B): the owner reported tha
 **PASS pending CI.** Every fix item is done and was proven by Claude's own runs, and no app code changed. Only the green CI run on `f58879b` is missing.
 - **CI green:** the gate is **PASS** without another review. The owner records the run under "Owner answers" in HANDOFF, then does steps A and B.
 - **CI red:** the gate is **FAIL**, the second one, and goes to the owner (rule above). No new fix list goes to Codex.
+
+## Stage 1 gate, part 1B (Claude, 2026-11-25): items 11–12 PASS, item 13 after the merge
+
+- **Reviewer:** Claude (Claude Code), on the owner's PC. The session was interrupted once by a PC restart during item 12. After the restart, Claude re-checked the git state (clean, `b54d8f0` = `origin/stage1-foundation`) and the screenshots (all 11 from the finished last run were present), then continued.
+- **Commit checked:** `stage1-foundation` at `b54d8f0` (Claude's docs commit that records owner steps A and B; its push created the first preview). `git diff f58879b..b54d8f0` touches only `docs/`, so the app is the one gate 1A checked.
+- **Preview deployment:** the GitHub check run "Cloudflare Pages" (app "Cloudflare Workers and Pages") on `b54d8f0`: **completed, success** ("Deploy successful!", 2026-11-26 01:06:50 UTC). Deployment URL `https://6c84e7d7.kanjibridge-app.pages.dev`, branch URL `https://stage1-foundation.kanjibridge-app.pages.dev`. Read without login from the public GitHub API (`/commits/<sha>/check-runs`). The plain `/status` endpoint lists nothing, because Cloudflare reports through a check run.
+- **CI:** the same API shows `build-and-test` on `b54d8f0`: **completed, success** (2026-11-26 01:14:27 UTC). This is the first CI result that Claude read directly rather than from the owner's report.
+- **Build settings (Open note 11):** the owner reported output directory `dist`. The served pages prove it: `/` and `/app/` are byte-identical to a local `npm run build` of the same commit (SHA-256 `ed699160…f054` and `d819e4b9…2d33`), with the same hashed asset names (`app-kjB9kN6M.js`, `app-HrzICvdG.css`, `overview-C4jC_1Dd.css`).
+- **Environment:** Node v24.19.0; Playwright 1.65.1 with its Chromium (build 1255); Windows 11; network on.
+
+### Item 11: pages, redirect and data (both URLs above gave identical results)
+
+| Path | Status | Evidence | Result |
+|---|---|---|---|
+| `/` | 200 `text/html` | The placeholder: `<title>漢字ブリッジ</title>`, `<h1>漢字ブリッジ</h1>` and a link "アプリを開く" to `/app/`. 0 occurrences of `{{`. | PASS |
+| `/app/` | 200 `text/html` | The app (6,458 bytes; loads `/assets/app-kjB9kN6M.js`, `/assets/app-HrzICvdG.css`, the Google Fonts stylesheet and `data.js`). 0 occurrences of `{{`. | PASS |
+| `/app` | **308** | `Location: /app/` | PASS |
+| `/app/data.js` | 200 `application/javascript` | 6,626,537 bytes, SHA-256 `3eb99e245782a1aae7e76144bd656be9648c7b075441b70f2e1a6f7f0eb84af9` (the pinned hash) | PASS |
+| `/app/NOTICE.md`, `/app/LICENSE-DATA`, `/app/DATA-LICENSE.md`, `/app/DATA-MANIFEST.json` | 200 each | Each is byte-identical to the file in `public/app/` (SHA-256 compared) | PASS |
+
+**Open note 11 (`{{` on deployed pages): done.** The raw HTML of `/` and `/app/` has no `{{`, and the rendered `/app/` text in all five views has none either (item 12 probe).
+
+### Item 12: console errors and side-by-side comparison
+
+Method: a temporary script in the git-ignored `test-results/gate1b/` (deleted afterward) used the repository's `@playwright/test` Chromium. It ran a fresh context per site, viewport 1280×720, network on, so Google Fonts loaded. It opened `/app/`, clicked the five `#nav` buttons in order, waited until the page height stopped changing, and took a screenshot of each view. It also took one of `/`. The reference is the published kanji-bridge app at `https://hanjejeme2023-oss.github.io/kanji-bridge/`. That page is the app itself, and its HTML is byte-identical to `59156e1:app/index.html` (SHA-256 `904be17b…7cac`); its `data.js` has the pinned hash. Screenshots were capped at the top 6,000 px of each view: a full-page shot of the glyph list (about 390,000 px) timed out. The heights below are the full page heights.
+
+| Check | Preview | Published | Result |
+|---|---|---|---|
+| Console errors (`/app/`, all five views) | **0** | 0 | PASS |
+| Page errors | **0** | 0 | PASS |
+| `/` console / page errors | 0 / 0 | — | PASS |
+| Hosts requested | the preview origin, `fonts.googleapis.com`, `fonts.gstatic.com` | `hanjejeme2023-oss.github.io` plus the same two font hosts | PASS |
+| Failed requests, responses ≥ 400 | none | none | PASS |
+| `undefined`, `NaN`, `[object`, `{{` in the page text | none | none | PASS |
+| Header (counts) | カード 4,051 / 音のルール 8 / 偽の友達 1,242 / 読解 80 / 字体 2,164 / 今日 20 枚 習得 0/6983 | the same | PASS |
+
+**Screenshots, run 1 (as a learner would see it):** cards, ff, read and glyph were **byte-identical PNGs**. Rules showed a different example kanji (作 vs 識) with different answer choices. That is not a difference: the rules view picks its example with `Math.random()` (`src/app/main.js:265`, the same as v2 at `59156e1`). The glyph page height also differed (154,573 vs 221,830 px), because the chunked list rendering (`src/app/main.js:116–131`) was still adding rows when the height was read.
+
+**Screenshots, run 2 (the same seeded `Math.random` injected into both sites; waited until the height was stable for 2 s):** all five pairs are **byte-identical PNGs**. The full page heights are equal: cards 862, rules 982, ff 108,156, read 831, glyph 389,271 px.
+
+| View | SHA-256 of both PNGs (first 16) |
+|---|---|
+| cards | `d6ded5b554945c0a` |
+| rules | `a91915a65079bff3` |
+| ff | `d16ce50cf85b1370` |
+| read | `26cbcd478b0f1c11` |
+| glyph | `1f2034c67f3b45d0` |
+
+**Visible differences from the published app: none.** The screenshots (`preview-<view>.png`, `published-<view>.png`, `preview-overview.png`; run 2) are on the owner's PC at `C:\Users\Anna Tran\kb-gate1b-shots\`. They are not committed. The owner looks at them, as §11 item 12 asks. The script closed every context and the browser; afterward no headless Chromium process was running.
+
+### Item 13: production from `main` (after the merge)
+
+This can only be checked after the owner merges PR #1. The first production build on `main` (`94a4480`) failed because `main` has no `package.json` yet (owner's report). Procedure:
+
+1. The owner merges PR #1, then opens `https://kanjibridge-app.pages.dev/app/` and reports what they see (and the production deployment status) under "Owner answers" in HANDOFF.
+2. The next Claude session (the start of Stage 2) runs the item 11 checks on `https://kanjibridge-app.pages.dev`: `/`, `/app/`, the `/app` redirect, the `data.js` hash, the four attribution files, and no `{{`. It records them here as "Stage 1 gate, part 1B, item 13".
+
+### Result
+
+**Items 11–12 PASS; item 13 after the merge.** The preview serves the production build of the gated app, with the pinned data, 0 console errors and pixel-identical views. Nothing blocks the merge. Owner steps A11 (build comments) and A13 (preview access policy) are still unchecked. Neither one blocks the merge.
