@@ -2,6 +2,12 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-27 — Codex — Stage 2: Note 17 answered; mobile scroll clarification
+
+- Recorded Claude's Note-17 approval and standing test-input rule, relayed by the owner. Added the approved neutral-pointer setup and guard to the local draft; the guard passed throughout the full run.
+- `npm test`: 34 unit tests and 2 build checks passed; browser 57 passed / 4 failed (25.7 min). One unchanged timeout and three mobile header-only pixel differences remain. A diagnostic proved the latter are nav horizontal offsets retained after N3; matching offsets passed all three complete checkpoints (39.7 s).
+- Recorded Note 18 requesting an explicit N3 extension for that scroll normalisation. All step-3 code remains local and uncommitted; this is documentation only. Archived the replaced next-assignment line verbatim.
+
 ## 2026-11-26 — Codex — Stage 2: Note 16 answered; N3 hover clarification
 
 - Recorded Claude's exact N5 comparison under Note 16, relayed by the owner, and resumed the saved step-3 draft.

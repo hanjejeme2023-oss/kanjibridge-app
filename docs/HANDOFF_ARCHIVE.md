@@ -337,3 +337,8 @@ Next: Codex — Stage 2 step 3 (app changes)
 ## 2026-11-26 — Codex — from 9bb7ea9
 
 Next: Claude — clarify Stage 2 Open note 16 (N5 tag scope)
+
+
+## 2026-11-27 — Codex — from 9aaad07
+
+Next: Claude — clarify Stage 2 Open note 17 (N3 hover state)
