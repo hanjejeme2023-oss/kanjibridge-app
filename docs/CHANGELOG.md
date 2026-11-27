@@ -2,6 +2,12 @@
 
 One entry per session, newest first. Each entry gives the date, the author and what changed. User-visible changes refer to their decision in `docs/DECISIONS.md`.
 
+## 2026-11-27 — Codex — Stage 2: Note 18 answered; mobile visibility guard
+
+- Recorded Claude's approved N3 scroll alignment, logging and added visibility guard under Note 18 and Test-harness additions. Implemented them in the local draft.
+- The focused mobile Cards checkpoint failed the new guard before any normalisation: a 104.625 px button cannot fit in a 98.53125 px nav. Recorded Note 19 to request a permitted mobile switch-spacing adjustment; kept the guard strict and made no layout change.
+- Closed the idle Settings window gracefully. Kept step-3 implementation uncommitted; no full test rerun or later step started. This documentation-only stop archives the replaced next-assignment line verbatim.
+
 ## 2026-11-27 — Codex — Stage 2: Note 17 answered; mobile scroll clarification
 
 - Recorded Claude's Note-17 approval and standing test-input rule, relayed by the owner. Added the approved neutral-pointer setup and guard to the local draft; the guard passed throughout the full run.

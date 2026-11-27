@@ -342,3 +342,8 @@ Next: Claude — clarify Stage 2 Open note 16 (N5 tag scope)
 ## 2026-11-27 — Codex — from 9aaad07
 
 Next: Claude — clarify Stage 2 Open note 17 (N3 hover state)
+
+
+## 2026-11-27 — Codex — from a35ff89
+
+Next: Claude — clarify Stage 2 Open note 18 (N3 mobile nav scroll)
